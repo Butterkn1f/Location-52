@@ -31,11 +31,6 @@ namespace Characters.Player
         [SerializeField] private float _sensMultiplier = 0.2f;
         [SerializeField] private float _maxAngle = 90f;
 
-        [Header("Aim Assist")]
-        [SerializeField] private bool _enableAimAssist = true;
-        [SerializeField] private float _mouseSlowdown = 0.5f;
-        private float _aimAssistSensMultiplier = 1.0f;
-
         [Header("Interactable Object Settings")]
         [SerializeField] private float _cameraReach = 50f;
         [SerializeField] private LayerMask _cameraLayerMask;
@@ -122,7 +117,7 @@ namespace Characters.Player
         /// </summary>
         public Vector2 GetMouseInput()
         {
-            return _controls.MainGameplay.Camera.ReadValue<Vector2>() * _sensitivity * Time.deltaTime * _sensMultiplier * _aimAssistSensMultiplier;
+            return _controls.MainGameplay.Camera.ReadValue<Vector2>() * _sensitivity * Time.deltaTime * _sensMultiplier;
         }
 
         private void Update()
@@ -257,7 +252,7 @@ namespace Characters.Player
             _cameraObject.transform.localPosition = Vector3.Lerp(_cameraObject.transform.localPosition, _bobPosition, Time.deltaTime * _smooth);
             _cameraObject.transform.localRotation = Quaternion.Slerp(_cameraObject.transform.localRotation, (Quaternion.Euler(_bobEulerRotation)), Time.deltaTime * _smoothRot);
 
-            PlayerManager.Instance.Arms.SetWeaponSway(_swayPos + _bobPosition, _swayEulerRot + _bobEulerRotation);
+            PlayerManager.Instance.Arms.SetWeaponSway((_swayPos + _bobPosition) / 3, (_swayEulerRot + _bobEulerRotation) / 3);
         }
     }
 }

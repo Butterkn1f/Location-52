@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Rendering;
 using UnityEngine;
 
-public class ToonShaderGUI : ShaderGUI 
+public class FullScreenToonShaderGUI : ShaderGUI 
 {
     private enum ShadingStyle
     {
@@ -17,6 +17,7 @@ public class ToonShaderGUI : ShaderGUI
 
     private const string SkinKeyword = "_SHADING_STYLE_SKIN_AND_TEXTILES";
     private const string HairKeyword = "_SHADING_STYLE_HAIR_AND_METAL";
+    private const string NoneKeyword = "_SHADING_STYLE_NONE";
 
     public override void OnGUI (MaterialEditor materialEditor, MaterialProperty[] properties)
     {
@@ -67,7 +68,7 @@ public class ToonShaderGUI : ShaderGUI
         EditorGUILayout.Space(-3f);
         EditorGUI.indentLevel++;
         
-        string[] options = {"Skin or Textiles", "Hair or Metal"};
+        string[] options = {"Skin or Textiles", "Hair or Metal", "None"};
         _shadingStyle = (ShadingStyle)materialEditor.PopupShaderProperty(FindProperty("_SHADING_STYLE", properties), new GUIContent("Material"), options);
         
         switch (_shadingStyle)
@@ -82,7 +83,7 @@ public class ToonShaderGUI : ShaderGUI
                 break;
         }
         
-        targetMaterial.EnableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? SkinKeyword : HairKeyword);
+        targetMaterial.EnableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? SkinKeyword : _shadingStyle == ShadingStyle.HairAndMetal ? HairKeyword : NoneKeyword);
         targetMaterial.DisableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? HairKeyword : SkinKeyword);
         
         EditorGUI.indentLevel--;

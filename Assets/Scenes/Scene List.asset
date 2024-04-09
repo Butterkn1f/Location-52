@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Scene List
   m_EditorClassIdentifier: 
   SceneList:
-  - SceneAssetID: 100
-    SceneName: Sample_Movement
+  - SceneAssetID: 0
+    SceneName: MainMenuScene

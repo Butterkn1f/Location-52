@@ -243,8 +243,6 @@ namespace Characters.Player
             _bobEulerRotation.x = (walkInput != Vector2.zero ? _multiplier.x * (Mathf.Sin(5 * _speedCurve)) : _multiplier.x * (Mathf.Sin(5 * _speedCurve) / 2));
             _bobEulerRotation.y = (walkInput != Vector2.zero ? _multiplier.y * _curveCos : 0);
             _bobEulerRotation.z = (walkInput != Vector2.zero ? _multiplier.z * _curveCos * movementIndex.normalized.x : 0);
-
-            Debug.Log(_curveCos);
         }
 
         public void ApplyCameraEffects()

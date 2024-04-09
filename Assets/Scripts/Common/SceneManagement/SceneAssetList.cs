@@ -25,6 +25,10 @@ namespace Common.SceneManagement
     // Scene changes are made by calls based on the ID
     public enum SceneID
     {
+        MAIN_MENU = 0,
+        ROOM_SCENE = 1,
+        TOWN_SCENE = 2,
+        FOREST_SCENE = 3,
 
         SAMPLE_SCENE = 100,
     }

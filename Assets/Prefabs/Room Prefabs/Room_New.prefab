@@ -996,6 +996,7 @@ GameObject:
   - component: {fileID: 3463617229515126281}
   - component: {fileID: 2791516446819459192}
   - component: {fileID: 8208000453489538466}
+  - component: {fileID: 2447011889271012103}
   m_Layer: 0
   m_Name: floor
   m_TagString: Untagged
@@ -1068,6 +1069,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2447011889271012103
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332392598346775617}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.009999999, y: 0.01, z: 0.01}
+  m_Center: {x: -0.0049999994, y: 0.005, z: -0.005}
 --- !u!1 &1402160717177515111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2633,6 +2655,7 @@ GameObject:
   - component: {fileID: 8851937237052503428}
   - component: {fileID: 705213390979460488}
   - component: {fileID: 395283569619270769}
+  - component: {fileID: 5983711962236595270}
   m_Layer: 0
   m_Name: floor (1)
   m_TagString: Untagged
@@ -2705,6 +2728,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5983711962236595270
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3569266246709171888}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.009999999, y: 0.01, z: 0.01}
+  m_Center: {x: -0.0049999994, y: 0.005, z: -0.005}
 --- !u!1 &4156204372400494460
 GameObject:
   m_ObjectHideFlags: 0
@@ -5892,7 +5936,27 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: feb7c71bdece03a468944d036b05a855, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7811423921452049716}
+    - targetCorrespondingSourceObject: {fileID: 4423045620967985251, guid: feb7c71bdece03a468944d036b05a855, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2820298259078850881}
   m_SourcePrefab: {fileID: 100100000, guid: feb7c71bdece03a468944d036b05a855, type: 3}
+--- !u!1 &4691608496178868170 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4423045620967985251, guid: feb7c71bdece03a468944d036b05a855, type: 3}
+  m_PrefabInstance: {fileID: 8969518575598895017}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2820298259078850881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691608496178868170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095d4282d97831447b4a03c4d8c0b935, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8123165856442860280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: feb7c71bdece03a468944d036b05a855, type: 3}

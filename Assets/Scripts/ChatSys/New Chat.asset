@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f0cfce8fb462745ab70db709f7d6f2, type: 3}
-  m_Name: Scene List
+  m_Script: {fileID: 11500000, guid: 1c4895b8863434d43b7cc39fc28b0757, type: 3}
+  m_Name: New Chat
   m_EditorClassIdentifier: 
-  SceneList:
-  - SceneAssetID: 0
-    SceneName: MainMenuScene
-  - SceneAssetID: 1
-    SceneName: RoomScene
+  ChatFileName: 
+  ChatNodeList: []

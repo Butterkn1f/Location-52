@@ -109,7 +109,7 @@ namespace Characters.Player
             _controls.MainGameplay.Camera.performed += ctx => mouseInput = GetMouseInput();
             _controls.MainGameplay.Camera.canceled += ctx => mouseInput = Vector2.zero;
 
-            //_controls.MainGameplay.Interact.performed += ctx => InteractObject();
+            _controls.MainGameplay.Interact.performed += ctx => InteractObject();
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Characters.Player
         private void Update()
         {
             UpdateMouseLook();
-            //UpdateHoverInteractable();
+            UpdateHoverInteractable();
 
             // Smooth movement of camera
             if (Mathf.Abs(_offset.y - _idealHeight) > 0)
@@ -154,39 +154,39 @@ namespace Characters.Player
             CameraSway();
         }
 
-        ///// <summary>
-        ///// Check if the player is looking at anything that they can interact with (for popups and stuff)
-        ///// Call out the hover function
-        ///// </summary>
-        //private void UpdateHoverInteractable()
-        //{
-        //    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
-        //    {
-        //        if (hit.collider.TryGetComponent(out IInteractable interactable))
-        //        {
-        //            // Ignore if not interactable
-        //            if (interactable.IsInteractable == false) { return; }
-        //            interactable.Hover(transform.position, hit.point);
+        /// <summary>
+        /// Check if the player is looking at anything that they can interact with (for popups and stuff)
+        /// Call out the hover function
+        /// </summary>
+        private void UpdateHoverInteractable()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
+            {
+                if (hit.collider.TryGetComponent(out IInteractable interactable))
+                {
+                    // Ignore if not interactable
+                    if (interactable.IsInteractable == false) { return; }
+                    interactable.Hover(transform.position, hit.point);
 
-        //        }
-        //    }
-        //}
+                }
+            }
+        }
 
-        ///// <summary>
-        ///// If the player pressed the interact button
-        ///// Check if we are interacting with anything
-        ///// </summary>
-        //private void InteractObject()
-        //{
-        //    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
-        //    {
-        //        if (hit.collider.TryGetComponent(out IInteractable interactable))
-        //        {
-        //            // Ignore if not interactable
-        //            interactable.Interact(transform.position, hit.point);
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// If the player pressed the interact button
+        /// Check if we are interacting with anything
+        /// </summary>
+        private void InteractObject()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
+            {
+                if (hit.collider.TryGetComponent(out IInteractable interactable))
+                {
+                    // Ignore if not interactable
+                    interactable.Interact(transform.position, hit.point);
+                }
+            }
+        }
 
         // Height stuff
         // TODO: make this lerp

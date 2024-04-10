@@ -244,12 +244,10 @@ MonoBehaviour:
   _sensitivity: {x: 20, y: 20}
   _sensMultiplier: 0.2
   _maxAngle: 90
-  _enableAimAssist: 0
-  _mouseSlowdown: 0.5
   _cameraReach: 50
   _cameraLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _step: 0.01
   _maxStepDistance: 0.06
   _rotationStep: 2

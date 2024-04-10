@@ -1,4 +1,5 @@
 using Common.DesignPatterns;
+using Environment;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,7 @@ namespace Characters.Player
 
         #endregion
 
+        public SpawnPointID CurrentSpawnPointID;
 
         // Start is called before the first frame update
         void Start()

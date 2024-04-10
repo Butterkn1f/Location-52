@@ -14,7 +14,7 @@ namespace Characters.Player
         #region Movement Variables
 
         [Header("Movement Settings")]
-        [SerializeField] private bool _canMove = true;
+        public bool CanMove = true;
         [SerializeField] private float _moveSpeed = 250f;
         [SerializeField] private float _moveMultiplier = 9f;
         [SerializeField] private float _groundMaxSpeed = 20f;
@@ -34,7 +34,7 @@ namespace Characters.Player
         [Tooltip("Adds to the original max speed.")][SerializeField] private float _sprintMaxSpeedModifier = 5f;
 
         [Header("Jump Settings")]
-        [SerializeField] private bool _enableJump = true;
+        public bool EnableJump = true;
         [SerializeField] private float _jumpForce = 7f;
         [SerializeField] private float _jumpMultiplier = 1.5f;
 
@@ -156,7 +156,7 @@ namespace Characters.Player
             // jump
             _controls.MainGameplay.Jump.performed += ctx =>
             {
-                if (_enableJump)
+                if (EnableJump)
                 {
                     _jumping = true;
                     OnJump();
@@ -190,7 +190,7 @@ namespace Characters.Player
 
         private void UpdateMovement()
         {
-            if (!_canMove) return;
+            if (!CanMove) return;
 
             Vector3 dir = transform.right * _moveInput.x + transform.forward * _moveInput.y;
             // Gravity
@@ -235,7 +235,7 @@ namespace Characters.Player
 
         private void OnJump()
         {
-            if (!_enableJump) return;
+            if (!EnableJump) return;
 
             if (Grounded)
             {

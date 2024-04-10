@@ -17,3 +17,5 @@ MonoBehaviour:
     SceneName: MainMenuScene
   - SceneAssetID: 1
     SceneName: RoomScene
+  - SceneAssetID: 2
+    SceneName: TownScene

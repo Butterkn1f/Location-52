@@ -84,7 +84,7 @@ public class FullScreenToonShaderGUI : ShaderGUI
         }
         
         targetMaterial.EnableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? SkinKeyword : _shadingStyle == ShadingStyle.HairAndMetal ? HairKeyword : NoneKeyword);
-        targetMaterial.DisableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? HairKeyword : SkinKeyword);
+        targetMaterial.DisableKeyword(_shadingStyle == ShadingStyle.SkinAndTextiles ? HairKeyword : _shadingStyle == ShadingStyle.HairAndMetal ? SkinKeyword : NoneKeyword);
         
         EditorGUI.indentLevel--;
         

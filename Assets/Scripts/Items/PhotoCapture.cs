@@ -15,6 +15,9 @@ public class PhotoCapture : MonoBehaviour
     bool isViewingPhoto = false;
     float origFlashIntensity = 100;
 
+    IEnumerator hidePreviewCoroutine;
+    Sequence hidePhotoSequence;
+
     void Start()
     {
         origFlashIntensity = flash.intensity;
@@ -30,6 +33,7 @@ public class PhotoCapture : MonoBehaviour
         }
         else
         {
+            StopCoroutine(hidePreviewCoroutine);
             RemovePhoto();
         }
     }
@@ -66,13 +70,29 @@ public class PhotoCapture : MonoBehaviour
                });
     }
 
+    private IEnumerator HidePhotoAfterTime()
+    {
+        yield return new WaitForSeconds(1.0f);
+        hidePhotoSequence = DOTween.Sequence();
+        hidePhotoSequence.Append(previewImage.rectTransform.DOScale(0.25f, 0.5f).SetEase(Ease.OutQuad))
+            .Append(previewImage.rectTransform.DOAnchorPosX(0.25f, 0.25f))
+            .OnComplete(RemovePhoto);
+    }
+
     private void ShowPhoto()
     {
         isViewingPhoto = true;
         Sprite photoSprite = Sprite.Create(screenCapture, new Rect(0f, 0f, screenCapture.width, screenCapture.height), new Vector2(0.5f, 0.5f), 100f);
         previewImage.sprite = photoSprite;
 
+        // Reset transforms
+        previewImage.rectTransform.localScale = Vector3.one;
+        previewImage.rectTransform.DOAnchorPosX(0, 0);
         previewImage.gameObject.SetActive(true);
+
+        hidePreviewCoroutine = HidePhotoAfterTime();
+        StartCoroutine(hidePreviewCoroutine);
+
         // TODO save to temp folder here
         /*string saveName = Application.persistentDataPath + "TestImage.png";
         byte[] bytes = screenCapture.EncodeToPNG();

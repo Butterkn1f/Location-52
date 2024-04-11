@@ -29,6 +29,7 @@ namespace Common.SceneManagement
         ROOM_SCENE = 1,
         TOWN_SCENE = 2,
         FOREST_SCENE = 3,
+        PHOTO_REVIEW_SCENE = 4,
 
         SAMPLE_SCENE = 100,
     }

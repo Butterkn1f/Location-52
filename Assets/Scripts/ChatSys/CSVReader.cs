@@ -61,15 +61,21 @@ namespace ChatSys
 
                     if (dataValues[2] != null)
                     {
-                        // Get sprite mood
-                        temp_chatNode.Mood = (int.Parse(dataValues[2]));
+                        // Get list of orders
+                        temp_chatNode.Order = (int.Parse(dataValues[2]));
                     }
 
                     if (dataValues[3] != null)
                     {
+                        // Get sprite mood
+                        temp_chatNode.Mood = (int.Parse(dataValues[3]));
+                    }
+
+                    if (dataValues[4] != null)
+                    {
                         // Get main body
-                        dataValues[3] = dataValues[3].Replace("//", ",");
-                        temp_chatNode.BodyText = dataValues[3];
+                        dataValues[4] = dataValues[4].Replace("//", ",");
+                        temp_chatNode.BodyText = dataValues[4];
                     }
 
                     if (temp_chatNode != null)

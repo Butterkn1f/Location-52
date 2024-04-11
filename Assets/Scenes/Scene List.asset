@@ -19,3 +19,7 @@ MonoBehaviour:
     SceneName: RoomScene
   - SceneAssetID: 2
     SceneName: TownScene
+  - SceneAssetID: 3
+    SceneName: ForestScene
+  - SceneAssetID: 4
+    SceneName: PhotoReviewScene

@@ -10,7 +10,7 @@ using UnityEngine;
 public static class DevUtils
 {
     /// <summary>
-    /// Basically if the condition is met, then we display the message and stop thhe code from running
+    /// Basically if the condition is met, then we display the message
     /// Good for finding edge points
     /// </summary>
     public static bool AssertTrue(bool condition, string message, LogType DebugLogType = LogType.Warning)
@@ -36,7 +36,7 @@ public static class DevUtils
     }
 
     /// <summary>
-    /// Basically if the condition is not met, then we display the message and stop the code from running
+    /// Basically if the condition is not met, then we display the message
     /// </summary>
     public static bool AssertFalse(bool condition, string message, LogType DebugLogType = LogType.Warning)
     {

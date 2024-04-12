@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c4895b8863434d43b7cc39fc28b0757, type: 3}
-  m_Name: New Chat
+  m_Name: Comment
   m_EditorClassIdentifier: 
-  ChatFileName: 
+  ChatFileName: Online_comments
   ChatNodeList: []

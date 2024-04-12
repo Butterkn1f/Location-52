@@ -12,8 +12,5 @@ public class ChatNode
 
     // Main body text that is shown
     public string BodyText;
-
-    // Current mood of the chat
-    // Trigger animation based on this
-    public int Mood;
+    public string BodyText_alt;
 }

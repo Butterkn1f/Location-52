@@ -18,7 +18,7 @@ namespace ChatSys
             //StreamReader reader = new StreamReader(filePath, true);
 
             // using textAsset implementation
-            TextAsset CSVFile = Resources.Load<TextAsset>(chatList.ChatFileName);
+            TextAsset CSVFile = Resources.Load<TextAsset>("CSV_DialogueFiles/" + chatList.ChatFileName);
             if (CSVFile != null)
             {
                 StreamReader reader = new StreamReader(new MemoryStream(CSVFile.bytes));
@@ -52,12 +52,13 @@ namespace ChatSys
                         {
                             temp_chatNode.ID = dataValues[1];
                         }
+                        else
+                        {
+                            // invalid ID, therefore there is no chat here return 
+                            continue;
+                        }
                     }
-                    else
-                    {
-                        // invalid ID, therefore there is no chat here return 
-                        return;
-                    }
+                    
 
                     if (dataValues[2] != null)
                     {
@@ -67,15 +68,20 @@ namespace ChatSys
 
                     if (dataValues[3] != null)
                     {
-                        // Get sprite mood
-                        temp_chatNode.Mood = (int.Parse(dataValues[3]));
+                        // Get main body
+                        dataValues[3] = dataValues[3].Replace("//", ",");
+                        temp_chatNode.BodyText = dataValues[3];
                     }
 
                     if (dataValues[4] != null)
                     {
                         // Get main body
                         dataValues[4] = dataValues[4].Replace("//", ",");
-                        temp_chatNode.BodyText = dataValues[4];
+                        temp_chatNode.BodyText_alt = dataValues[4];
+                    }
+                    else
+                    {
+                        temp_chatNode.BodyText_alt = "";
                     }
 
                     if (temp_chatNode != null)

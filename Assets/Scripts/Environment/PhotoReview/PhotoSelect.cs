@@ -86,7 +86,7 @@ namespace Environment.PhotoReview
             {
                 // Calculate score
                 // Get the grade
-                PhotoReviewManager.Instance.PlayerResult = Grade.DECENT;
+                PhotoReviewManager.Instance.PlayerResult = Grade.MEGA_VIRAL;
                 PhotoReviewManager.Instance.CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_UPLOAD_SEQUENCE);
             }
         }

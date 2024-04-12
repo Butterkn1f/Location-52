@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,17 @@ namespace Environment.PhotoReview
     {
         public Image Outline;
         public Image Photo;
+
+        [System.Serializable]
+        public class ComputerStars
+        {
+            public Image StarImage;
+            public TextMeshProUGUI StarText;
+        }
+
+        // Stars
+        [Header("Stars")]
+        [SerializeField] private List<ComputerStars> starList; 
 
         // Start is called before the first frame update
         void Start()

@@ -1,3 +1,4 @@
+using ChatSys;
 using Common.AudioManagement;
 using Common.DataManagement;
 using Common.DesignPatterns;
@@ -20,5 +21,6 @@ namespace Game.Application
         public SceneLoader Loader;
         public AudioManager AudioManager;
         public DataSaver DataSaver;
+        public CSVReader CSVReader;
     }
 }

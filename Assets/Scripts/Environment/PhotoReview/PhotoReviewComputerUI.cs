@@ -16,6 +16,16 @@ public class PhotoReviewComputerUI : MonoBehaviour
 
     public List<ComputerReviewScreens> ComputerScreensList;
 
+    private void Awake()
+    {
+        // Deactivate all screens at the start.. it causes the animations to not work unfortunately
+        foreach (var item in ComputerScreensList)
+        {
+            // Deactivate all the screens in the computer first
+            item.ComputerScreen.SetActive(false);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {

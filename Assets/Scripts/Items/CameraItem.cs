@@ -18,6 +18,8 @@ public class CameraItem : Item
     float origFocalLength;
     Vector3 origCameraPos;
 
+    bool IsADS = false;
+
     private void Start()
     {
         pc = GetComponent<PhotoCapture>();
@@ -27,12 +29,17 @@ public class CameraItem : Item
         origFocalLength = dof.focalLength.value;
     }
 
-    protected override void SetToggleAction()
+    private void ToggleADS()
     {
-        toggleInput = _controls.MainGameplay.ToggleCamera;
+        bool tempIsAds = !IsADS;
+
+        if (tempIsAds)
+            PlayZoomInAnimation();
+        else
+            PlayZoomOutAnimation();
     }
 
-    protected override void OnActive()
+    private void PlayZoomInAnimation(System.Action onComplete = null)
     {
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
@@ -42,10 +49,13 @@ public class CameraItem : Item
                 .SetEase(Ease.InQuad)
             )
             .Join(_cameraObject.transform.DOLocalMove(zoomCameraPos, 0.5f))
-            .OnComplete(base.OnActive);
+            .OnComplete(() => {
+                onComplete?.Invoke();
+                IsADS = true;
+            });
     }
 
-    protected override void OnInactive()
+    private void PlayZoomOutAnimation(System.Action onComplete = null)
     {
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
@@ -55,13 +65,36 @@ public class CameraItem : Item
                 .SetEase(Ease.OutQuad)
             )
             .Join(_cameraObject.transform.DOLocalMove(origCameraPos, 0.5f))
-            .OnComplete(base.OnInactive);
+            .OnComplete(() => {
+                onComplete?.Invoke();
+                IsADS = false;
+            });
     }
 
-    // TODO: Move to separate PhotoCapture class
+    protected override void OnInactive()
+    {
+        if (!IsADS)
+        {
+            base.OnInactive();
+            return;
+        }
+
+        // If currently ADS and swapped out of camera, we un-ADS first before setting inactive.
+        PlayZoomOutAnimation(base.OnInactive);
+    }
+
+    protected override void AssignControls()
+    {
+        base.AssignControls();
+        _controls.MainGameplay.ADSItem.performed += ctx => ToggleADS();
+    }
+
     protected override void UseItem()
     {
-        pc.TakePhoto();
+        if (IsADS)
+            pc.TakePhoto();
+        else
+            pc.ToggleFlash();
     }
 }
 

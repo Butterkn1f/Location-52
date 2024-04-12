@@ -4,33 +4,24 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 // Child class that all items should derive from
-// Ideally inventory items should be a child of a separate InventoryItem class that's a child of this
 public abstract class Item : MonoBehaviour
 {
-    protected InputAction toggleInput; // To be set in child classes
     protected Controls _controls = null;
-    public bool IsActive { get; private set; } = false;
+    public bool IsActive { get; private set; } = true; // TODO: Set this to false default and implement inventory sys
 
 
     void Awake()
     {
         _controls = new Controls();
-        SetToggleAction();
         AssignControls();
     }
 
-
-    protected abstract void SetToggleAction();
-
-    private void AssignControls()
+    protected virtual void AssignControls()
     {
         if (!_controls.MainGameplay.enabled)
         {
             _controls.MainGameplay.Enable();
         }
-
-        if (toggleInput != null)
-            toggleInput.performed += ctx => ToggleIsActive();
 
         _controls.MainGameplay.UseItem.performed += ctx => {
             if (!IsActive)

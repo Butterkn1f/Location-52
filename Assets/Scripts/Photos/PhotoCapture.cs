@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[RequireComponent(typeof(PhotoAnomalyChecker))]
 public class PhotoCapture : MonoBehaviour
 {
     [SerializeField] RenderTexture spookCameraTexture; 
@@ -11,15 +12,16 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] Image flashImage;
     [SerializeField] Light flash;
 
+    PhotoAnomalyChecker anomalyChecker;
+
     Texture2D screenCapture;
     bool isViewingPhoto = false;
     float origFlashIntensity = 100;
 
-    IEnumerator hidePreviewCoroutine;
-    Sequence hidePhotoSequence;
-
     void Start()
     {
+        anomalyChecker = GetComponent<PhotoAnomalyChecker>();
+
         origFlashIntensity = flash.intensity;
         previewImage.gameObject.SetActive(false);
         screenCapture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false, true);
@@ -31,11 +33,15 @@ public class PhotoCapture : MonoBehaviour
         {
             StartCoroutine(FlashEffect());
         }
-        else
-        {
-            StopCoroutine(hidePreviewCoroutine);
-            RemovePhoto();
-        }
+    }
+
+    public void ToggleFlash(bool? isOn = null)
+    {
+        bool flashOn = isOn ?? !flash.gameObject.activeSelf;
+        if (flashOn)
+            flash.intensity = origFlashIntensity;
+
+        flash.gameObject.SetActive(flashOn);
     }
 
     private IEnumerator CapturePhoto()
@@ -44,14 +50,19 @@ public class PhotoCapture : MonoBehaviour
         RenderTexture.active = spookCameraTexture;
         screenCapture.ReadPixels(new Rect(0, 0, spookCameraTexture.width, spookCameraTexture.height), 0, 0);
         screenCapture.Apply();
-        ShowPhoto();
+
+        Sprite photoSprite = Sprite.Create(screenCapture, new Rect(0f, 0f, screenCapture.width, screenCapture.height), new Vector2(0.5f, 0.5f), 100f);
+        ShowPhoto(photoSprite);
+
+        var anomalyCaught = anomalyChecker.CheckAnomaliesInView(out var pointsDetected);
+        PhotoManager.Instance.AddPhoto(photoSprite, anomalyCaught, pointsDetected);
     }
 
     private IEnumerator FlashEffect()
     {
-        flash.intensity = origFlashIntensity;
-        flash.gameObject.SetActive(true);
+        ToggleFlash(true);
         flashImage.color = Color.white;
+
 
         yield return new WaitForSeconds(0.25f);
         StartCoroutine(CapturePhoto());
@@ -66,23 +77,22 @@ public class PhotoCapture : MonoBehaviour
                .SetEase(Ease.InQuad)
                .OnComplete(() =>
                {
-                   flash.gameObject.SetActive(false);
+                   ToggleFlash(false);
                });
     }
 
     private IEnumerator HidePhotoAfterTime()
     {
         yield return new WaitForSeconds(1.0f);
-        hidePhotoSequence = DOTween.Sequence();
+        var hidePhotoSequence = DOTween.Sequence();
         hidePhotoSequence.Append(previewImage.rectTransform.DOScale(0.25f, 0.5f).SetEase(Ease.OutQuad))
             .Append(previewImage.rectTransform.DOAnchorPosX(0.25f, 0.25f))
             .OnComplete(RemovePhoto);
     }
 
-    private void ShowPhoto()
+    private void ShowPhoto(Sprite photoSprite)
     {
         isViewingPhoto = true;
-        Sprite photoSprite = Sprite.Create(screenCapture, new Rect(0f, 0f, screenCapture.width, screenCapture.height), new Vector2(0.5f, 0.5f), 100f);
         previewImage.sprite = photoSprite;
 
         // Reset transforms
@@ -90,14 +100,12 @@ public class PhotoCapture : MonoBehaviour
         previewImage.rectTransform.DOAnchorPosX(0, 0);
         previewImage.gameObject.SetActive(true);
 
-        hidePreviewCoroutine = HidePhotoAfterTime();
-        StartCoroutine(hidePreviewCoroutine);
+        StartCoroutine(HidePhotoAfterTime());
 
-        // TODO save to temp folder here
-        /*string saveName = Application.persistentDataPath + "TestImage.png";
-        byte[] bytes = screenCapture.EncodeToPNG();
+        // save to temp folder here
+        /*string saveName = Application.persistentDataPath + "/TestImage.jpg";
+        byte[] bytes = screenCapture.EncodeToJPG();
         System.IO.File.WriteAllBytes(saveName, bytes);
-        while (!System.IO.File.Exists(saveName)) yield return null;
         Debug.Log("File written to " + saveName);*/
     }
 

@@ -82,7 +82,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ToggleCamera"",
+                    ""name"": ""ADSItem"",
                     ""type"": ""Button"",
                     ""id"": ""3a8c36b3-8988-4e35-9d66-e8db73433c91"",
                     ""expectedControlType"": ""Button"",
@@ -94,6 +94,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""UseItem"",
                     ""type"": ""Button"",
                     ""id"": ""a71177c7-d693-40bd-a9e5-7a09a73ef6be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ViewAlbum"",
+                    ""type"": ""Button"",
+                    ""id"": ""4eb2d965-055d-4087-8001-b8a54c3301e2"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -214,11 +223,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""150fef88-6b44-47a0-895d-7b3c01a4de38"",
-                    ""path"": ""<Keyboard>/c"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ToggleCamera"",
+                    ""groups"": ""PC"",
+                    ""action"": ""ADSItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -228,8 +237,19 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""PC"",
                     ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41d0bc3b-323a-458f-8ca0-312cdbb5de28"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ViewAlbum"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -263,8 +283,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_Jump = m_MainGameplay.FindAction("Jump", throwIfNotFound: true);
         m_MainGameplay_Camera = m_MainGameplay.FindAction("Camera", throwIfNotFound: true);
         m_MainGameplay_Interact = m_MainGameplay.FindAction("Interact", throwIfNotFound: true);
-        m_MainGameplay_ToggleCamera = m_MainGameplay.FindAction("ToggleCamera", throwIfNotFound: true);
+        m_MainGameplay_ADSItem = m_MainGameplay.FindAction("ADSItem", throwIfNotFound: true);
         m_MainGameplay_UseItem = m_MainGameplay.FindAction("UseItem", throwIfNotFound: true);
+        m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -332,8 +353,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_Jump;
     private readonly InputAction m_MainGameplay_Camera;
     private readonly InputAction m_MainGameplay_Interact;
-    private readonly InputAction m_MainGameplay_ToggleCamera;
+    private readonly InputAction m_MainGameplay_ADSItem;
     private readonly InputAction m_MainGameplay_UseItem;
+    private readonly InputAction m_MainGameplay_ViewAlbum;
     public struct MainGameplayActions
     {
         private @Controls m_Wrapper;
@@ -344,8 +366,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_MainGameplay_Jump;
         public InputAction @Camera => m_Wrapper.m_MainGameplay_Camera;
         public InputAction @Interact => m_Wrapper.m_MainGameplay_Interact;
-        public InputAction @ToggleCamera => m_Wrapper.m_MainGameplay_ToggleCamera;
+        public InputAction @ADSItem => m_Wrapper.m_MainGameplay_ADSItem;
         public InputAction @UseItem => m_Wrapper.m_MainGameplay_UseItem;
+        public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -373,12 +396,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @ToggleCamera.started += instance.OnToggleCamera;
-            @ToggleCamera.performed += instance.OnToggleCamera;
-            @ToggleCamera.canceled += instance.OnToggleCamera;
+            @ADSItem.started += instance.OnADSItem;
+            @ADSItem.performed += instance.OnADSItem;
+            @ADSItem.canceled += instance.OnADSItem;
             @UseItem.started += instance.OnUseItem;
             @UseItem.performed += instance.OnUseItem;
             @UseItem.canceled += instance.OnUseItem;
+            @ViewAlbum.started += instance.OnViewAlbum;
+            @ViewAlbum.performed += instance.OnViewAlbum;
+            @ViewAlbum.canceled += instance.OnViewAlbum;
         }
 
         private void UnregisterCallbacks(IMainGameplayActions instance)
@@ -401,12 +427,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @ToggleCamera.started -= instance.OnToggleCamera;
-            @ToggleCamera.performed -= instance.OnToggleCamera;
-            @ToggleCamera.canceled -= instance.OnToggleCamera;
+            @ADSItem.started -= instance.OnADSItem;
+            @ADSItem.performed -= instance.OnADSItem;
+            @ADSItem.canceled -= instance.OnADSItem;
             @UseItem.started -= instance.OnUseItem;
             @UseItem.performed -= instance.OnUseItem;
             @UseItem.canceled -= instance.OnUseItem;
+            @ViewAlbum.started -= instance.OnViewAlbum;
+            @ViewAlbum.performed -= instance.OnViewAlbum;
+            @ViewAlbum.canceled -= instance.OnViewAlbum;
         }
 
         public void RemoveCallbacks(IMainGameplayActions instance)
@@ -441,7 +470,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnToggleCamera(InputAction.CallbackContext context);
+        void OnADSItem(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
+        void OnViewAlbum(InputAction.CallbackContext context);
     }
 }

@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToggleCamera",
+                    "name": "ADSItem",
                     "type": "Button",
                     "id": "3a8c36b3-8988-4e35-9d66-e8db73433c91",
                     "expectedControlType": "Button",
@@ -72,6 +72,15 @@
                     "name": "UseItem",
                     "type": "Button",
                     "id": "a71177c7-d693-40bd-a9e5-7a09a73ef6be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ViewAlbum",
+                    "type": "Button",
+                    "id": "4eb2d965-055d-4087-8001-b8a54c3301e2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -192,11 +201,11 @@
                 {
                     "name": "",
                     "id": "150fef88-6b44-47a0-895d-7b3c01a4de38",
-                    "path": "<Keyboard>/c",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "ToggleCamera",
+                    "groups": "PC",
+                    "action": "ADSItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -206,8 +215,19 @@
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "PC",
                     "action": "UseItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41d0bc3b-323a-458f-8ca0-312cdbb5de28",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "ViewAlbum",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

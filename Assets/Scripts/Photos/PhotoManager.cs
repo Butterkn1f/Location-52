@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManager>
 {
@@ -10,7 +11,34 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     public const int MinPointsCapturedFull = 5;
     public List<Photo> Photos { get; private set; } = new();
     int currIndex = -1;
-    
+
+    // TODO: Call this on new day as well
+    public void ClearAllPhotos()
+    {
+        string[] fileEntries = Directory.GetFiles(Application.dataPath);
+        foreach (string filePath in fileEntries)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+
+            if (fileInfo.Name.StartsWith("Photo"))
+            {
+                // Scary qwq
+                Debug.Log("Deleting File: " + filePath);
+                File.Delete(filePath);
+            }
+        }
+
+        Photos.Clear();
+        currIndex = -1;
+    }
+
+    // If save system is implemented, remove this. Keep the photos as save file
+    protected override void OnApplicationQuit()
+    {
+        base.OnApplicationQuit();
+        ClearAllPhotos();
+    }
+
     public void AddPhoto(Texture2D texture, Renderer renderer, int pointsDetected)
     {
         Debug.Log("Points detected: " + pointsDetected + "// Required: " + MinPointsCapturedFull);

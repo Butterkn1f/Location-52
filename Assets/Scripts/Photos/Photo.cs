@@ -10,7 +10,7 @@ public class Photo
     #region Info
     public string AnomalyName = "None";
     public Difficulty AnomalyDifficulty = Difficulty.None;
-    public Sprite PhotoSprite;
+    public string TextureSaveName;
     public DateTime TimeTaken;
     #endregion
 

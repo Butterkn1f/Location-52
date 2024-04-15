@@ -205,7 +205,8 @@ namespace Characters.Player
 
         private void LateUpdate()
         {
-            if (!_enableMouseLook) return;
+            // NOTE: Commented this out as I still want the camera bob when mouse is unlocked
+            //if (!_enableMouseLook) return;
             transform.position = _target.position + _offset;
 
             ApplyCameraEffects();
@@ -260,11 +261,7 @@ namespace Characters.Player
         // Temporarily moves the camera to a certain position, and locks it there!! rah!!!
         public void LockCameraToPosition(GameObject CurrentGameObject)
         {
-            _enableMouseLook = false;
-            Cursor.lockState = CursorLockMode.None;
-
-            _movement.EnableJump = false;
-            _movement.CanMove = false;
+            UnlockMouseCursor(true);
 
             CurrentCameraPos = _cameraObject.transform.position;
             CurrentCameraRot = _cameraObject.transform.rotation;
@@ -274,6 +271,15 @@ namespace Characters.Player
             seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentGameObject.transform.rotation, 0.5f));
         }
 
+        public void UnlockMouseCursor(bool unlock)
+        {
+            _enableMouseLook = !unlock;
+            Cursor.lockState = unlock ? CursorLockMode.None : CursorLockMode.Locked;
+
+            _movement.EnableJump = !unlock;
+            _movement.CanMove = !unlock;
+        }
+
         public void ReturnCamToNormal()
         {
             Sequence seq = DOTween.Sequence();
@@ -281,11 +287,7 @@ namespace Characters.Player
             seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentCameraRot, 0.5f));
 
             seq.AppendCallback(() => {
-                _enableMouseLook = true;
-                Cursor.lockState = CursorLockMode.Locked;
-
-                _movement.EnableJump = true;
-                _movement.CanMove = true;
+                UnlockMouseCursor(false);
             });
         }
     }

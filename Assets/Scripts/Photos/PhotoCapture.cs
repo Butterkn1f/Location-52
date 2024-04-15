@@ -55,7 +55,7 @@ public class PhotoCapture : MonoBehaviour
         ShowPhoto(photoSprite);
 
         var anomalyCaught = anomalyChecker.CheckAnomaliesInView(out var pointsDetected);
-        PhotoManager.Instance.AddPhoto(photoSprite, anomalyCaught, pointsDetected);
+        PhotoManager.Instance.AddPhoto(screenCapture, anomalyCaught, pointsDetected);
     }
 
     private IEnumerator FlashEffect()
@@ -86,7 +86,7 @@ public class PhotoCapture : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         var hidePhotoSequence = DOTween.Sequence();
         hidePhotoSequence.Append(previewImage.rectTransform.DOScale(0.25f, 0.5f).SetEase(Ease.OutQuad))
-            .Append(previewImage.rectTransform.DOAnchorPosX(0.25f, 0.25f))
+            .Append(previewImage.rectTransform.DOAnchorPosX(Screen.width * 0.25f, 0.25f))
             .OnComplete(RemovePhoto);
     }
 

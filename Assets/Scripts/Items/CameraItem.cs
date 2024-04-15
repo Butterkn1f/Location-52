@@ -6,6 +6,7 @@ using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(PhotoCapture))]
+[RequireComponent(typeof(GalleryManager))]
 
 public class CameraItem : Item
 {
@@ -14,6 +15,7 @@ public class CameraItem : Item
     [SerializeField] Volume globalVolume;
 
     PhotoCapture pc;
+    GalleryManager gm;
     DepthOfField dof;
     float origFocalLength;
     Vector3 origCameraPos;
@@ -23,6 +25,7 @@ public class CameraItem : Item
     private void Start()
     {
         pc = GetComponent<PhotoCapture>();
+        gm = GetComponent<GalleryManager>();
 
         origCameraPos = _cameraObject.transform.position;
         globalVolume.profile.TryGet(out dof);
@@ -57,6 +60,8 @@ public class CameraItem : Item
 
     private void PlayZoomOutAnimation(System.Action onComplete = null)
     {
+        gm.ToggleGallery(false);
+
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
 
@@ -87,10 +92,17 @@ public class CameraItem : Item
     {
         base.AssignControls();
         _controls.MainGameplay.ADSItem.performed += ctx => ToggleADS();
+        _controls.MainGameplay.ViewAlbum.performed += ctx => {
+            if (IsADS)
+                gm.ToggleGallery();
+        };
     }
 
     protected override void UseItem()
     {
+        if (gm.bIsGalleryOpen)
+            return;
+
         if (IsADS)
             pc.TakePhoto();
         else

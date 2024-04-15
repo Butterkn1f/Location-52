@@ -9,8 +9,9 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     public const float DistTooFar = 10;
     public const int MinPointsCapturedFull = 5;
     public List<Photo> Photos { get; private set; } = new();
+    int currIndex = -1;
     
-    public void AddPhoto(Sprite sprite, Renderer renderer, int pointsDetected)
+    public void AddPhoto(Texture2D texture, Renderer renderer, int pointsDetected)
     {
         Debug.Log("Points detected: " + pointsDetected + "// Required: " + MinPointsCapturedFull);
         PhotoType photoType = !renderer
@@ -19,13 +20,19 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
             ? PhotoType.Monster
             : PhotoType.Object;
 
+        currIndex++;
+        string saveName = "/Photo" + currIndex + ".jpg";
+        byte[] bytes = texture.EncodeToJPG();
+        System.IO.File.WriteAllBytes(Application.dataPath + saveName, bytes);
+        Debug.Log("File written to " + Application.dataPath + saveName);
+
         Photo newPhoto = photoType switch
         {
             PhotoType.Monster => new Photo()
             {
                 AnomalyName = renderer.name,
                 AnomalyDifficulty = Difficulty.Medium, //TODO When monster class is implemented
-                PhotoSprite = sprite,
+                TextureSaveName = saveName,
                 TimeTaken = GetFakeTime(),
 
                 Type = photoType,
@@ -40,7 +47,7 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
             {
                 AnomalyName = renderer.name,
                 AnomalyDifficulty = Difficulty.Easy, // ???
-                PhotoSprite = sprite,
+                TextureSaveName = saveName,
                 TimeTaken = GetFakeTime(),
 
                 Type = PhotoType.Object,
@@ -50,7 +57,7 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
 
             _ => new Photo()
             {
-                PhotoSprite = sprite,
+                TextureSaveName = saveName,
                 TimeTaken = GetFakeTime(),
                 Type = PhotoType.None
             }

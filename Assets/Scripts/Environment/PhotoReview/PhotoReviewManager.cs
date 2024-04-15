@@ -9,8 +9,6 @@ namespace Environment.PhotoReview
 {
     public class PhotoReviewManager : Singleton<PhotoReviewManager>
     {
-        [SerializeField] private GameObject CameraObject;
-
         [Space]
         [SerializeField] private GameObject CameraStartPos;
         [SerializeField] private GameObject CameraComPos;
@@ -22,14 +20,18 @@ namespace Environment.PhotoReview
         // Start is called before the first frame update
         void Start()
         {
-            CameraObject.transform.position = CameraStartPos.transform.position;
-            CameraObject.transform.rotation = CameraStartPos.transform.rotation;
+            //Sequence seq = DOTween.Sequence();
+            //seq.PrependInterval(0.5f);
+            //seq.Append(CameraObject.transform.DOMove(CameraComPos.transform.position, 0.5f));
+            //seq.Join(CameraObject.transform.DORotateQuaternion(CameraComPos.transform.rotation, 0.5f));
+            //seq.AppendCallback(() => { });
 
-            Sequence seq = DOTween.Sequence();
-            seq.PrependInterval(0.5f);
-            seq.Append(CameraObject.transform.DOMove(CameraComPos.transform.position, 0.5f));
-            seq.Join(CameraObject.transform.DORotateQuaternion(CameraComPos.transform.rotation, 0.5f));
-            seq.AppendCallback(() => { CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_SELECT); });
+            CurrentPhotoReviewState.SetValue(PhotoReviewState.DEFAULT);
+        }
+
+        public void StartComputer()
+        {
+            CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_SELECT);
         }
 
         // Update is called once per frame

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Characters.Player
@@ -258,7 +259,7 @@ namespace Characters.Player
         }
 
         // Temporarily moves the camera to a certain position, and locks it there!! rah!!!
-        public void LockCameraToPosition(GameObject CurrentGameObject)
+        public void LockCameraToPosition(GameObject CurrentGameObject, UnityEvent CamOverEvent = null)
         {
             _enableMouseLook = false;
             Cursor.lockState = CursorLockMode.None;
@@ -272,6 +273,11 @@ namespace Characters.Player
             Sequence seq = DOTween.Sequence();
             seq.Append(_cameraObject.transform.DOMove(CurrentGameObject.transform.position, 0.5f));
             seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentGameObject.transform.rotation, 0.5f));
+
+            if (CamOverEvent != null)
+            {
+                seq.AppendCallback(() => CamOverEvent.Invoke());
+            }
         }
 
         public void ReturnCamToNormal()

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Environment.Room
 {
@@ -12,6 +13,8 @@ namespace Environment.Room
         public GameObject ComputerCameraPosition;
         [SerializeField] private bool _isInteractable;
         [SerializeField] private bool _isLocked;
+
+        [SerializeField] private UnityEvent _computerOnEvent;
 
         // Start is called before the first frame update
         void Start()
@@ -42,7 +45,7 @@ namespace Environment.Room
             {
                 // Unlock
                 _isLocked = true;
-                PlayerManager.Instance.Camera.LockCameraToPosition(ComputerCameraPosition);
+                PlayerManager.Instance.Camera.LockCameraToPosition(ComputerCameraPosition, _computerOnEvent);
             }
             else
             {

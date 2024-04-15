@@ -96,6 +96,8 @@ public class CameraItem : Item
             if (IsADS)
                 gm.ToggleGallery();
         };
+
+        _controls.MainGameplay.ToggleFlash.performed += ctx => pc.ToggleFlash();
     }
 
     protected override void UseItem()
@@ -105,8 +107,6 @@ public class CameraItem : Item
 
         if (IsADS)
             pc.TakePhoto();
-        else
-            pc.ToggleFlash();
     }
 }
 

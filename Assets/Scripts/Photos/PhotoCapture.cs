@@ -18,6 +18,8 @@ public class PhotoCapture : MonoBehaviour
     bool isViewingPhoto = false;
     float origFlashIntensity = 100;
 
+    bool IsPermanentFlash = false;
+
     void Start()
     {
         anomalyChecker = GetComponent<PhotoAnomalyChecker>();
@@ -37,7 +39,13 @@ public class PhotoCapture : MonoBehaviour
 
     public void ToggleFlash(bool? isOn = null)
     {
-        bool flashOn = isOn ?? !flash.gameObject.activeSelf;
+        if (isOn.HasValue && IsPermanentFlash)
+            return;
+
+        if (!isOn.HasValue)
+            IsPermanentFlash = !IsPermanentFlash;
+
+        bool flashOn = isOn ?? IsPermanentFlash;
         if (flashOn)
             flash.intensity = origFlashIntensity;
 
@@ -71,8 +79,10 @@ public class PhotoCapture : MonoBehaviour
         DOTween.To(() => alpha, x => alpha = x, 0, 0.25f)
                .OnUpdate(() =>
                {
-                   flash.intensity = origFlashIntensity * alpha;
                    flashImage.color = new Color(1, 1, 1, alpha);
+
+                   if (!IsPermanentFlash)
+                    flash.intensity = origFlashIntensity * alpha;
                })
                .SetEase(Ease.InQuad)
                .OnComplete(() =>
@@ -101,12 +111,6 @@ public class PhotoCapture : MonoBehaviour
         previewImage.gameObject.SetActive(true);
 
         StartCoroutine(HidePhotoAfterTime());
-
-        // save to temp folder here
-        /*string saveName = Application.persistentDataPath + "/TestImage.jpg";
-        byte[] bytes = screenCapture.EncodeToJPG();
-        System.IO.File.WriteAllBytes(saveName, bytes);
-        Debug.Log("File written to " + saveName);*/
     }
 
     private void RemovePhoto()

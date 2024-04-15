@@ -116,6 +116,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleFlash"",
+                    ""type"": ""Button"",
+                    ""id"": ""32cea5e3-3349-4350-96ab-9add4c17154a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +281,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""ScrollAlbum"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbc96422-da54-4b0d-ad3d-9fb8aeca3870"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ToggleFlash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +327,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_UseItem = m_MainGameplay.FindAction("UseItem", throwIfNotFound: true);
         m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
         m_MainGameplay_ScrollAlbum = m_MainGameplay.FindAction("ScrollAlbum", throwIfNotFound: true);
+        m_MainGameplay_ToggleFlash = m_MainGameplay.FindAction("ToggleFlash", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,6 +399,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_UseItem;
     private readonly InputAction m_MainGameplay_ViewAlbum;
     private readonly InputAction m_MainGameplay_ScrollAlbum;
+    private readonly InputAction m_MainGameplay_ToggleFlash;
     public struct MainGameplayActions
     {
         private @Controls m_Wrapper;
@@ -392,6 +414,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @UseItem => m_Wrapper.m_MainGameplay_UseItem;
         public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
         public InputAction @ScrollAlbum => m_Wrapper.m_MainGameplay_ScrollAlbum;
+        public InputAction @ToggleFlash => m_Wrapper.m_MainGameplay_ToggleFlash;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -431,6 +454,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ScrollAlbum.started += instance.OnScrollAlbum;
             @ScrollAlbum.performed += instance.OnScrollAlbum;
             @ScrollAlbum.canceled += instance.OnScrollAlbum;
+            @ToggleFlash.started += instance.OnToggleFlash;
+            @ToggleFlash.performed += instance.OnToggleFlash;
+            @ToggleFlash.canceled += instance.OnToggleFlash;
         }
 
         private void UnregisterCallbacks(IMainGameplayActions instance)
@@ -465,6 +491,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ScrollAlbum.started -= instance.OnScrollAlbum;
             @ScrollAlbum.performed -= instance.OnScrollAlbum;
             @ScrollAlbum.canceled -= instance.OnScrollAlbum;
+            @ToggleFlash.started -= instance.OnToggleFlash;
+            @ToggleFlash.performed -= instance.OnToggleFlash;
+            @ToggleFlash.canceled -= instance.OnToggleFlash;
         }
 
         public void RemoveCallbacks(IMainGameplayActions instance)
@@ -503,5 +532,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnUseItem(InputAction.CallbackContext context);
         void OnViewAlbum(InputAction.CallbackContext context);
         void OnScrollAlbum(InputAction.CallbackContext context);
+        void OnToggleFlash(InputAction.CallbackContext context);
     }
 }

@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleFlash",
+                    "type": "Button",
+                    "id": "32cea5e3-3349-4350-96ab-9add4c17154a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -248,6 +257,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "ScrollAlbum",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbc96422-da54-4b0d-ad3d-9fb8aeca3870",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "ToggleFlash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

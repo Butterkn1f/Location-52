@@ -50,6 +50,9 @@ namespace Characters.Player
         [SerializeField] private GameObject _standingCollider;
         [SerializeField] private GameObject _crouchingCollider;
 
+        [Header("Player visibility")]
+        public bool IsHidden = false;
+
         // Private variables
         private Rigidbody _rb = null;
         private Controls _controls = null;
@@ -289,6 +292,11 @@ namespace Characters.Player
         }
 
         private void OnCollisionExit(Collision other) => Grounded = false;
+
+        public void HidePlayer(bool isHidden)
+        {
+            IsHidden = isHidden;
+        }
 
         /// <summary>
         /// For teleporting the player to where it's supposed to be

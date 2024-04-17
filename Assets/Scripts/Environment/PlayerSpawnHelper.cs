@@ -49,6 +49,6 @@ namespace Environment
     {
         HOME_DOOR,
         TOWN_BIKE,
-
+        ROOM_AFTER
     }
 }

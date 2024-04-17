@@ -20,6 +20,7 @@ namespace Environment.Town
             Debug.Log("Interacted with the house door");
 
             // Add scene transition here
+            PlayerManager.Instance.CurrentSpawnPointID = SpawnPointID.ROOM_AFTER;
             ApplicationManager.Instance.Loader.ChangeScene(Common.SceneManagement.SceneID.PHOTO_REVIEW_SCENE, Common.SceneManagement.LoadingScreenType.DEFAULT);
         }
 

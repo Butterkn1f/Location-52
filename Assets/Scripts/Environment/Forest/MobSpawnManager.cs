@@ -157,8 +157,13 @@ namespace Environment.Forest
             {
                 for (int i = _spawnedAnomalies_NonStatic.Count; i < _anomalyCap; i++)
                 {
-                    int randomDistance = Random.Range(MobSpawnAvoidanceRadius, MobSpawnRadius);
+                    // Generate a random point around the player between the given coordinates 
 
+                    // Check if point is valid,, then check if point is between the given coordinates
+
+                    // Spawn based on chance in the given coordinates
+
+                    // 
                 }
             }
 

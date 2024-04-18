@@ -10,24 +10,28 @@ namespace MainGame
 {
     public class MainGameManager : SingletonPersistent<MainGameManager>
     {
-        [SerializeField] private SaveableDataContainer GameProgressData;
+        public SaveableDataContainer GameProgressData;
 
         private ReactiveProp<GameState> CurrentGameState = new ReactiveProp<GameState>();
+
+        // An indicator for the game to recognise the most impactful changes recently
+        public EventID RecentGameEvent;
 
         // Start is called before the first frame update
         void Start()
         {
+            CurrentGameState.GetObservable().Subscribe(newState => { ChangeGameState(newState); });
 
+            GameProgressData.InitialiseDataContainer();
+            GameProgressData.GameData.Add(new SaveableBoolAsset("Finished Tutorial", false));
+            GameProgressData.GameData.Add(new SaveableIntAsset("Day Count", 1));
         }
         
         public void ChangeGameState(GameState newGameState)
         {
             switch (newGameState)
             {
-                case GameState.PHOTO_SCORING:
-                    // Player does not need to walk anymore lol
-                    Destroy(PlayerManager.Instance.gameObject);
-                    break;
+                
             }
         }
 
@@ -45,5 +49,16 @@ namespace MainGame
         MAIN_GAMEPLAY,
         PHOTO_SCORING,
         FINAL_RESULT,
+    }
+
+    public enum EventID
+    {
+        NONE,
+
+        // Event Dialogue lines
+        NOBODY_MOVED,
+        VIRAL,
+        NEWS,
+        WALMART
     }
 }

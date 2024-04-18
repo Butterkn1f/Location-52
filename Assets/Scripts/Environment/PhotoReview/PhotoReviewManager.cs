@@ -1,5 +1,7 @@
 using Common.DesignPatterns;
 using DG.Tweening;
+using Game.Application;
+using MainGame;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -32,6 +34,26 @@ namespace Environment.PhotoReview
         public void StartComputer()
         {
             CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_SELECT);
+        }
+
+        /// <summary>
+        /// Marks the end of the day
+        /// </summary>
+        public void EndDay()
+        {
+            if (MainGameManager.Instance.GameProgressData.GetDataBoolByID("Finished Tutorial").GetValue() == false)
+            {
+                // Mark tutorial as completed
+                MainGameManager.Instance.GameProgressData.GetDataBoolByID("Finished Tutorial").SetValue(true);
+                Debug.Log("Tutorial Marked as completed");
+            }
+
+            // Increment day counter
+            MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").SetValue(MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").GetValue() + 1);
+            Debug.Log("Moving on to day " + MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").GetValue());
+
+            // Change Scene
+            ApplicationManager.Instance.Loader.ChangeScene(Common.SceneManagement.SceneID.ROOM_SCENE);
         }
 
         // Update is called once per frame

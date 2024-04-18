@@ -566,7 +566,7 @@ MonoBehaviour:
   Loader: {fileID: 8300502187041476110}
   AudioManager: {fileID: 7508046246041581921}
   DataSaver: {fileID: 8897771148382093824}
-  CSVReader: {fileID: 0}
+  CSVReader: {fileID: 9080117853623341588}
 --- !u!1 &8124090549192675827
 GameObject:
   m_ObjectHideFlags: 0

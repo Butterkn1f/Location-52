@@ -34,10 +34,14 @@ public class InventoryManager : MonoBehaviour
 
     private void ToggleInventory()
     {
-        bIsInventoryOpen = !bIsInventoryOpen;
+        bool tempIsOpen = !bIsInventoryOpen;
 
-        if (bIsInventoryOpen)
+        if (tempIsOpen)
         {
+            // An instance of inventory is already open! Don't override it.
+            if (InventoryBackpackManager.Instance.bIsInventoryOpen)
+                return;
+
             Characters.Player.PlayerManager.Instance.Camera.UnlockMouseCursor(true);
             InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryGroup.gameObject.transform);
             StartCoroutine(RefreshViewport());
@@ -48,6 +52,7 @@ public class InventoryManager : MonoBehaviour
             InventoryBackpackManager.Instance.ClearGrid();
             inventoryPanel.SetActive(false);
         }
+        bIsInventoryOpen = tempIsOpen;
     }
 
     private IEnumerator RefreshViewport()

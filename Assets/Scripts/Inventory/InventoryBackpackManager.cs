@@ -28,6 +28,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     Dictionary<Vector2Int, InventoryGridItem> grids = new();
     [HideInInspector] public InventoryGridItem CurrGrid = null;
     [HideInInspector] public bool bShouldDisableItemButtons = false;
+    [HideInInspector] public bool bIsInventoryOpen { get; private set; } = false; // So that we don't open multiple copies of inventory1
 
     // Stores all the important info!!!
     [HideInInspector] public Dictionary<Vector2Int, BackpackItemInfo> BackpackItems = new();
@@ -74,6 +75,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
 
     public void InstantiateGrid(GridLayoutGroup invGroup, Transform itemParent)
     {
+        bIsInventoryOpen = true;
         invGroup.constraintCount = gridSize.x;
         for (int y = 0; y < gridSize.y; ++y)
         {
@@ -110,6 +112,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             Destroy(item);
         }
         storedItems.Clear();
+        bIsInventoryOpen = false;
     }
 
     public bool GetIsValidSpot(BackpackItemInfo info)

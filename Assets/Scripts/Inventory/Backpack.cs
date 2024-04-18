@@ -24,6 +24,10 @@ public class Backpack : MonoBehaviour, IInteractable
     public void Interact(Vector3 CameraPosition, Vector3 hitPoint)
     {
         Debug.Log("Interacted with backpack");
+        // An instance of inventory is already open! Don't override it.
+        if (InventoryBackpackManager.Instance.bIsInventoryOpen)
+            return;
+
         closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
         InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryItemParent);

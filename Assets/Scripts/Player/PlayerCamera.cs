@@ -73,6 +73,8 @@ namespace Characters.Player
 
         private bool _isADS;
 
+        Sequence returnCameraSequence;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -279,6 +281,11 @@ namespace Characters.Player
 
         public void UnlockMouseCursor(bool unlock)
         {
+            if (unlock && returnCameraSequence != null)
+            {
+                returnCameraSequence.Complete(); // In case we unlock while mid-transitions
+            }
+
             _enableMouseLook = !unlock;
             Cursor.lockState = unlock ? CursorLockMode.None : CursorLockMode.Locked;
 
@@ -288,11 +295,11 @@ namespace Characters.Player
 
         public void ReturnCamToNormal()
         {
-            Sequence seq = DOTween.Sequence();
-            seq.Append(_cameraObject.transform.DOMove(CurrentCameraPos, 0.5f));
-            seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentCameraRot, 0.5f));
+            returnCameraSequence = DOTween.Sequence();
+            returnCameraSequence.Append(_cameraObject.transform.DOMove(CurrentCameraPos, 0.5f));
+            returnCameraSequence.Join(_cameraObject.transform.DORotateQuaternion(CurrentCameraRot, 0.5f));
 
-            seq.AppendCallback(() => {
+            returnCameraSequence.AppendCallback(() => {
                 UnlockMouseCursor(false);
             });
         }

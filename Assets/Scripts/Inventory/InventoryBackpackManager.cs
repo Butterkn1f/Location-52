@@ -8,18 +8,24 @@ using UnityEngine.EventSystems;
 public class InventoryBackpackManager : Common.DesignPatterns.Singleton<InventoryBackpackManager>
 {
     [Header("Config")]
-    [SerializeField] List<BackpackItem> spawnedBackpackItems; // for shelf
+    [SerializeField] Vector2Int gridSize = new();
+    [SerializeField] Dictionary<InventoryItemType, GameObject> backpackItemPrefabs;
+/*    [SerializeField] List<BackpackItem> spawnedBackpackItems; // for shelf*/
     // then, list of prefabs here associated with each type
 
+    // TODO: Object pooling!!!
     [Header("Objects")]
     [SerializeField] GameObject gridItemPrefab;
     [SerializeField] GridLayoutGroup inventoryGroup;
-    [SerializeField] Transform cameraPos;
 
-    [SerializeField] Vector2Int gridSize = new();
+    List<GameObject> storedItems = new(); // To hide/unhide the stored items
+
     Dictionary<Vector2Int, InventoryGridItem> grids = new();
-
     [HideInInspector] public InventoryGridItem CurrGrid = null;
+    [HideInInspector] public bool bShouldDisableItemButtons = false;
+
+    // Stores all the important info!!!
+    [HideInInspector] public Dictionary<Vector2Int, BackpackItemInfo> BackpackItems = new();
 
     #region TEMP
     // NOTE: ALL THINGS RELATING TO CONTROLS IS TEMP UNTIL I MOVE THIS TO MAIN MENU
@@ -39,18 +45,20 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             _controls.MainGameplay.Enable();
         }
 
-        _controls.MainGameplay.TEMPOpenInventory.performed += ctx => OpenInventory();
+        //_controls.MainGameplay.TEMPOpenInventory.performed += ctx => OpenInventory();
     }
     #endregion
 
-    private void Start()
+    // i REALLY need to ObjectPool this
+    public void InstantiateGrid(GridLayoutGroup group = null)
     {
-        inventoryGroup.constraintCount = gridSize.x;
+        GridLayoutGroup invGroup = group ?? inventoryGroup;
+        invGroup.constraintCount = gridSize.x;
         for (int y = 0; y < gridSize.y; ++y)
         {
             for (int x = 0; x < gridSize.x; ++x)
             {
-                GameObject item = Instantiate(gridItemPrefab, inventoryGroup.transform);
+                GameObject item = Instantiate(gridItemPrefab, invGroup.transform);
                 var gridItem = item.GetComponent<InventoryGridItem>();
                 gridItem.OnHover.AddListener(() => OnPointerEnterGrid(gridItem));
                 gridItem.OnUnhover.AddListener(() => OnPointerExitGrid(gridItem));
@@ -58,12 +66,20 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
                 gridItem.Position = position;
                 grids.Add(position, gridItem);
             }
-        } 
+        }
+
+        // TODO: Instantiate items
     }
 
-    private void OpenInventory()
+    public void ClearGrid()
     {
-        Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
+        foreach (var grid in grids)
+        {
+            Destroy(grid.Value.gameObject);
+        }
+        grids.Clear();
+        CurrGrid = null;
+        //spawnedBackpackItems
     }
 
     public bool GetIsValidSpot(BackpackItemInfo info)
@@ -111,6 +127,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         topLeftGrid.State = GridState.Occupied;
         topLeftGrid.ItemInfo = info;
         topLeftGrid.LinkedGrids = linkedGrids;
+        BackpackItems.Add(info.GridPosition, info);
     }
 
     public void OnRemoveItem(Vector2Int position)
@@ -122,14 +139,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             grid.ResetGridInfo();
         }
         topleftGrid.ResetGridInfo();
-    }
-
-    public void SetItemsInteractivity(bool interactable)
-    {
-        foreach (var item in spawnedBackpackItems)
-        {
-            item.selectedItemBackground.gameObject.SetActive(interactable);
-        }
+        BackpackItems.Remove(position);
     }
 
     public void OnPointerEnterGrid(InventoryGridItem grid)

@@ -51,6 +51,9 @@ public class BackpackItem : MonoBehaviour
         selectedItemBackground.gameObject.SetActive(true);
         originalPos = transform.position;
         originalRot = transform.rotation.eulerAngles;
+
+        InventoryBackpackManager.Instance.ObserveEveryValueChanged(x => x.bShouldDisableItemButtons)
+            .Subscribe(x => selectedItemBackground.gameObject.SetActive(!x));
     }
 
     private void RotateItem(InputAction.CallbackContext context)
@@ -101,7 +104,7 @@ public class BackpackItem : MonoBehaviour
         if (bIsAnimating)
             return;
 
-        var worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, transform.position.z - Camera.main.transform.position.z));
+        var worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z - transform.position.z));
         var currGrid = InventoryBackpackManager.Instance.CurrGrid;
 
         if (currGrid == null)
@@ -141,7 +144,7 @@ public class BackpackItem : MonoBehaviour
         selectedItemBackground.gameObject.SetActive(true);
         itemBackground.gameObject.SetActive(false);
 
-        InventoryBackpackManager.Instance.SetItemsInteractivity(true);
+        InventoryBackpackManager.Instance.bShouldDisableItemButtons = false;
         _controls.MainGameplay.RotateInventoryItem.performed -= RotateItem;
 
         if (InventoryBackpackManager.Instance.CurrGrid == null)
@@ -201,7 +204,7 @@ public class BackpackItem : MonoBehaviour
         bIsGrabbed = true;
         selectedItemBackground.gameObject.SetActive(false);
         itemBackground.gameObject.SetActive(true);
-        InventoryBackpackManager.Instance.SetItemsInteractivity(false);
+        InventoryBackpackManager.Instance.bShouldDisableItemButtons = true;
         _controls.MainGameplay.RotateInventoryItem.performed += RotateItem;
 
         if (bIsPlacedInGrid)

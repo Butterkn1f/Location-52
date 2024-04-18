@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8103990993779309358}
   - component: {fileID: 54679802250115108}
   - component: {fileID: 4934054697498639473}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: tool_scanner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3132668797514833525, guid: 47ce19005ae42d849877853c43c15137, type: 3}
       propertyPath: m_Name
-      value: BackpackItem (1) Variant
+      value: BackpackItem_Anomalyser
       objectReference: {fileID: 0}
     - target: {fileID: 4914990460536269654, guid: 47ce19005ae42d849877853c43c15137, type: 3}
       propertyPath: Info.Type

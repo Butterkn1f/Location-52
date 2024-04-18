@@ -127,7 +127,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""TEMPOpenInventory"",
+                    ""name"": ""OpenBag"",
                     ""type"": ""Button"",
                     ""id"": ""114fd448-c88f-4f81-b00e-51d99e59a93e"",
                     ""expectedControlType"": ""Button"",
@@ -281,7 +281,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""41d0bc3b-323a-458f-8ca0-312cdbb5de28"",
-                    ""path"": ""<Keyboard>/tab"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
@@ -314,11 +314,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8c10e669-3dbc-4285-a93b-4f31c9eb8b85"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
-                    ""action"": ""TEMPOpenInventory"",
+                    ""action"": ""OpenBag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -368,7 +368,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
         m_MainGameplay_ScrollAlbum = m_MainGameplay.FindAction("ScrollAlbum", throwIfNotFound: true);
         m_MainGameplay_ToggleFlash = m_MainGameplay.FindAction("ToggleFlash", throwIfNotFound: true);
-        m_MainGameplay_TEMPOpenInventory = m_MainGameplay.FindAction("TEMPOpenInventory", throwIfNotFound: true);
+        m_MainGameplay_OpenBag = m_MainGameplay.FindAction("OpenBag", throwIfNotFound: true);
         m_MainGameplay_RotateInventoryItem = m_MainGameplay.FindAction("RotateInventoryItem", throwIfNotFound: true);
     }
 
@@ -442,7 +442,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_ViewAlbum;
     private readonly InputAction m_MainGameplay_ScrollAlbum;
     private readonly InputAction m_MainGameplay_ToggleFlash;
-    private readonly InputAction m_MainGameplay_TEMPOpenInventory;
+    private readonly InputAction m_MainGameplay_OpenBag;
     private readonly InputAction m_MainGameplay_RotateInventoryItem;
     public struct MainGameplayActions
     {
@@ -459,7 +459,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
         public InputAction @ScrollAlbum => m_Wrapper.m_MainGameplay_ScrollAlbum;
         public InputAction @ToggleFlash => m_Wrapper.m_MainGameplay_ToggleFlash;
-        public InputAction @TEMPOpenInventory => m_Wrapper.m_MainGameplay_TEMPOpenInventory;
+        public InputAction @OpenBag => m_Wrapper.m_MainGameplay_OpenBag;
         public InputAction @RotateInventoryItem => m_Wrapper.m_MainGameplay_RotateInventoryItem;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
@@ -503,9 +503,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToggleFlash.started += instance.OnToggleFlash;
             @ToggleFlash.performed += instance.OnToggleFlash;
             @ToggleFlash.canceled += instance.OnToggleFlash;
-            @TEMPOpenInventory.started += instance.OnTEMPOpenInventory;
-            @TEMPOpenInventory.performed += instance.OnTEMPOpenInventory;
-            @TEMPOpenInventory.canceled += instance.OnTEMPOpenInventory;
+            @OpenBag.started += instance.OnOpenBag;
+            @OpenBag.performed += instance.OnOpenBag;
+            @OpenBag.canceled += instance.OnOpenBag;
             @RotateInventoryItem.started += instance.OnRotateInventoryItem;
             @RotateInventoryItem.performed += instance.OnRotateInventoryItem;
             @RotateInventoryItem.canceled += instance.OnRotateInventoryItem;
@@ -546,9 +546,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToggleFlash.started -= instance.OnToggleFlash;
             @ToggleFlash.performed -= instance.OnToggleFlash;
             @ToggleFlash.canceled -= instance.OnToggleFlash;
-            @TEMPOpenInventory.started -= instance.OnTEMPOpenInventory;
-            @TEMPOpenInventory.performed -= instance.OnTEMPOpenInventory;
-            @TEMPOpenInventory.canceled -= instance.OnTEMPOpenInventory;
+            @OpenBag.started -= instance.OnOpenBag;
+            @OpenBag.performed -= instance.OnOpenBag;
+            @OpenBag.canceled -= instance.OnOpenBag;
             @RotateInventoryItem.started -= instance.OnRotateInventoryItem;
             @RotateInventoryItem.performed -= instance.OnRotateInventoryItem;
             @RotateInventoryItem.canceled -= instance.OnRotateInventoryItem;
@@ -591,7 +591,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnViewAlbum(InputAction.CallbackContext context);
         void OnScrollAlbum(InputAction.CallbackContext context);
         void OnToggleFlash(InputAction.CallbackContext context);
-        void OnTEMPOpenInventory(InputAction.CallbackContext context);
+        void OnOpenBag(InputAction.CallbackContext context);
         void OnRotateInventoryItem(InputAction.CallbackContext context);
     }
 }

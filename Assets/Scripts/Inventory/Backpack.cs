@@ -7,6 +7,7 @@ public class Backpack : MonoBehaviour, IInteractable
 {
     public bool IsInteractable => true;
     [SerializeField] GridLayoutGroup inventoryGroup;
+    [SerializeField] Transform inventoryItemParent;
     [SerializeField] Transform cameraPos;
     [SerializeField] GameObject closeButton;
 
@@ -25,7 +26,7 @@ public class Backpack : MonoBehaviour, IInteractable
         Debug.Log("Interacted with backpack");
         closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
-        InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup);
+        InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryItemParent);
     }
 
     public void StopHover()

@@ -105,7 +105,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "TEMPOpenInventory",
+                    "name": "OpenBag",
                     "type": "Button",
                     "id": "114fd448-c88f-4f81-b00e-51d99e59a93e",
                     "expectedControlType": "Button",
@@ -259,7 +259,7 @@
                 {
                     "name": "",
                     "id": "41d0bc3b-323a-458f-8ca0-312cdbb5de28",
-                    "path": "<Keyboard>/tab",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
@@ -292,11 +292,11 @@
                 {
                     "name": "",
                     "id": "8c10e669-3dbc-4285-a93b-4f31c9eb8b85",
-                    "path": "<Keyboard>/i",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
-                    "action": "TEMPOpenInventory",
+                    "action": "OpenBag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

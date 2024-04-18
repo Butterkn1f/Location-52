@@ -23,7 +23,6 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     // TODO: Object pooling!!!
     [Header("Objects")]
     [SerializeField] GameObject gridItemPrefab;
-    [SerializeField] GridLayoutGroup inventoryGroup;
 
     List<GameObject> storedItems = new(); // To hide/unhide the stored items
     Dictionary<Vector2Int, InventoryGridItem> grids = new();
@@ -33,32 +32,9 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     // Stores all the important info!!!
     [HideInInspector] public Dictionary<Vector2Int, BackpackItemInfo> BackpackItems = new();
 
-    #region TEMP
-    // NOTE: ALL THINGS RELATING TO CONTROLS IS TEMP UNTIL I MOVE THIS TO MAIN MENU
-    Controls _controls = null;
-
-    protected override void Awake()
+    private IEnumerator InstantiateStoredItems(Transform parent)
     {
-        base.Awake();
-        _controls = new Controls();
-        AssignControls();
-    }
-
-    private void AssignControls()
-    {
-        if (!_controls.MainGameplay.enabled)
-        {
-            _controls.MainGameplay.Enable();
-        }
-
-        //_controls.MainGameplay.TEMPOpenInventory.performed += ctx => OpenInventory();
-    }
-    #endregion
-
-
-    private IEnumerator InstantiateStoredItems(GridLayoutGroup invGroup)
-    {
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.1f);
 
         foreach (var item in BackpackItems)
         {
@@ -70,7 +46,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
                 topLeftGrid.transform.position,
                 topLeftGrid.transform.rotation,
                 item.Value,
-                invGroup.transform.parent
+                parent
             );
 
             for (int y = backpackItem.Info.GridPosition.y; y < backpackItem.Info.GridPosition.y + backpackItem.Info.GridSize.y; ++y)
@@ -96,9 +72,8 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         }
     }
 
-    public void InstantiateGrid(GridLayoutGroup group = null)
+    public void InstantiateGrid(GridLayoutGroup invGroup, Transform itemParent)
     {
-        GridLayoutGroup invGroup = group ?? inventoryGroup;
         invGroup.constraintCount = gridSize.x;
         for (int y = 0; y < gridSize.y; ++y)
         {
@@ -114,7 +89,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             }
         }
 
-        StartCoroutine(InstantiateStoredItems(invGroup));
+        StartCoroutine(InstantiateStoredItems(itemParent));
     }
 
     // We want to destroy and reinstantiate for RoomScene as there's two places to change grid layout

@@ -23,9 +23,9 @@ public class Backpack : MonoBehaviour, IInteractable
     public void Interact(Vector3 CameraPosition, Vector3 hitPoint)
     {
         Debug.Log("Interacted with backpack");
+        closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
         InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup);
-        closeButton.SetActive(true);
     }
 
     public void StopHover()

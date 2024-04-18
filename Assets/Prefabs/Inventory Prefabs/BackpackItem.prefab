@@ -338,7 +338,7 @@ MonoBehaviour:
   invalidPosColor: {r: 0.74509805, g: 0, b: 0.043137256, a: 0.5019608}
   returnPosColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   itemBackground: {fileID: 3730019327287423335}
-  model: {fileID: 824190778245381894}
+  Model: {fileID: 824190778245381894}
   selectedItemBackground: {fileID: 485894796888979564}
   bIsPlacedInGrid: 0
 --- !u!1 &8656293698117797720

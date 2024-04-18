@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using System.Linq;
+
+[System.Serializable]
+public struct BackpackItemPrefabs
+{
+    public InventoryItemType Type;
+    public GameObject Prefab;
+}
 
 public class InventoryBackpackManager : Common.DesignPatterns.Singleton<InventoryBackpackManager>
 {
     [Header("Config")]
     [SerializeField] Vector2Int gridSize = new();
-    [SerializeField] Dictionary<InventoryItemType, GameObject> backpackItemPrefabs;
+    [SerializeField] List<BackpackItemPrefabs> backpackItemPrefabs;
 /*    [SerializeField] List<BackpackItem> spawnedBackpackItems; // for shelf*/
     // then, list of prefabs here associated with each type
 
@@ -19,7 +26,6 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     [SerializeField] GridLayoutGroup inventoryGroup;
 
     List<GameObject> storedItems = new(); // To hide/unhide the stored items
-
     Dictionary<Vector2Int, InventoryGridItem> grids = new();
     [HideInInspector] public InventoryGridItem CurrGrid = null;
     [HideInInspector] public bool bShouldDisableItemButtons = false;
@@ -49,7 +55,47 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     }
     #endregion
 
-    // i REALLY need to ObjectPool this
+
+    private IEnumerator InstantiateStoredItems(GridLayoutGroup invGroup)
+    {
+        yield return new WaitForEndOfFrame();
+
+        foreach (var item in BackpackItems)
+        {
+            // this should b a function but im too tired lol
+            var topLeftGrid = grids[item.Key];
+            List<InventoryGridItem> linkedGrids = new();
+            var backpackItem = BackpackItem.Create(
+                backpackItemPrefabs.FirstOrDefault(x => x.Type == item.Value.Type).Prefab,
+                topLeftGrid.transform.position,
+                topLeftGrid.transform.rotation,
+                item.Value,
+                invGroup.transform.parent
+            );
+
+            for (int y = backpackItem.Info.GridPosition.y; y < backpackItem.Info.GridPosition.y + backpackItem.Info.GridSize.y; ++y)
+            {
+                for (int x = backpackItem.Info.GridPosition.x; x < backpackItem.Info.GridPosition.x + backpackItem.Info.GridSize.x; ++x)
+                {
+                    var grid = grids[new Vector2Int(x, y)];
+                    if (grid != topLeftGrid)
+                    {
+                        grid.State = GridState.LinkedOccupied;
+                        grid.ItemInfo = backpackItem.Info;
+                        grid.LinkedGrids.Add(grids[backpackItem.Info.GridPosition]);
+
+                        linkedGrids.Add(grid);
+                    }
+                }
+            }
+
+            topLeftGrid.State = GridState.Occupied;
+            topLeftGrid.ItemInfo = backpackItem.Info;
+            topLeftGrid.LinkedGrids = linkedGrids;
+            storedItems.Add(backpackItem.gameObject);
+        }
+    }
+
     public void InstantiateGrid(GridLayoutGroup group = null)
     {
         GridLayoutGroup invGroup = group ?? inventoryGroup;
@@ -68,9 +114,13 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             }
         }
 
-        // TODO: Instantiate items
+        StartCoroutine(InstantiateStoredItems(invGroup));
     }
 
+    // We want to destroy and reinstantiate for RoomScene as there's two places to change grid layout
+    // Too lazy to keep track of it so I just destroy and reinstantiate each time shh
+    // For everything else, we simply hide/unhide to reduce the load
+    // todo do w/e i said above lol
     public void ClearGrid()
     {
         foreach (var grid in grids)
@@ -79,7 +129,12 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         }
         grids.Clear();
         CurrGrid = null;
-        //spawnedBackpackItems
+
+        foreach (var item in storedItems)
+        {
+            Destroy(item);
+        }
+        storedItems.Clear();
     }
 
     public bool GetIsValidSpot(BackpackItemInfo info)
@@ -103,7 +158,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         return true;
     }
 
-    public void OnPlacedItem(BackpackItemInfo info)
+    public void OnPlacedItem(BackpackItemInfo info, GameObject obj)
     {
         List<InventoryGridItem> linkedGrids = new();
         var topLeftGrid = grids[info.GridPosition];
@@ -128,9 +183,10 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         topLeftGrid.ItemInfo = info;
         topLeftGrid.LinkedGrids = linkedGrids;
         BackpackItems.Add(info.GridPosition, info);
+        storedItems.Add(obj);
     }
 
-    public void OnRemoveItem(Vector2Int position)
+    public void OnRemoveItem(Vector2Int position, GameObject obj)
     {
         var topleftGrid = grids[position];
         // just make this grid + linked grids empty
@@ -140,6 +196,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         }
         topleftGrid.ResetGridInfo();
         BackpackItems.Remove(position);
+        storedItems.Remove(obj);
     }
 
     public void OnPointerEnterGrid(InventoryGridItem grid)

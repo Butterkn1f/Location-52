@@ -14,18 +14,16 @@ public class BackpackItem : MonoBehaviour
     [SerializeField] Color validPosColor, invalidPosColor, returnPosColor;
     [Header("Objects")]
     [SerializeField] Image itemBackground;
-    [SerializeField] Transform model;
+    [SerializeField] public Transform Model;
     public Image selectedItemBackground;
 
     [HideInInspector] public bool bIsPlacedInGrid = false;
-
-    Vector3 originalPos;
-    Vector3 originalRot;
 
     Sequence hoverYoYo;
     Sequence moveSequence;
     Sequence rotateSequence;
     System.IDisposable moveDisposable;
+    System.IDisposable disableDisposable;
     bool bIsGrabbed = false;
     bool bIsAnimating = false;
 
@@ -49,11 +47,20 @@ public class BackpackItem : MonoBehaviour
     {
         itemBackground.gameObject.SetActive(false);
         selectedItemBackground.gameObject.SetActive(true);
-        originalPos = transform.position;
-        originalRot = transform.rotation.eulerAngles;
 
-        InventoryBackpackManager.Instance.ObserveEveryValueChanged(x => x.bShouldDisableItemButtons)
+        if (!Info.OrigPosition.HasValue)
+        {
+            Info.OrigPosition = transform.position;
+            Info.OrigRotation = transform.rotation.eulerAngles;
+        }
+
+        disableDisposable = InventoryBackpackManager.Instance.ObserveEveryValueChanged(x => x.bShouldDisableItemButtons)
             .Subscribe(x => selectedItemBackground.gameObject.SetActive(!x));
+    }
+
+    private void OnDestroy()
+    {
+        disableDisposable.Dispose();
     }
 
     private void RotateItem(InputAction.CallbackContext context)
@@ -94,7 +101,7 @@ public class BackpackItem : MonoBehaviour
                 }
                 break;
         }
-        rotateSequence.Append(model.DOLocalRotate(new Vector3(0, 0, rotateAngle), 0.25f).SetEase(Ease.OutCubic));
+        rotateSequence.Append(Model.DOLocalRotate(new Vector3(0, 0, rotateAngle), 0.25f).SetEase(Ease.OutCubic));
         // Swap grid x and y upon rotation
         Info.GridSize = new Vector2Int(Info.GridSize.y, Info.GridSize.x);
     }
@@ -112,7 +119,7 @@ public class BackpackItem : MonoBehaviour
             itemBackground.color = returnPosColor;
             moveSequence = DOTween.Sequence();
             moveSequence.Append(transform.DOMove(new Vector3(worldPos.x, worldPos.y, transform.position.z), 0.25f))
-                .Join(transform.DORotate(originalRot, 0.25f));
+                .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f));
 
             if (Input.GetMouseButtonUp(0))
                 ReleaseItem();
@@ -151,9 +158,9 @@ public class BackpackItem : MonoBehaviour
         {
             bIsPlacedInGrid = false;
             moveSequence = DOTween.Sequence();
-            moveSequence.Append(transform.DOMove(originalPos, 0.25f))
-                .Join(transform.DORotate(originalRot, 0.25f))
-                .Join(model.DOLocalRotate(Vector3.zero, 0.25f));
+            moveSequence.Append(transform.DOMove(Info.OrigPosition.Value, 0.25f))
+                .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f))
+                .Join(Model.DOLocalRotate(Vector3.zero, 0.25f));
 
             if (Info.Direction == Direction.Right || Info.Direction == Direction.Left)
                 Info.GridSize = new Vector2Int(Info.GridSize.y, Info.GridSize.x);
@@ -163,7 +170,7 @@ public class BackpackItem : MonoBehaviour
         {
             // Placed successfully in grid, update grid!
             Info.GridPosition = InventoryBackpackManager.Instance.CurrGrid.Position;
-            InventoryBackpackManager.Instance.OnPlacedItem(Info);
+            InventoryBackpackManager.Instance.OnPlacedItem(Info, gameObject);
             bIsPlacedInGrid = true;
         }
     }
@@ -209,7 +216,7 @@ public class BackpackItem : MonoBehaviour
 
         if (bIsPlacedInGrid)
         {
-            InventoryBackpackManager.Instance.OnRemoveItem(Info.GridPosition);
+            InventoryBackpackManager.Instance.OnRemoveItem(Info.GridPosition, gameObject);
             Info.GridPosition = Vector2Int.zero;
             bIsPlacedInGrid = false;
         }
@@ -218,6 +225,29 @@ public class BackpackItem : MonoBehaviour
             .Where(_ => bIsGrabbed == true)
             .Subscribe(_ => MoveItem());
 
+    }
+
+    public static BackpackItem Create(GameObject prefab, Vector3 position, Quaternion rotation, BackpackItemInfo info, Transform parent)
+    {
+        GameObject obj = Instantiate(prefab, parent);
+        var item = obj.GetComponent<BackpackItem>();
+        item.Info = info;
+
+        float rotateAngle = info.Direction switch
+        {
+            Direction.Up => 0,
+            Direction.Right => 90,
+            Direction.Down => 180,
+            Direction.Left => 270,
+            _ => 0
+        };
+
+        item.Model.localEulerAngles = new Vector3(0, 0, rotateAngle);
+        item.bIsPlacedInGrid = true;
+        obj.transform.rotation = rotation;
+        obj.transform.position = position;
+
+        return item;
     }
 }
 
@@ -228,6 +258,8 @@ public class BackpackItemInfo
     public Direction Direction;
     public Vector2Int GridSize;
     public Vector2Int GridPosition;
+    [HideInInspector] public Vector3? OrigPosition = null;
+    [HideInInspector] public Vector3? OrigRotation = null;
 }
 
 public enum InventoryItemType

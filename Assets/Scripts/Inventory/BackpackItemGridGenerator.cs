@@ -10,11 +10,19 @@ public class BackpackItemGridGenerator : MonoBehaviour
     [SerializeField] List<RectTransform> Images;
     BackpackItem backpackItem;
 
+    System.IDisposable updateDisposable;
+
     private void Start()
     {
         backpackItem = GetComponent<BackpackItem>();
-        backpackItem.Info.ObserveEveryValueChanged(x => x.GridSize)
+        updateDisposable = backpackItem.Info.ObserveEveryValueChanged(x => x.GridSize)
             .Subscribe(x => UpdateGridSize(x));
+    }
+
+    private void OnDestroy()
+    {
+        if (updateDisposable != null)
+            updateDisposable.Dispose();
     }
 
     void Update()
@@ -30,7 +38,8 @@ public class BackpackItemGridGenerator : MonoBehaviour
         var gridSize = new Vector2(50 * size.x, 50 * size.y);
         foreach (var image in Images)
         {
-            image.sizeDelta = gridSize;
+            if (image != null)
+                image.sizeDelta = gridSize;
         }
 
         GetComponent<RectTransform>().sizeDelta = gridSize;

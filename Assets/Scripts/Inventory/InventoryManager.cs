@@ -10,12 +10,6 @@ public class InventoryManager : MonoBehaviour
 
     Controls _controls = null;
     bool bIsInventoryOpen = false;
-    
-    private void Awake()
-    {
-        _controls = new Controls();
-        AssignControls();
-    }
 
     private void AssignControls()
     {
@@ -29,6 +23,8 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
+        _controls = new Controls();
+        AssignControls();
         inventoryPanel.SetActive(false);
     }
 

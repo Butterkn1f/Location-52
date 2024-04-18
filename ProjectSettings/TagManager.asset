@@ -8,6 +8,7 @@ TagManager:
   - Monster
   - Object
   - ForestItem
+  - DOFVolume
   layers:
   - Default
   - TransparentFX

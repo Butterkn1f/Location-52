@@ -12,12 +12,11 @@ public class CameraItem : Item
 {
     [SerializeField] GameObject _cameraObject;
     [SerializeField] Vector3 zoomCameraPos = new Vector3(0, 0, 0.45f);
-    [SerializeField] Volume globalVolume;
 
     PhotoCapture pc;
     GalleryManager gm;
     DepthOfField dof;
-    float origFocalLength;
+    float origFocalLength = 1.0f;
     Vector3 origCameraPos;
 
     bool IsADS = false;
@@ -27,9 +26,17 @@ public class CameraItem : Item
         pc = GetComponent<PhotoCapture>();
         gm = GetComponent<GalleryManager>();
 
-        origCameraPos = _cameraObject.transform.position;
-        globalVolume.profile.TryGet(out dof);
-        origFocalLength = dof.focalLength.value;
+        origCameraPos = _cameraObject.transform.localPosition;
+        GameObject dofVolume = GameObject.FindGameObjectWithTag("DOFVolume");
+        if (dofVolume != null)
+        {
+            dofVolume.GetComponent<Volume>().profile.TryGet(out dof);
+            origFocalLength = dof.focalLength.value;
+        }
+        else
+        {
+            Debug.LogWarning("Add a DOF volume to this scene! For the camera's fading out effect when ADS.");
+        }
     }
 
     private void ToggleADS()

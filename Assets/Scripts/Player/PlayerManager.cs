@@ -1,5 +1,6 @@
 using Common.DesignPatterns;
 using Environment;
+using Mobs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Characters.Player
         // Movement and Camera
         public PlayerMovement Movement;
         public PlayerCamera Camera;
+        public AudioDistractionCue PlayerNoiseLevel;
 
         #endregion
 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7733757767052190367}
   - component: {fileID: 5925692346300620169}
-  - component: {fileID: 8433790883935659453}
+  - component: {fileID: 2194161240243848280}
   m_Layer: 0
   m_Name: treeBrush_2
   m_TagString: Untagged
@@ -48,24 +48,14 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.6
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2192800573616761333, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-    - renderer: {fileID: 5535025016600567037, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-  - screenRelativeHeight: 0.3
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 2192800573616761333, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-    - renderer: {fileID: 5535025016600567037, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.0615
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 2192800573616761333, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
     - renderer: {fileID: 5535025016600567037, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
   m_Enabled: 1
---- !u!136 &8433790883935659453
-CapsuleCollider:
+--- !u!65 &2194161240243848280
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -82,11 +72,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.6279807
-  m_Height: 5.727617
-  m_Direction: 1
-  m_Center: {x: -0.18145096, y: 2.3638084, z: 0.14585829}
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4.0049133, z: 1}
+  m_Center: {x: 0, y: 1.5024567, z: 0}
 --- !u!1001 &3810201922734259782
 PrefabInstance:
   m_ObjectHideFlags: 0

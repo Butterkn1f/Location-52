@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -15,9 +16,14 @@ namespace Environment.Forest
     {
         [Header("Mob variables")]
         [SerializeField] private MobList _mobList;
-        [SerializeField, Range(5, 20)] private int _anomalyCap = 5;
+        [SerializeField, Range(5, 20)] private int _anomalyCap = 15;
         [SerializeField, Range(1, 5)] private int _staticAnomaliesCapPerZone = 1;
-        [SerializeField, Range(5, 20)] private int _mobCap = 20;
+        [SerializeField, Range(5, 20)] private int _mobCap = 30;
+
+        [Space]
+        [SerializeField] private BoxCollider _spawnArea;
+        [SerializeField] private GameObject _midAreaMarker;
+        [SerializeField] private GameObject _deepAreaMarker;
 
         [System.Serializable]
         private class StaticMobSpawnPoints
@@ -45,7 +51,7 @@ namespace Environment.Forest
 
         #region privateVariables
 
-        private System.Random _random;
+        private System.Random _random = new System.Random();
 
         #endregion
 
@@ -65,7 +71,7 @@ namespace Environment.Forest
                 counter = 0;
 
                 DespawnMobs();
-                
+                SpawnMobs();
             }
         }
 
@@ -81,7 +87,9 @@ namespace Environment.Forest
             {
                 if (Vector3.SqrMagnitude(_spawnedMobs[spawnMobCounter].transform.position - playerObject.transform.position) > Mathf.Pow(MobSpawnRadius, 2))
                 {
-                    _spawnedMobs.RemoveAt(spawnMobCounter);  
+                    GameObject mobToDestroy = _spawnedMobs[spawnMobCounter];
+                    _spawnedMobs.RemoveAt(spawnMobCounter);
+                    Destroy(mobToDestroy);
                 }
                 else
                 {
@@ -94,7 +102,9 @@ namespace Environment.Forest
             {
                 if (Vector3.SqrMagnitude(_spawnedAnomalies_NonStatic[anomalySpawnCounter].transform.position - playerObject.transform.position) > Mathf.Pow(MobSpawnRadius, 2))
                 {
+                    GameObject mobToDestroy = _spawnedAnomalies_NonStatic[anomalySpawnCounter];
                     _spawnedAnomalies_NonStatic.RemoveAt(anomalySpawnCounter);
+                    Destroy(mobToDestroy);
                 }
                 else
                 {
@@ -140,7 +150,7 @@ namespace Environment.Forest
             }
         }
 
-        private void SpawnGameObjectOnTerrain(GameObject currentGOToSpawn, GameObject spawnPosition)
+        private GameObject SpawnGameObjectOnTerrain(GameObject currentGOToSpawn, GameObject spawnPosition)
         {
             GameObject spawnedGameObject = Instantiate(currentGOToSpawn, spawnPosition.transform.position, spawnPosition.transform.rotation);
             foreach (Transform item in spawnedGameObject.GetComponentInChildren<Transform>())
@@ -148,26 +158,176 @@ namespace Environment.Forest
                 item.position = new Vector3(item.position.x, Terrain.activeTerrain.SampleHeight(item.position), item.position.z);
             }
 
+            return spawnedGameObject;
+
+        }
+
+        private GameObject SpawnGameObjectOnTerrain(GameObject currentGOToSpawn, Vector3 spawnPosition)
+        {
+            GameObject spawnedGameObject = Instantiate(currentGOToSpawn, spawnPosition, Quaternion.identity);
+            foreach (Transform item in spawnedGameObject.GetComponentInChildren<Transform>())
+            {
+                item.position = new Vector3(item.position.x, Terrain.activeTerrain.SampleHeight(item.position), item.position.z);
+            }
+
+            return spawnedGameObject;
         }
 
         private void SpawnMobs()
         {
-            // Spawn mobs
+            // Spawn anomalies
             if (_spawnedAnomalies_NonStatic.Count < _anomalyCap)
             {
                 for (int i = _spawnedAnomalies_NonStatic.Count; i < _anomalyCap; i++)
                 {
                     // Generate a random point around the player between the given coordinates 
+                    Vector3 randomPosition = new Vector3(Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x), 0, Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z));
+
+                    Debug.Log(randomPosition);
 
                     // Check if point is valid,, then check if point is between the given coordinates
+                    float distanceFromPlayer = Vector3.Distance(new Vector3(PlayerManager.Instance.Movement.gameObject.transform.position.x, 0, PlayerManager.Instance.Movement.gameObject.transform.position.z), randomPosition);
 
-                    // Spawn based on chance in the given coordinates
+                    if (distanceFromPlayer >= MobSpawnAvoidanceRadius && distanceFromPlayer <= MobSpawnRadius)
+                    {
+                        // is at a valid radius
+                        // determine the type to spawn
 
-                    // 
+                        int RandomChance = Random.Range(0, 100);
+                        DangerLevel dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+;
+                        if (randomPosition.z < _midAreaMarker.transform.position.z)
+                        {
+                            // Forest edge 
+                            if (RandomChance < 10)
+                            {
+                                // Spawn medium danger mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                            else
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                        }
+                        else if (randomPosition.z < _deepAreaMarker.transform.position.z)
+                        {
+                            // Medium forest (ruins) 
+                            if (RandomChance < 10)
+                            {
+                                // Spawn extreme danger mob
+                                dangerLevelOfMob = DangerLevel.EXTREME;
+                            }
+                            else if (RandomChance < 50)
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                            else
+                            {
+                                // Spawn medium danger mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                        }
+                        else
+                        {
+                            // Medium forest (ruins) 
+                            if (RandomChance < 10)
+                            {
+                                // Spawn extreme danger mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                            else if (RandomChance < 50)
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                            else
+                            {
+                                // Spawn medium danger mob
+                                dangerLevelOfMob = DangerLevel.EXTREME;
+                            }
+                        }
+
+                        GameObject mobToSpawn = _mobList.Anomalies.Where(x => x.AnomalyDangerLevel == dangerLevelOfMob).OrderBy(_ => _random.Next()).First().MobPrefab;
+
+                        GameObject spawnedObj = SpawnGameObjectOnTerrain(mobToSpawn, randomPosition);
+                        _spawnedAnomalies_NonStatic.Add(spawnedObj);
+                    }
+
                 }
             }
 
-            // Spawn all anomalies
+            // Spawn all mobs
+            if (_spawnedMobs.Count < _mobCap)
+            {
+                for (int i = _spawnedMobs.Count; i < _mobCap; i++)
+                {
+                    // Generate a random point around the player between the given coordinates 
+                    Vector3 randomPosition = new Vector3(Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x), 0, Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z));
+
+                    // Check if point is valid,, then check if point is between the given coordinates
+                    float distanceFromPlayer = Vector3.Distance(new Vector3(PlayerManager.Instance.Movement.gameObject.transform.position.x, 0, PlayerManager.Instance.Movement.gameObject.transform.position.z), randomPosition);
+
+                    if (distanceFromPlayer >= MobSpawnAvoidanceRadius && distanceFromPlayer <= MobSpawnRadius)
+                    {
+                        // is at a valid radius
+                        // determine the type to spawn
+
+                        int RandomChance = Random.Range(0, 100);
+                        DangerLevel dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                        ;
+                        if (randomPosition.z < _midAreaMarker.transform.position.z)
+                        {
+                            // Forest edge 
+                            if (RandomChance < 30)
+                            {
+                                // Spawn medium danger mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                            else
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                        }
+                        else if (randomPosition.z < _deepAreaMarker.transform.position.z)
+                        {
+                            // Medium forest (ruins) 
+                            if (RandomChance < 50)
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                            else
+                            {
+                                // Spawn medium danger mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                        }
+                        else
+                        {
+                            // Medium forest (ruins) 
+                            if (RandomChance < 30)
+                            {
+                                // Spawn extreme danger mob
+                                dangerLevelOfMob = DangerLevel.NON_HOSTILE;
+                            }
+                            else
+                            {
+                                // Spawn non dangerous mob
+                                dangerLevelOfMob = DangerLevel.MODERATE;
+                            }
+                        }
+
+                        GameObject mobToSpawn = _mobList.Mobs.Where(x => x.AnomalyDangerLevel == dangerLevelOfMob).OrderBy(_ => _random.Next()).First().MobPrefab;
+
+                        GameObject spawnedMob = SpawnGameObjectOnTerrain(mobToSpawn, randomPosition);
+                        _spawnedMobs.Add(spawnedMob);
+                    }
+
+                }
+            }
         }
     }
 }

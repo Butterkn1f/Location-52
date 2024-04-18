@@ -1,18 +1,16 @@
 using Characters.Player;
+using Common.DesignPatterns;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace Environment.Forest
 {
     /// <summary>
     /// This class spawns the mobs
     /// </summary>
-    public class MobSpawnManager : MonoBehaviour
+    public class MobSpawnManager : Singleton<MobSpawnManager>
     {
         [Header("Mob variables")]
         [SerializeField] private MobList _mobList;
@@ -21,7 +19,7 @@ namespace Environment.Forest
         [SerializeField, Range(5, 20)] private int _mobCap = 30;
 
         [Space]
-        [SerializeField] private BoxCollider _spawnArea;
+        public BoxCollider SpawnArea;
         [SerializeField] private GameObject _midAreaMarker;
         [SerializeField] private GameObject _deepAreaMarker;
 
@@ -181,7 +179,7 @@ namespace Environment.Forest
                 for (int i = _spawnedAnomalies_NonStatic.Count; i < _anomalyCap; i++)
                 {
                     // Generate a random point around the player between the given coordinates 
-                    Vector3 randomPosition = new Vector3(Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x), 0, Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z));
+                    Vector3 randomPosition = new Vector3(Random.Range(SpawnArea.bounds.min.x, SpawnArea.bounds.max.x), 0, Random.Range(SpawnArea.bounds.min.z, SpawnArea.bounds.max.z));
 
                     Debug.Log(randomPosition);
 
@@ -264,7 +262,7 @@ namespace Environment.Forest
                 for (int i = _spawnedMobs.Count; i < _mobCap; i++)
                 {
                     // Generate a random point around the player between the given coordinates 
-                    Vector3 randomPosition = new Vector3(Random.Range(_spawnArea.bounds.min.x, _spawnArea.bounds.max.x), 0, Random.Range(_spawnArea.bounds.min.z, _spawnArea.bounds.max.z));
+                    Vector3 randomPosition = new Vector3(Random.Range(SpawnArea.bounds.min.x, SpawnArea.bounds.max.x), 0, Random.Range(SpawnArea.bounds.min.z, SpawnArea.bounds.max.z));
 
                     // Check if point is valid,, then check if point is between the given coordinates
                     float distanceFromPlayer = Vector3.Distance(new Vector3(PlayerManager.Instance.Movement.gameObject.transform.position.x, 0, PlayerManager.Instance.Movement.gameObject.transform.position.z), randomPosition);
@@ -323,6 +321,7 @@ namespace Environment.Forest
                         GameObject mobToSpawn = _mobList.Mobs.Where(x => x.AnomalyDangerLevel == dangerLevelOfMob).OrderBy(_ => _random.Next()).First().MobPrefab;
 
                         GameObject spawnedMob = SpawnGameObjectOnTerrain(mobToSpawn, randomPosition);
+
                         _spawnedMobs.Add(spawnedMob);
                     }
 

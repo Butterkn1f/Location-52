@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: tree3
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2e7505a03c92bc541ba6f38096faa775, type: 3}
+      propertyPath: m_TagString
+      value: ForestItem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

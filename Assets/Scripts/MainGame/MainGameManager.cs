@@ -29,10 +29,7 @@ namespace MainGame
         
         public void ChangeGameState(GameState newGameState)
         {
-            switch (newGameState)
-            {
-                
-            }
+            
         }
 
         // Update is called once per frame

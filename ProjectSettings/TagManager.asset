@@ -7,6 +7,7 @@ TagManager:
   - PlayerEyes
   - Monster
   - Object
+  - ForestItem
   layers:
   - Default
   - TransparentFX

@@ -103,6 +103,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TEMPOpenInventory",
+                    "type": "Button",
+                    "id": "114fd448-c88f-4f81-b00e-51d99e59a93e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RotateInventoryItem",
+                    "type": "Button",
+                    "id": "f30bd377-ac67-463a-8a72-0cfd35c225e2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -268,6 +286,28 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "ToggleFlash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8c10e669-3dbc-4285-a93b-4f31c9eb8b85",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "TEMPOpenInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c167c0bd-b7cc-4d3d-a956-1c82a97532e6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "RotateInventoryItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

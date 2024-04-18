@@ -125,6 +125,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TEMPOpenInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""114fd448-c88f-4f81-b00e-51d99e59a93e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateInventoryItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""f30bd377-ac67-463a-8a72-0cfd35c225e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -292,6 +310,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleFlash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c10e669-3dbc-4285-a93b-4f31c9eb8b85"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""TEMPOpenInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c167c0bd-b7cc-4d3d-a956-1c82a97532e6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""RotateInventoryItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -328,6 +368,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
         m_MainGameplay_ScrollAlbum = m_MainGameplay.FindAction("ScrollAlbum", throwIfNotFound: true);
         m_MainGameplay_ToggleFlash = m_MainGameplay.FindAction("ToggleFlash", throwIfNotFound: true);
+        m_MainGameplay_TEMPOpenInventory = m_MainGameplay.FindAction("TEMPOpenInventory", throwIfNotFound: true);
+        m_MainGameplay_RotateInventoryItem = m_MainGameplay.FindAction("RotateInventoryItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -400,6 +442,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_ViewAlbum;
     private readonly InputAction m_MainGameplay_ScrollAlbum;
     private readonly InputAction m_MainGameplay_ToggleFlash;
+    private readonly InputAction m_MainGameplay_TEMPOpenInventory;
+    private readonly InputAction m_MainGameplay_RotateInventoryItem;
     public struct MainGameplayActions
     {
         private @Controls m_Wrapper;
@@ -415,6 +459,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
         public InputAction @ScrollAlbum => m_Wrapper.m_MainGameplay_ScrollAlbum;
         public InputAction @ToggleFlash => m_Wrapper.m_MainGameplay_ToggleFlash;
+        public InputAction @TEMPOpenInventory => m_Wrapper.m_MainGameplay_TEMPOpenInventory;
+        public InputAction @RotateInventoryItem => m_Wrapper.m_MainGameplay_RotateInventoryItem;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,6 +503,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToggleFlash.started += instance.OnToggleFlash;
             @ToggleFlash.performed += instance.OnToggleFlash;
             @ToggleFlash.canceled += instance.OnToggleFlash;
+            @TEMPOpenInventory.started += instance.OnTEMPOpenInventory;
+            @TEMPOpenInventory.performed += instance.OnTEMPOpenInventory;
+            @TEMPOpenInventory.canceled += instance.OnTEMPOpenInventory;
+            @RotateInventoryItem.started += instance.OnRotateInventoryItem;
+            @RotateInventoryItem.performed += instance.OnRotateInventoryItem;
+            @RotateInventoryItem.canceled += instance.OnRotateInventoryItem;
         }
 
         private void UnregisterCallbacks(IMainGameplayActions instance)
@@ -494,6 +546,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ToggleFlash.started -= instance.OnToggleFlash;
             @ToggleFlash.performed -= instance.OnToggleFlash;
             @ToggleFlash.canceled -= instance.OnToggleFlash;
+            @TEMPOpenInventory.started -= instance.OnTEMPOpenInventory;
+            @TEMPOpenInventory.performed -= instance.OnTEMPOpenInventory;
+            @TEMPOpenInventory.canceled -= instance.OnTEMPOpenInventory;
+            @RotateInventoryItem.started -= instance.OnRotateInventoryItem;
+            @RotateInventoryItem.performed -= instance.OnRotateInventoryItem;
+            @RotateInventoryItem.canceled -= instance.OnRotateInventoryItem;
         }
 
         public void RemoveCallbacks(IMainGameplayActions instance)
@@ -533,5 +591,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnViewAlbum(InputAction.CallbackContext context);
         void OnScrollAlbum(InputAction.CallbackContext context);
         void OnToggleFlash(InputAction.CallbackContext context);
+        void OnTEMPOpenInventory(InputAction.CallbackContext context);
+        void OnRotateInventoryItem(InputAction.CallbackContext context);
     }
 }

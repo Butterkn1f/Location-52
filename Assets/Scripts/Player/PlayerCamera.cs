@@ -207,7 +207,7 @@ namespace Characters.Player
         private void LateUpdate()
         {
             // NOTE: Commented this out as I still want the camera bob when mouse is unlocked
-            //if (!_enableMouseLook) return;
+            if (!_enableMouseLook) return;
             transform.position = _target.position + _offset;
 
             ApplyCameraEffects();

@@ -31,16 +31,10 @@ public class PhotoReviewComputerUI : MonoBehaviour
     {
         PhotoReviewManager.Instance.CurrentPhotoReviewState.GetObservable().Subscribe(newState =>
         {
-            foreach (var item in ComputerScreensList)
+            switch (newState)
             {
-                // Deactivate all the screens in the computer first
-                item.ComputerScreen.SetActive(false);
+
             }
-
-            ComputerReviewScreens CurrentPhase = ComputerScreensList.Where(x => x.state == newState).First();
-
-            // TODO: add delay here, perchance?
-            CurrentPhase.ComputerScreen.SetActive(true);
         });
     }
 

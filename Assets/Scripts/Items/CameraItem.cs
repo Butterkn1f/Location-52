@@ -112,7 +112,8 @@ public class CameraItem : Item
     {
         while (batteryPercent > 0)
         {
-            batteryPercent = Mathf.Clamp(batteryPercent - (pc.IsPermanentFlash ? 0.05f : 0.01f), 0, 1);
+            if (pc)
+                batteryPercent = Mathf.Clamp(batteryPercent - (pc.IsPermanentFlash ? 0.05f : 0.01f), 0, 1);
             batteryText.text = Mathf.FloorToInt(batteryPercent * 100f).ToString() + "%";
             batterySlider.value = batteryPercent;
             yield return new WaitForSeconds(1f);

@@ -390,7 +390,7 @@ public enum InventoryItemType
 {
     Camera,
     Anomalyser,
-    MovementDetector,
+    Flashlight,
     Map,
     Trap,
     Noisemaker,

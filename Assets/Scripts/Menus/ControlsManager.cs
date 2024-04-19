@@ -22,7 +22,8 @@ public enum ControlsType
     CameraAds,
     CameraGallery,
     Anomalyser,
-    GridBag
+    GridBag,
+    Flashlight
 }
 
 [System.Serializable]

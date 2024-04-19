@@ -2693,12 +2693,13 @@ RectTransform:
   m_Children:
   - {fileID: 4784515029298775411}
   - {fileID: 2325725073799677745}
+  - {fileID: 1500253320688909670}
   m_Father: {fileID: 2817647512086836284}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 0}
+  m_SizeDelta: {x: 650, y: 0}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &5699494123054406163
 CanvasRenderer:
@@ -9452,6 +9453,108 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!1001 &1282622380484396960
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 689770503397539172}
+    m_Modifications:
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 364
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3703642292279901456, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+      propertyPath: m_Name
+      value: BackpackItem (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+--- !u!224 &1500253320688909670 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 368505926883097286, guid: 64663f4f2aa8179469326435c44e4e10, type: 3}
+  m_PrefabInstance: {fileID: 1282622380484396960}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2094354407007039049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10030,6 +10133,36 @@ MonoBehaviour:
   inventoryItemParent: {fileID: 2817647512086836284}
   cameraPos: {fileID: 1687582634847152779}
   closeButton: {fileID: 8027487825983373920}
+  _bagTutorialEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RoomTutorial, Assembly-CSharp
+        m_MethodName: InventoryTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _QAMTutorialEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RoomTutorial, Assembly-CSharp
+        m_MethodName: CloseInventoryTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!65 &5712771150855880900
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -4586,7 +4586,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!1 &3967298351429347692
 GameObject:
   m_ObjectHideFlags: 0
@@ -8825,6 +8825,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b76fbc5b8073b84fa33623ae3e4c14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HudPhotoCount: {fileID: 0}
+  HudMaxPhotos: {fileID: 0}
   PastPhotoCollection: []
 --- !u!1 &8132709659203562074
 GameObject:

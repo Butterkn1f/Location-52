@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.InputSystem;
+using UniRx;
+using TMPro;
 
 [System.Serializable]
 public struct InventoryItemInfo
@@ -11,6 +14,14 @@ public struct InventoryItemInfo
     public Sprite Sprite;
     public string Name;
     public string Description;
+    public Item Item;
+}
+
+[System.Serializable]
+public struct InventoryHUDBagPart
+{
+    public BackpackSlot Slot;
+    public GameObject Part;
 }
 
 public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager>
@@ -23,26 +34,23 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
     [Header("Info Panel")]
     [SerializeField] CanvasGroup infoPanel;
     [SerializeField] Image infoSprite;
-    [SerializeField] TMPro.TMP_Text infoTitle;
-    [SerializeField] TMPro.TMP_Text infoDesc;
+    [SerializeField] TMP_Text infoTitle;
+    [SerializeField] TMP_Text infoDesc;
+
+    [Header("HUD")]
+    [SerializeField] Image hudSlotSprite;
+    [SerializeField] GameObject hudEmptyText;
+    [SerializeField] List<InventoryHUDBagPart> hudBagParts = new();
+    [SerializeField] TMP_Text hudTitle;
 
     Dictionary<BackpackSlot, InventoryItemType?> EquippedSlots = new();
     Controls _controls = null;
     bool bIsInventoryOpen = false;
 
+    public ReactiveProp<BackpackSlot> CurrentSlot { get; private set; } = new ReactiveProp<BackpackSlot>();
     public CircleSlot HoveredCircleSlot { get; private set; } = null;
     private CircleSlot EmptyPreviewSlot = null;
     private CircleSlot ToggledCircleSlot = null;
-
-    private void AssignControls()
-    {
-        if (!_controls.MainGameplay.enabled)
-        {
-            _controls.MainGameplay.Enable();
-        }
-
-        _controls.MainGameplay.OpenBag.performed += ctx => ToggleInventory();
-    }
 
     void Start()
     {
@@ -60,6 +68,88 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
             circleSlot.OnHover.AddListener(() => OnPointerEnterSlot(circleSlot));
             circleSlot.OnUnhover.AddListener(() => OnPointerExitSlot(circleSlot));
         }
+
+        CurrentSlot.GetObservable()
+            .Subscribe(_ => UpdateHUDSlot());
+        EquippedSlots.ObserveEveryValueChanged(x => x[CurrentSlot.GetValue()])
+            .Subscribe(_ => UpdateHUDSlot());
+
+
+        CurrentSlot.SetValue(BackpackSlot.Top);
+    }
+
+    private void AssignControls()
+    {
+        if (!_controls.MainGameplay.enabled)
+        {
+            _controls.MainGameplay.Enable();
+        }
+
+        _controls.MainGameplay.OpenBag.performed += ctx => ToggleInventory();
+        SetInventorySwapEnabled(true);
+    }
+
+    private void ScrollSlots(InputAction.CallbackContext context)
+    {
+        bool bIncrease = _controls.MainGameplay.Scroll.ReadValue<Vector2>().y > 0;
+
+        var prevPart = hudBagParts.FirstOrDefault(x => x.Slot == CurrentSlot.GetValue()).Part;
+        if (prevPart)
+            prevPart.SetActive(false);
+
+        var prevItemType = EquippedSlots[CurrentSlot.GetValue()];
+        if (prevItemType != null)
+        {
+            var prevItem = inventoryItemInfo.FirstOrDefault(x => x.ItemType == prevItemType.Value);
+            if (prevItem.Item)
+                prevItem.Item.ToggleIsActive(false);
+        }
+
+        var newSlot = CurrentSlot.GetValue() switch
+        {
+            BackpackSlot.Top => bIncrease ? BackpackSlot.Front : BackpackSlot.Side,
+            BackpackSlot.Front => bIncrease ? BackpackSlot.Side : BackpackSlot.Top,
+            BackpackSlot.Side => bIncrease ? BackpackSlot.Top : BackpackSlot.Front,
+            _ => BackpackSlot.Top
+        };
+
+        CurrentSlot.SetValue(newSlot);
+    }
+
+    private void UpdateHUDSlot()
+    {
+        var currentItem = EquippedSlots[CurrentSlot.GetValue()];
+        if (currentItem == null || !currentItem.HasValue)
+        {
+            hudEmptyText.SetActive(true);
+            hudSlotSprite.gameObject.SetActive(false);
+            hudTitle.text = "Nothing";
+        }
+        else
+        {
+            var currInfo = inventoryItemInfo.FirstOrDefault(x => x.ItemType == currentItem.Value);
+            hudSlotSprite.sprite = currInfo.Sprite;
+            hudTitle.text = currInfo.Name;
+            hudSlotSprite.gameObject.SetActive(true);
+            hudEmptyText.SetActive(false);
+            currInfo.Item.ToggleIsActive(true);
+        }
+
+        var newPart = hudBagParts.FirstOrDefault(x => x.Slot == CurrentSlot.GetValue()).Part;
+        if (newPart)
+            newPart.SetActive(true);
+    }
+
+    public void SetInventorySwapEnabled(bool enabled)
+    {
+        if (enabled)
+        {
+            _controls.MainGameplay.Scroll.performed += ScrollSlots;
+        }
+        else
+        {
+            _controls.MainGameplay.Scroll.performed -= ScrollSlots;
+        }
     }
 
     private void ToggleInventory()
@@ -69,8 +159,13 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
         if (tempIsOpen)
         {
             // An instance of inventory is already open! Don't override it.
-            if (InventoryBackpackManager.Instance.bIsInventoryOpen)
+            // OR another UI instance is currently open (such as camera), so HUD is already hdiden. In this case, don't open inventory on top of it!
+            if (InventoryBackpackManager.Instance.bIsInventoryOpen || PlayerUIManager.Instance.bIsHUDHidden)
                 return;
+
+            PlayerUIManager.Instance.SetHideHUD(true, true);
+            PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.Grid, true);
+            PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.GridBag, true);
 
             infoPanel.alpha = 0;
             if (ToggledCircleSlot)
@@ -84,6 +179,9 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
         }
         else
         {
+            PlayerUIManager.Instance.SetHideHUD(false, true);
+            PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.Grid, false);
+            PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.GridBag, false);
             Characters.Player.PlayerManager.Instance.Camera.UnlockMouseCursor(false);
             InventoryBackpackManager.Instance.ClearGrid();
             inventoryPanel.SetActive(false);

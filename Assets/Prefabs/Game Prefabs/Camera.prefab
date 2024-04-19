@@ -1847,9 +1847,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56e5eb0a0f53eb248acfd057e4ad9d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlType: 1
   _cameraObject: {fileID: 5434130603316265999}
   zoomCameraPos: {x: -0.05, y: 0, z: 0.53}
-  globalVolume: {fileID: 0}
 --- !u!114 &2296421752815610479
 MonoBehaviour:
   m_ObjectHideFlags: 0

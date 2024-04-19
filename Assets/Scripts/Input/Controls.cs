@@ -109,7 +109,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""ScrollAlbum"",
+                    ""name"": ""Scroll"",
                     ""type"": ""Value"",
                     ""id"": ""04b9fd74-119e-4767-b1c8-542104b96c6c"",
                     ""expectedControlType"": ""Vector2"",
@@ -296,7 +296,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""PC"",
-                    ""action"": ""ScrollAlbum"",
+                    ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -366,7 +366,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_ADSItem = m_MainGameplay.FindAction("ADSItem", throwIfNotFound: true);
         m_MainGameplay_UseItem = m_MainGameplay.FindAction("UseItem", throwIfNotFound: true);
         m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
-        m_MainGameplay_ScrollAlbum = m_MainGameplay.FindAction("ScrollAlbum", throwIfNotFound: true);
+        m_MainGameplay_Scroll = m_MainGameplay.FindAction("Scroll", throwIfNotFound: true);
         m_MainGameplay_ToggleFlash = m_MainGameplay.FindAction("ToggleFlash", throwIfNotFound: true);
         m_MainGameplay_OpenBag = m_MainGameplay.FindAction("OpenBag", throwIfNotFound: true);
         m_MainGameplay_RotateInventoryItem = m_MainGameplay.FindAction("RotateInventoryItem", throwIfNotFound: true);
@@ -440,7 +440,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_ADSItem;
     private readonly InputAction m_MainGameplay_UseItem;
     private readonly InputAction m_MainGameplay_ViewAlbum;
-    private readonly InputAction m_MainGameplay_ScrollAlbum;
+    private readonly InputAction m_MainGameplay_Scroll;
     private readonly InputAction m_MainGameplay_ToggleFlash;
     private readonly InputAction m_MainGameplay_OpenBag;
     private readonly InputAction m_MainGameplay_RotateInventoryItem;
@@ -457,7 +457,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @ADSItem => m_Wrapper.m_MainGameplay_ADSItem;
         public InputAction @UseItem => m_Wrapper.m_MainGameplay_UseItem;
         public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
-        public InputAction @ScrollAlbum => m_Wrapper.m_MainGameplay_ScrollAlbum;
+        public InputAction @Scroll => m_Wrapper.m_MainGameplay_Scroll;
         public InputAction @ToggleFlash => m_Wrapper.m_MainGameplay_ToggleFlash;
         public InputAction @OpenBag => m_Wrapper.m_MainGameplay_OpenBag;
         public InputAction @RotateInventoryItem => m_Wrapper.m_MainGameplay_RotateInventoryItem;
@@ -497,9 +497,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ViewAlbum.started += instance.OnViewAlbum;
             @ViewAlbum.performed += instance.OnViewAlbum;
             @ViewAlbum.canceled += instance.OnViewAlbum;
-            @ScrollAlbum.started += instance.OnScrollAlbum;
-            @ScrollAlbum.performed += instance.OnScrollAlbum;
-            @ScrollAlbum.canceled += instance.OnScrollAlbum;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
             @ToggleFlash.started += instance.OnToggleFlash;
             @ToggleFlash.performed += instance.OnToggleFlash;
             @ToggleFlash.canceled += instance.OnToggleFlash;
@@ -540,9 +540,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @ViewAlbum.started -= instance.OnViewAlbum;
             @ViewAlbum.performed -= instance.OnViewAlbum;
             @ViewAlbum.canceled -= instance.OnViewAlbum;
-            @ScrollAlbum.started -= instance.OnScrollAlbum;
-            @ScrollAlbum.performed -= instance.OnScrollAlbum;
-            @ScrollAlbum.canceled -= instance.OnScrollAlbum;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
             @ToggleFlash.started -= instance.OnToggleFlash;
             @ToggleFlash.performed -= instance.OnToggleFlash;
             @ToggleFlash.canceled -= instance.OnToggleFlash;
@@ -589,7 +589,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnADSItem(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnViewAlbum(InputAction.CallbackContext context);
-        void OnScrollAlbum(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
         void OnToggleFlash(InputAction.CallbackContext context);
         void OnOpenBag(InputAction.CallbackContext context);
         void OnRotateInventoryItem(InputAction.CallbackContext context);

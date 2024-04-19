@@ -57,7 +57,7 @@ public class GalleryManager : MonoBehaviour
             .Where(_ => bIsGalleryOpen && Input.GetMouseButtonUp(0) && EventSystem.current.currentSelectedGameObject != buttonDelete.gameObject)
             .Subscribe(_ => SnapNearestItem());
 
-        _controls.MainGameplay.ScrollAlbum.performed += ctx => SnapToIndex();
+        _controls.MainGameplay.Scroll.performed += ctx => SnapToIndex();
     }
 
     private void ZoomOutCurrentItem()
@@ -127,7 +127,7 @@ public class GalleryManager : MonoBehaviour
         else
         {
             newIndex = Mathf.Clamp(
-                _controls.MainGameplay.ScrollAlbum.ReadValue<Vector2>().y > 0
+                _controls.MainGameplay.Scroll.ReadValue<Vector2>().y > 0
                 ? currIndex - 1
                 : currIndex + 1
             , 0, galleryItems.Count - 1);
@@ -227,14 +227,17 @@ public class GalleryManager : MonoBehaviour
     {
         bIsGalleryOpen = toggle ?? !bIsGalleryOpen;
         galleryObject.SetActive(bIsGalleryOpen);
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.CameraGallery, bIsGalleryOpen);
 
         if (bIsGalleryOpen)
         {
             OnToggleActive();
+            InventoryManager.Instance.SetInventorySwapEnabled(false);
         }
         else
         {
             OnToggleInactive();
+            InventoryManager.Instance.SetInventorySwapEnabled(true);
         }
     }
 

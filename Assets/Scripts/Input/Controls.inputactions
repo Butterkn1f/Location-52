@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ScrollAlbum",
+                    "name": "Scroll",
                     "type": "Value",
                     "id": "04b9fd74-119e-4767-b1c8-542104b96c6c",
                     "expectedControlType": "Vector2",
@@ -274,7 +274,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "PC",
-                    "action": "ScrollAlbum",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

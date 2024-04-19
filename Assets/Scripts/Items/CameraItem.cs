@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PhotoCapture))]
 [RequireComponent(typeof(GalleryManager))]
@@ -21,8 +22,9 @@ public class CameraItem : Item
 
     bool IsADS = false;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         pc = GetComponent<PhotoCapture>();
         gm = GetComponent<GalleryManager>();
 
@@ -39,7 +41,7 @@ public class CameraItem : Item
         }
     }
 
-    private void ToggleADS()
+    private void ToggleADS(InputAction.CallbackContext context)
     {
         bool tempIsAds = !IsADS;
 
@@ -53,6 +55,9 @@ public class CameraItem : Item
     {
         if (!_cameraObject)
             return;
+
+        PlayerUIManager.Instance.SetHideHUD(true, true);
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.CameraAds, true);
 
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
@@ -74,6 +79,8 @@ public class CameraItem : Item
             return;
 
         gm.ToggleGallery(false);
+        PlayerUIManager.Instance.SetHideHUD(false, true);
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.CameraAds, false);
 
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
@@ -104,22 +111,40 @@ public class CameraItem : Item
     protected override void AssignControls()
     {
         base.AssignControls();
-        _controls.MainGameplay.ADSItem.performed += ctx => ToggleADS();
-        _controls.MainGameplay.ViewAlbum.performed += ctx => {
-            if (IsADS)
-                gm.ToggleGallery();
-        };
+        _controls.MainGameplay.ADSItem.performed += ToggleADS;
+        _controls.MainGameplay.ViewAlbum.performed += ToggleGallery;
 
-        _controls.MainGameplay.ToggleFlash.performed += ctx => pc.ToggleFlash();
+        _controls.MainGameplay.ToggleFlash.performed += ToggleFlash;
+        _controls.MainGameplay.UseItem.performed += UseItem;
     }
 
-    protected override void UseItem()
+    protected override void UnassignControls()
+    {
+        _controls.MainGameplay.ADSItem.performed -= ToggleADS;
+        _controls.MainGameplay.ViewAlbum.performed -= ToggleGallery;
+
+        _controls.MainGameplay.ToggleFlash.performed -= ToggleFlash;
+        _controls.MainGameplay.UseItem.performed -= UseItem;
+    }
+
+    private void UseItem(InputAction.CallbackContext context)
     {
         if (gm.bIsGalleryOpen)
             return;
 
         if (IsADS)
             pc.TakePhoto();
+    }
+
+    private void ToggleGallery(InputAction.CallbackContext context)
+    {
+        if (IsADS)
+            gm.ToggleGallery();
+    }
+
+    private void ToggleFlash(InputAction.CallbackContext context)
+    {
+        pc.ToggleFlash();
     }
 }
 

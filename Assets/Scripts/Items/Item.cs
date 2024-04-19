@@ -7,13 +7,20 @@ using UnityEngine.InputSystem;
 public abstract class Item : MonoBehaviour
 {
     protected Controls _controls = null;
-    public bool IsActive { get; private set; } = true; // TODO: Set this to false default and implement inventory sys
+    public bool IsActive { get; protected set; } = false;
+
+    public ControlsType controlType = new();
 
 
     void Awake()
     {
         _controls = new Controls();
-        AssignControls();
+    }
+
+    protected virtual void Start()
+    {
+        gameObject.SetActive(false);
+        IsActive = false;
     }
 
     protected virtual void AssignControls()
@@ -22,19 +29,9 @@ public abstract class Item : MonoBehaviour
         {
             _controls.MainGameplay.Enable();
         }
-
-        _controls.MainGameplay.UseItem.performed += ctx => {
-            if (!IsActive)
-                return;
-
-            UseItem();
-        };
     }
 
-    /// <summary>
-    /// Called when user left clicks while item is active
-    /// </summary>
-    protected abstract void UseItem();
+    protected abstract void UnassignControls();
 
     /// <summary>
     /// Called when user toggles this item.
@@ -44,6 +41,10 @@ public abstract class Item : MonoBehaviour
     protected virtual void OnActive()
     {
         IsActive = true;
+        gameObject.SetActive(true);
+        AssignControls();
+
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(controlType, true);
     }
     /// <summary>
     /// Called when user untoggles this item
@@ -52,6 +53,9 @@ public abstract class Item : MonoBehaviour
     protected virtual void OnInactive()
     {
         IsActive = false;
+        gameObject.SetActive(false);
+        UnassignControls();
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(controlType, false);
     }
 
     // Might be needed for future checks ? But for now this is already handled by animations

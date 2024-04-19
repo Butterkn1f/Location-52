@@ -31,6 +31,8 @@ public class Backpack : MonoBehaviour, IInteractable
         closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
         InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryItemParent, false);
+        PlayerUIManager.Instance.SetHideHUD(true, true);
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.Grid, true);
     }
 
     public void StopHover()
@@ -42,5 +44,7 @@ public class Backpack : MonoBehaviour, IInteractable
         Characters.Player.PlayerManager.Instance.Camera.ReturnCamToNormal();
         InventoryBackpackManager.Instance.ClearGrid();
         closeButton.SetActive(false);
+        PlayerUIManager.Instance.SetHideHUD(false, true);
+        PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.Grid, false);
     }
 }

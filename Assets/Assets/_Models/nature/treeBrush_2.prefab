@@ -53,12 +53,12 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6326751723544294175, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
     - renderer: {fileID: -2368890121979600593, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-  - screenRelativeHeight: 0.5
+  - screenRelativeHeight: 0.4
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: -7537566405859442623, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
     - renderer: {fileID: 2304011203322426556, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}
-  - screenRelativeHeight: 0.2
+  - screenRelativeHeight: 0.3
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 4808794035866963680, guid: 7c5ba724af3ce2d4889162a60550f904, type: 3}

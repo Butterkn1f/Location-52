@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43374026, g: 0.47060555, b: 0.50695837, a: 1}
+  m_IndirectSpecularColor: {r: 0.43374056, g: 0.47060585, b: 0.50695884, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -874,6 +874,10 @@ PrefabInstance:
     - target: {fileID: 940707854023249777, guid: 6d775e5ce9601f94aba681983818fefc, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1142716153792488970, guid: 6d775e5ce9601f94aba681983818fefc, type: 3}
+      propertyPath: m_text
+      value: 'Take Photo: [LMB]'
       objectReference: {fileID: 0}
     - target: {fileID: 2208603757938928349, guid: 6d775e5ce9601f94aba681983818fefc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2431,6 +2435,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2343123657721073836, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_text
+      value: press [tab] to open your bag and equip items
+      objectReference: {fileID: 0}
     - target: {fileID: 3793363393024225612, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2438,6 +2446,26 @@ PrefabInstance:
     - target: {fileID: 4852537146333416771, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439033166008376061, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439033166008376061, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 5439033166008376061, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7089140879777510930, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_text
+      value: 'click and drop equipment onto the grid to put them into your bag
+
+
+        drop
+        outside to return it to the shelf'
       objectReference: {fileID: 0}
     - target: {fileID: 7157129730914837118, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
       propertyPath: m_AnchoredPosition.y

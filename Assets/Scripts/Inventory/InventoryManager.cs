@@ -312,6 +312,17 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
         }
     }
 
+    public bool CheckInventoryHasCamera()
+    {
+        foreach (var slot in EquippedSlots)
+        {
+            if (slot.Value == InventoryItemType.Camera)
+                return true;
+        }
+
+        return false;
+    }
+
     public Sprite GetSpriteFromItemType(InventoryItemType type)
     {
         return inventoryItemInfo.FirstOrDefault(x => x.ItemType == type).Sprite;

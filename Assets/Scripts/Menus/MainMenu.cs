@@ -76,6 +76,11 @@ namespace Menus
             CurrentMainMenuState.SetValue(MainMenuState.TITLE_SCREEN);
         }
 
+        public void GoToMainMenu()
+        {
+            CurrentMainMenuState.SetValue(MainMenuState.MAIN_MENU);
+        }
+
         public void StartGame()
         {
             CurrentMainMenuState.SetValue(MainMenuState.TRANSITION);
@@ -92,5 +97,6 @@ namespace Menus
         SETTINGS,
         MODE_SELECT,
         TRANSITION,
+        MAIN_MENU
     }
 }

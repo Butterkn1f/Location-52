@@ -180,5 +180,5 @@ public class ExistingPostData
     public Image photo;
     public List<CommentPrefab> comments;
     public string Likes;
-    public int CommentCount;
+    public string CommentCount;
 }

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4413cec31075f740977e62dc5c4478b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameProgressData: {fileID: 11400000, guid: a6cfdbd828166f14e8ad657cfa8f4f5d, type: 2}
+  TutorialManager: {fileID: 551457524756873297}
   RecentGameEvent: 0
 --- !u!114 &551457524756873297
 MonoBehaviour:
@@ -59,3 +59,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14a9789c432ee384d953f2ace032180b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameProgressData: {fileID: 11400000, guid: a6cfdbd828166f14e8ad657cfa8f4f5d, type: 2}

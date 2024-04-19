@@ -262,7 +262,7 @@ namespace Characters.Player
         }
 
         // Temporarily moves the camera to a certain position, and locks it there!! rah!!!
-        public void LockCameraToPosition(GameObject CurrentGameObject, UnityEvent CamOverEvent = null)
+        public void LockCameraToPosition(GameObject CurrentGameObject, UnityEvent CamOverEvent = null, float duration = 0.5f)
         {
             UnlockMouseCursor(true);
 
@@ -270,13 +270,21 @@ namespace Characters.Player
             CurrentCameraRot = _cameraObject.transform.rotation;
 
             Sequence seq = DOTween.Sequence();
-            seq.Append(_cameraObject.transform.DOMove(CurrentGameObject.transform.position, 0.5f));
-            seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentGameObject.transform.rotation, 0.5f));
+            seq.Append(_cameraObject.transform.DOMove(CurrentGameObject.transform.position, duration));
+            seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentGameObject.transform.rotation, duration));
 
             if (CamOverEvent != null)
             {
                 seq.AppendCallback(() => CamOverEvent.Invoke());
             }
+        }
+
+        public void SetCameraToPosition(GameObject NewCamPos)
+        {
+            UnlockMouseCursor(true);
+
+            _cameraObject.transform.position = NewCamPos.transform.position;
+            _cameraObject.transform.rotation = NewCamPos.transform.rotation;
         }
 
         public void UnlockMouseCursor(bool unlock)
@@ -289,6 +297,7 @@ namespace Characters.Player
             _enableMouseLook = !unlock;
             Cursor.lockState = unlock ? CursorLockMode.None : CursorLockMode.Locked;
 
+            _movement = PlayerManager.Instance.Movement;
             _movement.EnableJump = !unlock;
             _movement.CanMove = !unlock;
         }

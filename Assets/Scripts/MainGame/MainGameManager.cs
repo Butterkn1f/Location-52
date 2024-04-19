@@ -10,7 +10,7 @@ namespace MainGame
 {
     public class MainGameManager : SingletonPersistent<MainGameManager>
     {
-        public SaveableDataContainer GameProgressData;
+        public TutorialManager TutorialManager;
 
         private ReactiveProp<GameState> CurrentGameState = new ReactiveProp<GameState>();
 
@@ -21,10 +21,11 @@ namespace MainGame
         void Start()
         {
             CurrentGameState.GetObservable().Subscribe(newState => { ChangeGameState(newState); });
+        }
 
-            GameProgressData.InitialiseDataContainer();
-            GameProgressData.GameData.Add(new SaveableBoolAsset("Finished Tutorial", false));
-            GameProgressData.GameData.Add(new SaveableIntAsset("Day Count", 1));
+        public bool GetHasFinishedTutorial()
+        {
+            return TutorialManager.GameProgressData.GetDataBoolByID("Finished Tutorial").GetValue();
         }
         
         public void ChangeGameState(GameState newGameState)

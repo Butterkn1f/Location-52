@@ -1,3 +1,4 @@
+using Common.DataManagement;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
@@ -7,19 +8,23 @@ namespace MainGame
 {
     public class TutorialManager : MonoBehaviour
     {
-        private ReactiveProp<TutorialState> _currentTutorialState = new ReactiveProp<TutorialState>();
+        public SaveableDataContainer GameProgressData;
+        public ReactiveProp<TutorialState> CurrentTutorialState = new ReactiveProp<TutorialState>();
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
-            _currentTutorialState.SetValue(TutorialState.INTRO_CUTSCENE);
-            GetNextTutorialStage();
-            Debug.Log(_currentTutorialState.GetValue().ToString());
+            CurrentTutorialState.SetValue(TutorialState.INTRO_CUTSCENE);
+
+
+            GameProgressData.InitialiseDataContainer();
+            GameProgressData.GameData.Add(new SaveableBoolAsset("Finished Tutorial", false));
+            GameProgressData.GameData.Add(new SaveableIntAsset("Day Count", 1));
         }
 
         public void GetNextTutorialStage()
         {
-            _currentTutorialState.SetValue((TutorialState)((int)_currentTutorialState.GetValue() + 1));
+            CurrentTutorialState.SetValue((TutorialState)((int)CurrentTutorialState.GetValue() + 1));
         }
     }
 
@@ -28,6 +33,7 @@ namespace MainGame
         INTRO_CUTSCENE,
         MOVEMENT_TUTORIAL,
         INTERACTION_TUTORIAL,
+        INVENTORY_TUTORIAL,
         TOWN_TUTORIAL,
         FOREST_TUTORIAL,
         PHOTO_TUTORIAL,

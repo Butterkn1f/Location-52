@@ -56,16 +56,16 @@ namespace Environment.PhotoReview
         /// </summary>
         public void EndDay()
         {
-            if (MainGameManager.Instance.GameProgressData.GetDataBoolByID("Finished Tutorial").GetValue() == false)
+            if (MainGameManager.Instance.GetHasFinishedTutorial() == false)
             {
                 // Mark tutorial as completed
-                MainGameManager.Instance.GameProgressData.GetDataBoolByID("Finished Tutorial").SetValue(true);
+                MainGameManager.Instance.TutorialManager.GameProgressData.GetDataBoolByID("Finished Tutorial").SetValue(true);
                 Debug.Log("Tutorial Marked as completed");
             }
 
             // Increment day counter
-            MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").SetValue(MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").GetValue() + 1);
-            Debug.Log("Moving on to day " + MainGameManager.Instance.GameProgressData.GetDataIntByID("Day Count").GetValue());
+            MainGameManager.Instance.TutorialManager.GameProgressData.GetDataIntByID("Day Count").SetValue(MainGameManager.Instance.TutorialManager.GameProgressData.GetDataIntByID("Day Count").GetValue() + 1);
+            Debug.Log("Moving on to day " + MainGameManager.Instance.TutorialManager.GameProgressData.GetDataIntByID("Day Count").GetValue());
 
             // Change Scene
             ApplicationManager.Instance.Loader.ChangeScene(Common.SceneManagement.SceneID.ROOM_SCENE);
@@ -84,8 +84,7 @@ namespace Environment.PhotoReview
         MAIN_PAGE = 1,
         PHOTO_SELECT = 2, 
         PHOTO_UPLOAD_SEQUENCE = 3,
-        NEWS_SECTION = 4,
-        RESULTS_PAGE = 5
+        POST_FINISH = 4,
     }
 
     /// <summary>

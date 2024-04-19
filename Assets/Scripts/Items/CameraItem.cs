@@ -5,6 +5,7 @@ using DG.Tweening;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PhotoCapture))]
 [RequireComponent(typeof(GalleryManager))]
@@ -14,19 +15,30 @@ public class CameraItem : Item
     [SerializeField] GameObject _cameraObject;
     [SerializeField] Vector3 zoomCameraPos = new Vector3(0, 0, 0.45f);
 
+    [SerializeField] Slider batterySlider;
+    [SerializeField] TMPro.TMP_Text batteryText;
+    [SerializeField] GameObject NoBatteryObject;
+    [SerializeField] Image NoBatteryImage;
+    Sequence batteryYoYo;
+    IEnumerator batteryDrainCoroutine;
+
     PhotoCapture pc;
     GalleryManager gm;
     DepthOfField dof;
+    
     float origFocalLength = 1.0f;
     Vector3 origCameraPos;
 
     bool IsADS = false;
+
+    float batteryPercent = 1.0f;
 
     protected override void Start()
     {
         base.Start();
         pc = GetComponent<PhotoCapture>();
         gm = GetComponent<GalleryManager>();
+        batteryPercent = 1.0f;
 
         origCameraPos = _cameraObject.transform.localPosition;
         GameObject dofVolume = GameObject.FindGameObjectWithTag("DOFVolume");
@@ -96,16 +108,45 @@ public class CameraItem : Item
             });
     }
 
+    private IEnumerator DrainBattery()
+    {
+        while (batteryPercent > 0)
+        {
+            batteryPercent = Mathf.Clamp(batteryPercent - (pc.IsPermanentFlash ? 0.05f : 0.01f), 0, 1);
+            batteryText.text = Mathf.FloorToInt(batteryPercent * 100f).ToString() + "%";
+            batterySlider.value = batteryPercent;
+            yield return new WaitForSeconds(1f);
+        }
+
+        batteryPercent = 0;
+        SetShowNoBattery(true);
+    }
+
+    protected override void OnActive()
+    {
+        base.OnActive();
+
+        if (batteryPercent > 0)
+        {
+            batteryDrainCoroutine = DrainBattery();
+            StartCoroutine(batteryDrainCoroutine);
+        }
+    }
+
     protected override void OnInactive()
     {
         if (!IsADS)
         {
             base.OnInactive();
+            StopCoroutine(batteryDrainCoroutine);
             return;
         }
 
         // If currently ADS and swapped out of camera, we un-ADS first before setting inactive.
-        PlayZoomOutAnimation(base.OnInactive);
+        PlayZoomOutAnimation(() => {
+            base.OnInactive();
+            StopCoroutine(batteryDrainCoroutine);
+        });
     }
 
     protected override void AssignControls()
@@ -129,7 +170,7 @@ public class CameraItem : Item
 
     private void UseItem(InputAction.CallbackContext context)
     {
-        if (gm.bIsGalleryOpen)
+        if (gm.bIsGalleryOpen || batteryPercent <= 0)
             return;
 
         if (IsADS)
@@ -138,13 +179,30 @@ public class CameraItem : Item
 
     private void ToggleGallery(InputAction.CallbackContext context)
     {
-        if (IsADS)
+        if (IsADS && batteryPercent > 0)
             gm.ToggleGallery();
     }
 
     private void ToggleFlash(InputAction.CallbackContext context)
     {
-        pc.ToggleFlash();
+        if (batteryPercent > 0)
+            pc.ToggleFlash();
+    }
+
+    public void SetShowNoBattery(bool show)
+    {
+        batteryYoYo?.Kill();
+        NoBatteryObject.SetActive(show);
+
+        if (show)
+        {
+            pc.IsPermanentFlash = false;
+            pc.ToggleFlash(false);
+            NoBatteryImage.color = Color.white;
+            batteryYoYo = DOTween.Sequence();
+            batteryYoYo.Join(NoBatteryImage.DOFade(0.1f, 0.5f))
+            .SetLoops(-1, LoopType.Yoyo);
+        }
     }
 }
 

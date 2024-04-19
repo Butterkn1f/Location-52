@@ -4,6 +4,8 @@ using UnityEngine;
 using System.IO;
 using Environment.PhotoReview;
 using UnityEngine.UI;
+using TMPro;
+using DG.Tweening;
 
 public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManager>
 {
@@ -11,12 +13,24 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     public const float DistTooClose = 3;
     public const float DistTooFar = 10;
     public const int MinPointsCapturedFull = 5;
+    public const int MaxPhotos = 20;
+
+    [SerializeField] TMP_Text HudPhotoCount, HudMaxPhotos;
+    [SerializeField] TMP_Text TextNoFilm;
+    Sequence filmYoYo;
+
     public List<Photo> Photos { get; private set; } = new();
 
-    // fuck it
     public List<ExistingPostData> PastPhotoCollection = new();
 
     int currIndex = -1;
+
+    private void Start()
+    {
+        HudPhotoCount.text = Photos.Count.ToString("00");
+        HudMaxPhotos.text = MaxPhotos.ToString("00");
+        TextNoFilm.gameObject.SetActive(false);
+    }
 
     // TODO: Call this on new day as well
     public void ClearAllPhotos()
@@ -36,6 +50,9 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
 
         Photos.Clear();
         currIndex = -1;
+        HudPhotoCount.text = "00";
+        filmYoYo?.Kill();
+        TextNoFilm.gameObject.SetActive(false);
     }
 
     // If save system is implemented, remove this. Keep the photos as save file
@@ -98,6 +115,23 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
         };
 
         Photos.Add(newPhoto);
+        HudPhotoCount.text = Photos.Count.ToString("00");
+
+        if (Photos.Count >= MaxPhotos)
+        {
+            ShowNoFilm();
+        }
+    }
+
+    private void ShowNoFilm()
+    {
+        TextNoFilm.gameObject.SetActive(true);
+        TextNoFilm.color = Color.white;
+
+        filmYoYo?.Kill();
+        filmYoYo = DOTween.Sequence();
+        filmYoYo.Join(TextNoFilm.DOFade(0.1f, 0.5f))
+            .SetLoops(-1, LoopType.Yoyo);
     }
 
     private System.DateTime GetFakeTime()
@@ -132,6 +166,11 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     private bool GetIsKeyActionTaken()
     {
         return false; //TODO When monster is in
+    }
+
+    public bool GetIsNoFilm()
+    {
+        return Photos.Count >= MaxPhotos;
     }
 }
 

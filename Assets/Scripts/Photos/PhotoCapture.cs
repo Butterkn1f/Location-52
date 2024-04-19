@@ -12,13 +12,17 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] Image flashImage;
     [SerializeField] Light flash;
 
+    [Header("UI")]
+    [SerializeField] Image flashIconHud;
+    [SerializeField] Sprite flashOnSprite, flashOffSprite;
+
     PhotoAnomalyChecker anomalyChecker;
 
     Texture2D screenCapture;
     bool isViewingPhoto = false;
     float origFlashIntensity = 100;
 
-    bool IsPermanentFlash = false;
+    public bool IsPermanentFlash = false;
 
     void Start()
     {
@@ -31,7 +35,7 @@ public class PhotoCapture : MonoBehaviour
 
     public void TakePhoto()
     {
-        if (!isViewingPhoto)
+        if (!isViewingPhoto && !PhotoManager.Instance.GetIsNoFilm())
         {
             StartCoroutine(FlashEffect());
         }
@@ -43,7 +47,10 @@ public class PhotoCapture : MonoBehaviour
             return;
 
         if (!isOn.HasValue)
+        {
             IsPermanentFlash = !IsPermanentFlash;
+            flashIconHud.sprite = IsPermanentFlash ? flashOnSprite : flashOffSprite;
+        }
 
         bool flashOn = isOn ?? IsPermanentFlash;
         if (flashOn)

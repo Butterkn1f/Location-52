@@ -1,7 +1,10 @@
+using MainGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
 
 public class Backpack : MonoBehaviour, IInteractable
 {
@@ -10,6 +13,9 @@ public class Backpack : MonoBehaviour, IInteractable
     [SerializeField] Transform inventoryItemParent;
     [SerializeField] Transform cameraPos;
     [SerializeField] GameObject closeButton;
+
+    [SerializeField] private UnityEvent _bagTutorialEvent;
+    [SerializeField] private UnityEvent _QAMTutorialEvent;
 
     private void Start()
     {
@@ -27,6 +33,11 @@ public class Backpack : MonoBehaviour, IInteractable
         // An instance of inventory is already open! Don't override it.
         if (InventoryBackpackManager.Instance.bIsInventoryOpen)
             return;
+
+        if (!MainGameManager.Instance.GetHasFinishedTutorial())
+        {
+            _bagTutorialEvent.Invoke();
+        }
 
         closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
@@ -46,5 +57,11 @@ public class Backpack : MonoBehaviour, IInteractable
         closeButton.SetActive(false);
         PlayerUIManager.Instance.SetHideHUD(false, true);
         PlayerUIManager.Instance.ControlsManager.SetControlActive(ControlsType.Grid, false);
+
+        if (!MainGameManager.Instance.GetHasFinishedTutorial())
+        {
+            PlayerUIManager.Instance.SetHideHUD(false);
+            _QAMTutorialEvent.Invoke();
+        }
     }
 }

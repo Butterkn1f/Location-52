@@ -517,6 +517,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095d4282d97831447b4a03c4d8c0b935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _noCameraEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1326718868}
+        m_TargetAssemblyTypeName: RoomTutorial, Assembly-CSharp
+        m_MethodName: DisplayDoorWarning
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &407301133
 GameObject:
   m_ObjectHideFlags: 0
@@ -1687,6 +1702,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296137730}
   m_CullTransparentMesh: 1
+--- !u!114 &1326718868 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8520605488876781562, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+  m_PrefabInstance: {fileID: 1911040378}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fac9be58082279546b4084fcd82b072d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1411603793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,6 +2039,62 @@ PrefabInstance:
     - target: {fileID: 6833681326679217851, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1326718868}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1326718868}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseInventoryTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: InventoryTutorial
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RoomTutorial, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RoomTutorial, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _QAMTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287265557382079442, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: _bagTutorialEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7984557706531241676, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2345,6 +2427,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Room Tutorial Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 1939289864205278784, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3793363393024225612, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4852537146333416771, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7157129730914837118, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 288
+      objectReference: {fileID: 0}
     - target: {fileID: 7923323909206502384, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.3950716
@@ -2383,6 +2481,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7923323909206502384, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8520605488876781562, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: _computerArticle
+      value: 
+      objectReference: {fileID: 1011600276}
+    - target: {fileID: 9198134173869478026, guid: f37d0673e8272e14f9ff4d8883eb175b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

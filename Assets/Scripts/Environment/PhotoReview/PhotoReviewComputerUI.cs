@@ -21,7 +21,6 @@ public class PhotoReviewComputerUI : MonoBehaviour
         _photoUploadPage.SetActive(false);
         _mainScreen.SetActive(false);
         _photoUploadButton.SetActive(true);
-        _nextDayButton.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -42,7 +41,6 @@ public class PhotoReviewComputerUI : MonoBehaviour
                 case PhotoReviewState.PHOTO_UPLOAD_SEQUENCE:
                     // TODO: animate
                     _photoUploadButton.SetActive(false);
-                    _nextDayButton.SetActive(true);
                     break;
             }
         });

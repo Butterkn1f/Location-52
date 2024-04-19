@@ -26,7 +26,7 @@ namespace Common.DataManagement
             DevUtils.AssertTrue(_settingsDataKeyName == "", "File Name is empty. Please include a valid key name.");
         }
 
-        public ReactiveProp<float> GetSettingsFloatByID(string settingsUID)
+        public ReactiveProp<float> GetDataFloatByID(string settingsUID)
         {
             if (GameData.Where(x => x.SettingID == settingsUID).Count() == 0) { return null; }
 
@@ -39,7 +39,7 @@ namespace Common.DataManagement
             return null;
         }
 
-        public ReactiveProp<int> GetSettingsIntByID(string settingsUID)
+        public ReactiveProp<int> GetDataIntByID(string settingsUID)
         {
             if (GameData.Where(x => x.SettingID == settingsUID).Count() == 0) { return null; }
 
@@ -52,7 +52,7 @@ namespace Common.DataManagement
             return null;
         }
 
-        public ReactiveProp<bool> GetSettingsBoolByID(string settingsUID)
+        public ReactiveProp<bool> GetDataBoolByID(string settingsUID)
         {
             if (GameData.Where(x => x.SettingID == settingsUID).Count() == 0) { return null; }
 
@@ -65,7 +65,7 @@ namespace Common.DataManagement
             return null;
         }
 
-        public ReactiveProp<string> GetSettingsStringByID(string settingsUID)
+        public ReactiveProp<string> GetDataStringByID(string settingsUID)
         {
             if (GameData.Where(x => x.SettingID == settingsUID).Count() == 0) { return null; }
 
@@ -123,22 +123,22 @@ namespace Common.DataManagement
 
             foreach (var IntSetting in saveData.IntData)
             {
-                GetSettingsIntByID(IntSetting.SettingID).SetValue(IntSetting.ValueReadable);
+                GetDataIntByID(IntSetting.SettingID).SetValue(IntSetting.ValueReadable);
             }
 
             foreach (var FloatSetting in saveData.FloatData)
             {
-                GetSettingsFloatByID(FloatSetting.SettingID).SetValue(FloatSetting.ValueReadable);
+                GetDataFloatByID(FloatSetting.SettingID).SetValue(FloatSetting.ValueReadable);
             }
 
             foreach (var BoolSetting in saveData.BoolData)
             {
-                GetSettingsBoolByID(BoolSetting.SettingID).SetValue(BoolSetting.ValueReadable);
+                GetDataBoolByID(BoolSetting.SettingID).SetValue(BoolSetting.ValueReadable);
             }
 
             foreach (var StringSetting in saveData.StringData)
             {
-                GetSettingsStringByID(StringSetting.SettingID).SetValue(StringSetting.ValueReadable);
+                GetDataStringByID(StringSetting.SettingID).SetValue(StringSetting.ValueReadable);
             }
         }
 
@@ -150,15 +150,15 @@ namespace Common.DataManagement
                 switch (setting.Type)
                 {
                     case SaveableDataType.INT:
-                        GetSettingsIntByID(setting.SettingID).SetValue(((SaveableIntAsset)setting).DefaultValue);
+                        GetDataIntByID(setting.SettingID).SetValue(((SaveableIntAsset)setting).DefaultValue);
                         break;
 
                     case SaveableDataType.FLOAT:
-                        GetSettingsFloatByID(setting.SettingID).SetValue(((SaveableFloatAsset)setting).DefaultValue);
+                        GetDataFloatByID(setting.SettingID).SetValue(((SaveableFloatAsset)setting).DefaultValue);
                         break;
 
                     case SaveableDataType.BOOL:
-                        GetSettingsBoolByID(setting.SettingID).SetValue(((SaveableBoolAsset)setting).DefaultValue);
+                        GetDataBoolByID(setting.SettingID).SetValue(((SaveableBoolAsset)setting).DefaultValue);
                         break;
                 }
             }

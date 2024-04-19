@@ -14,7 +14,7 @@ namespace Characters.Player
         #region Movement Variables
 
         [Header("Movement Settings")]
-        [SerializeField] private bool _canMove = true;
+        public bool CanMove = true;
         [SerializeField] private float _moveSpeed = 250f;
         [SerializeField] private float _moveMultiplier = 9f;
         [SerializeField] private float _groundMaxSpeed = 20f;
@@ -34,7 +34,7 @@ namespace Characters.Player
         [Tooltip("Adds to the original max speed.")][SerializeField] private float _sprintMaxSpeedModifier = 5f;
 
         [Header("Jump Settings")]
-        [SerializeField] private bool _enableJump = true;
+        public bool EnableJump = true;
         [SerializeField] private float _jumpForce = 7f;
         [SerializeField] private float _jumpMultiplier = 1.5f;
 
@@ -49,6 +49,9 @@ namespace Characters.Player
         [SerializeField] private float _crouchJumpMultiplier = 1.4f;
         [SerializeField] private GameObject _standingCollider;
         [SerializeField] private GameObject _crouchingCollider;
+
+        [Header("Player visibility")]
+        public bool IsHidden = false;
 
         // Private variables
         private Rigidbody _rb = null;
@@ -156,7 +159,7 @@ namespace Characters.Player
             // jump
             _controls.MainGameplay.Jump.performed += ctx =>
             {
-                if (_enableJump)
+                if (EnableJump)
                 {
                     _jumping = true;
                     OnJump();
@@ -177,7 +180,15 @@ namespace Characters.Player
         /// </summary>
         private void SetSprint(bool isSprinting)
         {
-            _sprinting = isSprinting;
+            if (!isSprinting)
+            {
+                _sprinting = false;
+            }
+            if (PlayerManager.Instance.Health.GetEnergy() > 0.05)
+            {
+                _sprinting = true;
+            }
+            
         }
 
         // Update is called once per frame
@@ -190,7 +201,7 @@ namespace Characters.Player
 
         private void UpdateMovement()
         {
-            if (!_canMove) return;
+            if (!CanMove) return;
 
             Vector3 dir = transform.right * _moveInput.x + transform.forward * _moveInput.y;
             // Gravity
@@ -211,6 +222,16 @@ namespace Characters.Player
                 dir = Vector3.zero;
             }
             _rb.AddForce(GetMovementVector(-_rb.velocity, dir.normalized, CurSpeed * Time.deltaTime) * ((Grounded && !_jumping) ? multiplier : _inAirMovementModifier) * _rb.mass);
+
+            if (_sprinting)
+            {
+                PlayerManager.Instance.Health.UseEnergy(0.25f);
+
+                if (PlayerManager.Instance.Health.GetEnergy() < 0.05)
+                {
+                    SetSprint(false);
+                }
+            }
         }
 
         private Vector3 GetMovementVector(Vector3 velocity, Vector3 dir, float speed)
@@ -235,7 +256,7 @@ namespace Characters.Player
 
         private void OnJump()
         {
-            if (!_enableJump) return;
+            if (!EnableJump) return;
 
             if (Grounded)
             {
@@ -289,6 +310,11 @@ namespace Characters.Player
         }
 
         private void OnCollisionExit(Collision other) => Grounded = false;
+
+        public void HidePlayer(bool isHidden)
+        {
+            IsHidden = isHidden;
+        }
 
         /// <summary>
         /// For teleporting the player to where it's supposed to be

@@ -1,4 +1,6 @@
 using Common.DesignPatterns;
+using Environment;
+using Mobs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +17,8 @@ namespace Characters.Player
         // Movement and Camera
         public PlayerMovement Movement;
         public PlayerCamera Camera;
+        public AudioDistractionCue PlayerNoiseLevel;
+        public PlayerHealth Health;
 
         #endregion
 
@@ -24,6 +28,7 @@ namespace Characters.Player
 
         #endregion
 
+        public SpawnPointID CurrentSpawnPointID;
 
         // Start is called before the first frame update
         void Start()

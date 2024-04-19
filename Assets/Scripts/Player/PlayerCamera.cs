@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Characters.Player
@@ -64,10 +65,15 @@ namespace Characters.Player
 
         private PlayerMovement _movement;
 
+        private Vector3 CurrentCameraPos;
+        private Quaternion CurrentCameraRot;
+
         private float _fov;
         private float _idealHeight;
 
         private bool _isADS;
+
+        Sequence returnCameraSequence;
 
         // Start is called before the first frame update
         void Start()
@@ -109,7 +115,7 @@ namespace Characters.Player
             _controls.MainGameplay.Camera.performed += ctx => mouseInput = GetMouseInput();
             _controls.MainGameplay.Camera.canceled += ctx => mouseInput = Vector2.zero;
 
-            //_controls.MainGameplay.Interact.performed += ctx => InteractObject();
+            _controls.MainGameplay.Interact.performed += ctx => InteractObject();
         }
 
         /// <summary>
@@ -123,10 +129,10 @@ namespace Characters.Player
         private void Update()
         {
             UpdateMouseLook();
-            //UpdateHoverInteractable();
+            UpdateHoverInteractable();
 
             // Smooth movement of camera
-            if (Mathf.Abs(_offset.y - _idealHeight) > 0)
+            if (Mathf.Abs(_offset.y - _idealHeight) > 0 && _enableMouseLook)
             {
                 _offset.y = Mathf.MoveTowards(_offset.y, _idealHeight, 0.25f);
             }
@@ -154,39 +160,39 @@ namespace Characters.Player
             CameraSway();
         }
 
-        ///// <summary>
-        ///// Check if the player is looking at anything that they can interact with (for popups and stuff)
-        ///// Call out the hover function
-        ///// </summary>
-        //private void UpdateHoverInteractable()
-        //{
-        //    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
-        //    {
-        //        if (hit.collider.TryGetComponent(out IInteractable interactable))
-        //        {
-        //            // Ignore if not interactable
-        //            if (interactable.IsInteractable == false) { return; }
-        //            interactable.Hover(transform.position, hit.point);
+        /// <summary>
+        /// Check if the player is looking at anything that they can interact with (for popups and stuff)
+        /// Call out the hover function
+        /// </summary>
+        private void UpdateHoverInteractable()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
+            {
+                if (hit.collider.TryGetComponent(out IInteractable interactable))
+                {
+                    // Ignore if not interactable
+                    if (interactable.IsInteractable == false) { return; }
+                    interactable.Hover(transform.position, hit.point);
 
-        //        }
-        //    }
-        //}
+                }
+            }
+        }
 
-        ///// <summary>
-        ///// If the player pressed the interact button
-        ///// Check if we are interacting with anything
-        ///// </summary>
-        //private void InteractObject()
-        //{
-        //    if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
-        //    {
-        //        if (hit.collider.TryGetComponent(out IInteractable interactable))
-        //        {
-        //            // Ignore if not interactable
-        //            interactable.Interact(transform.position, hit.point);
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// If the player pressed the interact button
+        /// Check if we are interacting with anything
+        /// </summary>
+        private void InteractObject()
+        {
+            if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, _cameraReach, _cameraLayerMask))
+            {
+                if (hit.collider.TryGetComponent(out IInteractable interactable))
+                {
+                    // Ignore if not interactable
+                    interactable.Interact(transform.position, hit.point);
+                }
+            }
+        }
 
         // Height stuff
         // TODO: make this lerp
@@ -202,6 +208,8 @@ namespace Characters.Player
 
         private void LateUpdate()
         {
+            // NOTE: Commented this out as I still want the camera bob when mouse is unlocked
+            if (!_enableMouseLook) return;
             transform.position = _target.position + _offset;
 
             ApplyCameraEffects();
@@ -251,6 +259,49 @@ namespace Characters.Player
             _cameraObject.transform.localRotation = Quaternion.Slerp(_cameraObject.transform.localRotation, (Quaternion.Euler(_bobEulerRotation)), Time.deltaTime * _smoothRot);
 
             PlayerManager.Instance.Arms.SetWeaponSway((_swayPos + _bobPosition) / 3, (_swayEulerRot + _bobEulerRotation) / 3);
+        }
+
+        // Temporarily moves the camera to a certain position, and locks it there!! rah!!!
+        public void LockCameraToPosition(GameObject CurrentGameObject, UnityEvent CamOverEvent = null)
+        {
+            UnlockMouseCursor(true);
+
+            CurrentCameraPos = _cameraObject.transform.position;
+            CurrentCameraRot = _cameraObject.transform.rotation;
+
+            Sequence seq = DOTween.Sequence();
+            seq.Append(_cameraObject.transform.DOMove(CurrentGameObject.transform.position, 0.5f));
+            seq.Join(_cameraObject.transform.DORotateQuaternion(CurrentGameObject.transform.rotation, 0.5f));
+
+            if (CamOverEvent != null)
+            {
+                seq.AppendCallback(() => CamOverEvent.Invoke());
+            }
+        }
+
+        public void UnlockMouseCursor(bool unlock)
+        {
+            if (unlock && returnCameraSequence != null)
+            {
+                returnCameraSequence.Complete(); // In case we unlock while mid-transitions
+            }
+
+            _enableMouseLook = !unlock;
+            Cursor.lockState = unlock ? CursorLockMode.None : CursorLockMode.Locked;
+
+            _movement.EnableJump = !unlock;
+            _movement.CanMove = !unlock;
+        }
+
+        public void ReturnCamToNormal()
+        {
+            returnCameraSequence = DOTween.Sequence();
+            returnCameraSequence.Append(_cameraObject.transform.DOMove(CurrentCameraPos, 0.5f));
+            returnCameraSequence.Join(_cameraObject.transform.DORotateQuaternion(CurrentCameraRot, 0.5f));
+
+            returnCameraSequence.AppendCallback(() => {
+                UnlockMouseCursor(false);
+            });
         }
     }
 }

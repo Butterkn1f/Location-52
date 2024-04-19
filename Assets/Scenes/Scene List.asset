@@ -15,3 +15,11 @@ MonoBehaviour:
   SceneList:
   - SceneAssetID: 0
     SceneName: MainMenuScene
+  - SceneAssetID: 1
+    SceneName: RoomScene
+  - SceneAssetID: 2
+    SceneName: TownScene
+  - SceneAssetID: 3
+    SceneName: ForestScene
+  - SceneAssetID: 4
+    SceneName: PhotoReviewScene

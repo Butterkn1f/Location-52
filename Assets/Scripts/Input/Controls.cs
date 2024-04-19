@@ -71,6 +71,78 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""a0f1a030-a456-462e-ac34-f0fcbed329f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ADSItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""3a8c36b3-8988-4e35-9d66-e8db73433c91"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UseItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""a71177c7-d693-40bd-a9e5-7a09a73ef6be"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ViewAlbum"",
+                    ""type"": ""Button"",
+                    ""id"": ""4eb2d965-055d-4087-8001-b8a54c3301e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""04b9fd74-119e-4767-b1c8-542104b96c6c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ToggleFlash"",
+                    ""type"": ""Button"",
+                    ""id"": ""32cea5e3-3349-4350-96ab-9add4c17154a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenBag"",
+                    ""type"": ""Button"",
+                    ""id"": ""114fd448-c88f-4f81-b00e-51d99e59a93e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateInventoryItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""f30bd377-ac67-463a-8a72-0cfd35c225e2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +244,94 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1d2bba56-abc2-4c09-b7bf-6adbaf99c308"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""150fef88-6b44-47a0-895d-7b3c01a4de38"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ADSItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f667f4bf-a42c-45fd-9ac7-03329f464bf9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""UseItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""41d0bc3b-323a-458f-8ca0-312cdbb5de28"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ViewAlbum"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec96fb86-d0c1-4568-ba03-174e3dbdd715"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbc96422-da54-4b0d-ad3d-9fb8aeca3870"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""ToggleFlash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c10e669-3dbc-4285-a93b-4f31c9eb8b85"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""OpenBag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c167c0bd-b7cc-4d3d-a956-1c82a97532e6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""PC"",
+                    ""action"": ""RotateInventoryItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +362,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_MainGameplay_Sprint = m_MainGameplay.FindAction("Sprint", throwIfNotFound: true);
         m_MainGameplay_Jump = m_MainGameplay.FindAction("Jump", throwIfNotFound: true);
         m_MainGameplay_Camera = m_MainGameplay.FindAction("Camera", throwIfNotFound: true);
+        m_MainGameplay_Interact = m_MainGameplay.FindAction("Interact", throwIfNotFound: true);
+        m_MainGameplay_ADSItem = m_MainGameplay.FindAction("ADSItem", throwIfNotFound: true);
+        m_MainGameplay_UseItem = m_MainGameplay.FindAction("UseItem", throwIfNotFound: true);
+        m_MainGameplay_ViewAlbum = m_MainGameplay.FindAction("ViewAlbum", throwIfNotFound: true);
+        m_MainGameplay_Scroll = m_MainGameplay.FindAction("Scroll", throwIfNotFound: true);
+        m_MainGameplay_ToggleFlash = m_MainGameplay.FindAction("ToggleFlash", throwIfNotFound: true);
+        m_MainGameplay_OpenBag = m_MainGameplay.FindAction("OpenBag", throwIfNotFound: true);
+        m_MainGameplay_RotateInventoryItem = m_MainGameplay.FindAction("RotateInventoryItem", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +436,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_Sprint;
     private readonly InputAction m_MainGameplay_Jump;
     private readonly InputAction m_MainGameplay_Camera;
+    private readonly InputAction m_MainGameplay_Interact;
+    private readonly InputAction m_MainGameplay_ADSItem;
+    private readonly InputAction m_MainGameplay_UseItem;
+    private readonly InputAction m_MainGameplay_ViewAlbum;
+    private readonly InputAction m_MainGameplay_Scroll;
+    private readonly InputAction m_MainGameplay_ToggleFlash;
+    private readonly InputAction m_MainGameplay_OpenBag;
+    private readonly InputAction m_MainGameplay_RotateInventoryItem;
     public struct MainGameplayActions
     {
         private @Controls m_Wrapper;
@@ -277,6 +453,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_MainGameplay_Sprint;
         public InputAction @Jump => m_Wrapper.m_MainGameplay_Jump;
         public InputAction @Camera => m_Wrapper.m_MainGameplay_Camera;
+        public InputAction @Interact => m_Wrapper.m_MainGameplay_Interact;
+        public InputAction @ADSItem => m_Wrapper.m_MainGameplay_ADSItem;
+        public InputAction @UseItem => m_Wrapper.m_MainGameplay_UseItem;
+        public InputAction @ViewAlbum => m_Wrapper.m_MainGameplay_ViewAlbum;
+        public InputAction @Scroll => m_Wrapper.m_MainGameplay_Scroll;
+        public InputAction @ToggleFlash => m_Wrapper.m_MainGameplay_ToggleFlash;
+        public InputAction @OpenBag => m_Wrapper.m_MainGameplay_OpenBag;
+        public InputAction @RotateInventoryItem => m_Wrapper.m_MainGameplay_RotateInventoryItem;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +485,30 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Camera.started += instance.OnCamera;
             @Camera.performed += instance.OnCamera;
             @Camera.canceled += instance.OnCamera;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @ADSItem.started += instance.OnADSItem;
+            @ADSItem.performed += instance.OnADSItem;
+            @ADSItem.canceled += instance.OnADSItem;
+            @UseItem.started += instance.OnUseItem;
+            @UseItem.performed += instance.OnUseItem;
+            @UseItem.canceled += instance.OnUseItem;
+            @ViewAlbum.started += instance.OnViewAlbum;
+            @ViewAlbum.performed += instance.OnViewAlbum;
+            @ViewAlbum.canceled += instance.OnViewAlbum;
+            @Scroll.started += instance.OnScroll;
+            @Scroll.performed += instance.OnScroll;
+            @Scroll.canceled += instance.OnScroll;
+            @ToggleFlash.started += instance.OnToggleFlash;
+            @ToggleFlash.performed += instance.OnToggleFlash;
+            @ToggleFlash.canceled += instance.OnToggleFlash;
+            @OpenBag.started += instance.OnOpenBag;
+            @OpenBag.performed += instance.OnOpenBag;
+            @OpenBag.canceled += instance.OnOpenBag;
+            @RotateInventoryItem.started += instance.OnRotateInventoryItem;
+            @RotateInventoryItem.performed += instance.OnRotateInventoryItem;
+            @RotateInventoryItem.canceled += instance.OnRotateInventoryItem;
         }
 
         private void UnregisterCallbacks(IMainGameplayActions instance)
@@ -320,6 +528,30 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Camera.started -= instance.OnCamera;
             @Camera.performed -= instance.OnCamera;
             @Camera.canceled -= instance.OnCamera;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @ADSItem.started -= instance.OnADSItem;
+            @ADSItem.performed -= instance.OnADSItem;
+            @ADSItem.canceled -= instance.OnADSItem;
+            @UseItem.started -= instance.OnUseItem;
+            @UseItem.performed -= instance.OnUseItem;
+            @UseItem.canceled -= instance.OnUseItem;
+            @ViewAlbum.started -= instance.OnViewAlbum;
+            @ViewAlbum.performed -= instance.OnViewAlbum;
+            @ViewAlbum.canceled -= instance.OnViewAlbum;
+            @Scroll.started -= instance.OnScroll;
+            @Scroll.performed -= instance.OnScroll;
+            @Scroll.canceled -= instance.OnScroll;
+            @ToggleFlash.started -= instance.OnToggleFlash;
+            @ToggleFlash.performed -= instance.OnToggleFlash;
+            @ToggleFlash.canceled -= instance.OnToggleFlash;
+            @OpenBag.started -= instance.OnOpenBag;
+            @OpenBag.performed -= instance.OnOpenBag;
+            @OpenBag.canceled -= instance.OnOpenBag;
+            @RotateInventoryItem.started -= instance.OnRotateInventoryItem;
+            @RotateInventoryItem.performed -= instance.OnRotateInventoryItem;
+            @RotateInventoryItem.canceled -= instance.OnRotateInventoryItem;
         }
 
         public void RemoveCallbacks(IMainGameplayActions instance)
@@ -353,5 +585,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnCamera(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnADSItem(InputAction.CallbackContext context);
+        void OnUseItem(InputAction.CallbackContext context);
+        void OnViewAlbum(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
+        void OnToggleFlash(InputAction.CallbackContext context);
+        void OnOpenBag(InputAction.CallbackContext context);
+        void OnRotateInventoryItem(InputAction.CallbackContext context);
     }
 }

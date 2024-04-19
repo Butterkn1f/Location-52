@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerEyes
+  - Monster
+  - Object
+  - ForestItem
+  - DOFVolume
   layers:
   - Default
   - TransparentFX
@@ -13,9 +17,9 @@ TagManager:
   - Water
   - UI
   - Spook
-  - 
-  - 
-  - 
+  - Interactable
+  - Camera
+  - CameraSpaceUI
   - 
   - 
   - 

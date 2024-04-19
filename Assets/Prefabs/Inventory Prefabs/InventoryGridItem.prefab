@@ -58,6 +58,8 @@ MonoBehaviour:
     Type: 0
     Direction: 0
     GridSize: {x: 0, y: 0}
+    GridPosition: {x: 0, y: 0}
+    bIsHUDItem: 0
   LinkedGrids: []
   OnHover:
     m_PersistentCalls:

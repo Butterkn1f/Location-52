@@ -51,6 +51,9 @@ public class CameraItem : Item
 
     private void PlayZoomInAnimation(System.Action onComplete = null)
     {
+        if (!_cameraObject)
+            return;
+
         float focalLength = dof.focalLength.value;
         var seq = DOTween.Sequence();
 
@@ -67,6 +70,9 @@ public class CameraItem : Item
 
     private void PlayZoomOutAnimation(System.Action onComplete = null)
     {
+        if (!_cameraObject)
+            return;
+
         gm.ToggleGallery(false);
 
         float focalLength = dof.focalLength.value;

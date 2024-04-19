@@ -30,7 +30,7 @@ public class Backpack : MonoBehaviour, IInteractable
 
         closeButton.SetActive(true);
         Characters.Player.PlayerManager.Instance.Camera.LockCameraToPosition(cameraPos.gameObject);
-        InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryItemParent);
+        InventoryBackpackManager.Instance.InstantiateGrid(inventoryGroup, inventoryItemParent, false);
     }
 
     public void StopHover()

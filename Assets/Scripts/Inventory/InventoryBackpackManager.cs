@@ -33,7 +33,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
     // Stores all the important info!!!
     [HideInInspector] public Dictionary<Vector2Int, BackpackItemInfo> BackpackItems = new();
 
-    private IEnumerator InstantiateStoredItems(Transform parent)
+    private IEnumerator InstantiateStoredItems(Transform parent, bool isHUD)
     {
         yield return new WaitForSeconds(0.1f);
 
@@ -47,7 +47,8 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
                 topLeftGrid.transform.position,
                 topLeftGrid.transform.rotation,
                 item.Value,
-                parent
+                parent,
+                isHUD
             );
 
             for (int y = backpackItem.Info.GridPosition.y; y < backpackItem.Info.GridPosition.y + backpackItem.Info.GridSize.y; ++y)
@@ -73,7 +74,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         }
     }
 
-    public void InstantiateGrid(GridLayoutGroup invGroup, Transform itemParent)
+    public void InstantiateGrid(GridLayoutGroup invGroup, Transform itemParent, bool isHUD = true)
     {
         bIsInventoryOpen = true;
         invGroup.constraintCount = gridSize.x;
@@ -91,7 +92,7 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
             }
         }
 
-        StartCoroutine(InstantiateStoredItems(itemParent));
+        StartCoroutine(InstantiateStoredItems(itemParent, isHUD));
     }
 
     // We want to destroy and reinstantiate for RoomScene as there's two places to change grid layout
@@ -175,6 +176,11 @@ public class InventoryBackpackManager : Common.DesignPatterns.Singleton<Inventor
         topleftGrid.ResetGridInfo();
         BackpackItems.Remove(position);
         storedItems.Remove(obj);
+    }
+
+    public InventoryGridItem GetGridFromPosition(Vector2Int position)
+    {
+        return grids[position];
     }
 
     public void OnPointerEnterGrid(InventoryGridItem grid)

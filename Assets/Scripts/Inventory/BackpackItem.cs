@@ -27,6 +27,9 @@ public class BackpackItem : MonoBehaviour
     bool bIsGrabbed = false;
     bool bIsAnimating = false;
 
+    Vector2Int? oldPosition = null;
+    Direction? oldDirection = null;
+
     Controls _controls = null;
 
     private void Awake()
@@ -111,35 +114,84 @@ public class BackpackItem : MonoBehaviour
         if (bIsAnimating)
             return;
 
-        var worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z - transform.position.z));
         var currGrid = InventoryBackpackManager.Instance.CurrGrid;
 
         if (currGrid == null)
         {
             itemBackground.color = returnPosColor;
             moveSequence = DOTween.Sequence();
-            moveSequence.Append(transform.DOMove(new Vector3(worldPos.x, worldPos.y, transform.position.z), 0.25f))
-                .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f));
 
-            if (Input.GetMouseButtonUp(0))
-                ReleaseItem();
+            if (Info.bIsHUDItem)
+            {
+                MoveItemHUD();
+            }
+            else
+            {
+                MoveItemNoGrid();
+            }
         }
         else
         {
-            // Snap to current hovered grid
-            transform.DOMove(currGrid.gameObject.transform.position, 0.25f);
-            transform.DORotate(currGrid.gameObject.transform.rotation.eulerAngles, 0.25f);
+            MoveItemGrid(currGrid);
+        }
+    }
 
-            var validPos = InventoryBackpackManager.Instance.GetIsValidSpot(Info);
-            itemBackground.color = validPos ? validPosColor : invalidPosColor;
+    private void MoveItemHUD()
+    {
+        // z is canvas near plane dist
+        var worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0.7f));
+        moveSequence.Append(transform.DOMove(new Vector3(worldPos.x, worldPos.y, transform.position.z), 0.05f))
+            .Join(transform.DOLocalMoveZ(0.1f, 0.05f))
+            .Join(transform.DOLocalRotate(Vector3.zero, 0.1f));
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (validPos)
-                    ReleaseItem();
-                else
-                    ShakeItem();
-            }
+        var currSlot = InventoryManager.Instance.HoveredCircleSlot;
+        if (currSlot != null)
+        {
+            InventoryManager.Instance.PreviewCurrentSlot(Info.Type);
+            Model.gameObject.SetActive(false);
+            itemBackground.gameObject.SetActive(false);
+        }
+        else
+        {
+            Model.gameObject.SetActive(true);
+            itemBackground.gameObject.SetActive(true);
+        }
+
+        if (Input.GetMouseButtonUp(0))
+            ReleaseItem();
+    }
+
+    private void MoveItemNoGrid()
+    {
+        var worldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.transform.position.z - transform.position.z));
+        moveSequence.Append(transform.DOMove(new Vector3(worldPos.x, worldPos.y, transform.position.z), 0.25f))
+            .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f));
+
+        if (Input.GetMouseButtonUp(0))
+            ReleaseItem();
+    }
+
+    private void MoveItemGrid(InventoryGridItem currGrid)
+    {
+        if (Info.bIsHUDItem && !Model.gameObject.activeSelf)
+        {
+            Model.gameObject.SetActive(true);
+            itemBackground.gameObject.SetActive(true);
+        }
+
+        // Snap to current hovered grid
+        transform.DOMove(currGrid.gameObject.transform.position, 0.25f);
+        transform.DORotate(currGrid.gameObject.transform.rotation.eulerAngles, 0.25f);
+
+        var validPos = InventoryBackpackManager.Instance.GetIsValidSpot(Info);
+        itemBackground.color = validPos ? validPosColor : invalidPosColor;
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (validPos)
+                ReleaseItem();
+            else
+                ShakeItem();
         }
     }
 
@@ -156,23 +208,59 @@ public class BackpackItem : MonoBehaviour
 
         if (InventoryBackpackManager.Instance.CurrGrid == null)
         {
-            bIsPlacedInGrid = false;
-            moveSequence = DOTween.Sequence();
-            moveSequence.Append(transform.DOMove(Info.OrigPosition.Value, 0.25f))
-                .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f))
-                .Join(Model.DOLocalRotate(Vector3.zero, 0.25f));
-
-            if (Info.Direction == Direction.Right || Info.Direction == Direction.Left)
-                Info.GridSize = new Vector2Int(Info.GridSize.y, Info.GridSize.x);
-            Info.Direction = Direction.Up;
+            if (Info.bIsHUDItem && oldPosition.HasValue)
+            {
+                RevertToOldPosition();
+            }
+            else
+            {
+                PutBackOnShelf();
+            }
         }
         else
         {
-            // Placed successfully in grid, update grid!
-            Info.GridPosition = InventoryBackpackManager.Instance.CurrGrid.Position;
-            InventoryBackpackManager.Instance.OnPlacedItem(Info, gameObject);
-            bIsPlacedInGrid = true;
+            PlaceItemAtMousePosition();
         }
+    }
+
+    private void RevertToOldPosition()
+    {
+        Model.gameObject.SetActive(true);
+        bIsPlacedInGrid = true;
+        Info.GridPosition = oldPosition.Value;
+        RotateItemToSpecificDirection(this, oldDirection.Value, true);
+
+        var grid = InventoryBackpackManager.Instance.GetGridFromPosition(oldPosition.Value);
+        transform.DOMove(grid.gameObject.transform.position, 0.5f);
+        transform.DORotate(grid.gameObject.transform.rotation.eulerAngles, 0.5f);
+
+        InventoryBackpackManager.Instance.OnPlacedItem(Info, gameObject);
+        InventoryManager.Instance.UpdateCurrSlot(Info.Type);
+    }
+
+    private void PutBackOnShelf()
+    {
+        bIsPlacedInGrid = false;
+        moveSequence = DOTween.Sequence();
+        moveSequence.Append(transform.DOMove(Info.OrigPosition.Value, 0.25f))
+            .Join(transform.DORotate(Info.OrigRotation.Value, 0.25f))
+            .Join(Model.DOLocalRotate(Vector3.zero, 0.25f));
+
+        // Flip back grid size
+        if (Info.Direction == Direction.Right || Info.Direction == Direction.Left)
+            Info.GridSize = new Vector2Int(Info.GridSize.y, Info.GridSize.x);
+        Info.Direction = Direction.Up;
+
+        // Unequip if this item is in player's slots!
+        InventoryManager.Instance.CheckShouldRemoveSlot(Info.Type);
+    }
+
+    private void PlaceItemAtMousePosition()
+    {
+        // Placed successfully in grid, update grid!
+        Info.GridPosition = InventoryBackpackManager.Instance.CurrGrid.Position;
+        InventoryBackpackManager.Instance.OnPlacedItem(Info, gameObject);
+        bIsPlacedInGrid = true;
     }
 
     private void ShakeItem()
@@ -180,6 +268,42 @@ public class BackpackItem : MonoBehaviour
         bIsAnimating = true;
         transform.DOShakePosition(0.5f, 5, 10, 90, false, true, ShakeRandomnessMode.Harmonic)
             .OnComplete(() => bIsAnimating = false);
+    }
+
+    private static void RotateItemToSpecificDirection(BackpackItem item, Direction direction, bool checkShouldSwapGrid)
+    {
+        if (checkShouldSwapGrid)
+        {
+            switch (item.Info.Direction)
+            {
+                case Direction.Up:
+                case Direction.Down:
+                    if (direction == Direction.Left || direction == Direction.Right)
+                        item.Info.GridSize = new Vector2Int(item.Info.GridSize.y, item.Info.GridSize.x);
+                    break;
+
+                case Direction.Left:
+                case Direction.Right:
+                    if (direction == Direction.Up || direction == Direction.Down)
+                        item.Info.GridSize = new Vector2Int(item.Info.GridSize.y, item.Info.GridSize.x);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        float rotateAngle = direction switch
+        {
+            Direction.Up => 0,
+            Direction.Right => 90,
+            Direction.Down => 180,
+            Direction.Left => 270,
+            _ => 0
+        };
+
+        item.Model.localEulerAngles = new Vector3(0, 0, rotateAngle);
+        item.Info.Direction = direction;
     }
 
     public void OnPointerEnterSelectedImage()
@@ -216,6 +340,12 @@ public class BackpackItem : MonoBehaviour
 
         if (bIsPlacedInGrid)
         {
+            if (Info.bIsHUDItem)
+            {
+                oldPosition = Info.GridPosition;
+                oldDirection = Info.Direction;
+            }
+
             InventoryBackpackManager.Instance.OnRemoveItem(Info.GridPosition, gameObject);
             Info.GridPosition = Vector2Int.zero;
             bIsPlacedInGrid = false;
@@ -227,22 +357,15 @@ public class BackpackItem : MonoBehaviour
 
     }
 
-    public static BackpackItem Create(GameObject prefab, Vector3 position, Quaternion rotation, BackpackItemInfo info, Transform parent)
+    public static BackpackItem Create(GameObject prefab, Vector3 position, Quaternion rotation, BackpackItemInfo info, Transform parent, bool isHUD)
     {
         GameObject obj = Instantiate(prefab, parent);
         var item = obj.GetComponent<BackpackItem>();
         item.Info = info;
+        item.Info.bIsHUDItem = isHUD;
 
-        float rotateAngle = info.Direction switch
-        {
-            Direction.Up => 0,
-            Direction.Right => 90,
-            Direction.Down => 180,
-            Direction.Left => 270,
-            _ => 0
-        };
+        RotateItemToSpecificDirection(item, item.Info.Direction, false);
 
-        item.Model.localEulerAngles = new Vector3(0, 0, rotateAngle);
         item.bIsPlacedInGrid = true;
         obj.transform.rotation = rotation;
         obj.transform.position = position;
@@ -260,6 +383,7 @@ public class BackpackItemInfo
     public Vector2Int GridPosition;
     [HideInInspector] public Vector3? OrigPosition = null;
     [HideInInspector] public Vector3? OrigRotation = null;
+    [HideInInspector] public bool bIsHUDItem = false;
 }
 
 public enum InventoryItemType

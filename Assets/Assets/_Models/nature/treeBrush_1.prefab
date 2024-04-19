@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7547499085823938744}
-  - component: {fileID: 635917736149545149}
   - component: {fileID: 3613991846821744451}
+  - component: {fileID: 8897877110810639023}
   m_Layer: 0
   m_Name: treeBrush_1
   m_TagString: Untagged
@@ -34,26 +34,6 @@ Transform:
   - {fileID: 519041665506087805}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!205 &635917736149545149
-LODGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395937371060985427}
-  serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.1300478, y: 5.4523783, z: -0.08828068}
-  m_Size: 11.696058
-  m_FadeMode: 0
-  m_AnimateCrossFading: 0
-  m_LastLODIsBillboard: 0
-  m_LODs:
-  - screenRelativeHeight: 0.057115436
-    fadeTransitionWidth: 0
-    renderers:
-    - renderer: {fileID: 6903405450160834364, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
-    - renderer: {fileID: -7783400352690556077, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
-  m_Enabled: 1
 --- !u!136 &3613991846821744451
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -77,6 +57,35 @@ CapsuleCollider:
   m_Height: 5.098472
   m_Direction: 1
   m_Center: {x: 0.2639386, y: 2.336177, z: 0.049635053}
+--- !u!205 &8897877110810639023
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395937371060985427}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.14722157, y: 5.8471994, z: -0.0859561}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.8
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 9178823355305867799, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
+    - renderer: {fileID: -1588664651096487955, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
+  - screenRelativeHeight: 0.5
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: -5306187258299397747, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
+    - renderer: {fileID: -8655990056484350939, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
+  - screenRelativeHeight: 0.2
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: -3763656086944269078, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
+  m_Enabled: 1
 --- !u!1001 &53683485283677334
 PrefabInstance:
   m_ObjectHideFlags: 0

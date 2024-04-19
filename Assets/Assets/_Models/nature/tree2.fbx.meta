@@ -14,6 +14,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: leaves
     second: {fileID: 2100000, guid: fa386e9259b990846805011f524fc251, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tree2lod2
+    second: {fileID: 2100000, guid: 2276ea49259936747b1ad1cf60276cf3, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -44,7 +49,10 @@ ModelImporter:
     clipAnimations: []
     isReadable: 0
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.5
+    - 0.125
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0

@@ -311,6 +311,7 @@ MonoBehaviour:
   Movement: {fileID: 6376789678437267658}
   Camera: {fileID: 4273683321172494641}
   PlayerNoiseLevel: {fileID: 4445134941373961695}
+  Health: {fileID: 3384087724936579436}
   Arms: {fileID: 535783090737267747}
   CurrentSpawnPointID: 0
 --- !u!1 &951144977352724555
@@ -1829,6 +1830,7 @@ GameObject:
   - component: {fileID: 3647937752971008610}
   - component: {fileID: 6759255290531322183}
   - component: {fileID: 6376789678437267658}
+  - component: {fileID: 3384087724936579436}
   m_Layer: 0
   m_Name: Player Character
   m_TagString: Untagged
@@ -1971,6 +1973,23 @@ MonoBehaviour:
   _standingCollider: {fileID: 8559761295572879540}
   _crouchingCollider: {fileID: 8960428310706733779}
   IsHidden: 0
+--- !u!114 &3384087724936579436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3769644365284290502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 957bde26cc6311d40b512a98ae4c6c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxEnergy: 100
+  _energy: 0
+  _staminaRechargeRate: 0.1
+  _maxHealth: 100
+  _health: 0
 --- !u!1 &3890924272925368807
 GameObject:
   m_ObjectHideFlags: 0
@@ -3865,6 +3884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b76fbc5b8073b84fa33623ae3e4c14e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PastPhotoCollection: []
 --- !u!1 &8132709659203562074
 GameObject:
   m_ObjectHideFlags: 0

@@ -180,7 +180,15 @@ namespace Characters.Player
         /// </summary>
         private void SetSprint(bool isSprinting)
         {
-            _sprinting = isSprinting;
+            if (!isSprinting)
+            {
+                _sprinting = false;
+            }
+            if (PlayerManager.Instance.Health.GetEnergy() > 0.05)
+            {
+                _sprinting = true;
+            }
+            
         }
 
         // Update is called once per frame
@@ -214,6 +222,16 @@ namespace Characters.Player
                 dir = Vector3.zero;
             }
             _rb.AddForce(GetMovementVector(-_rb.velocity, dir.normalized, CurSpeed * Time.deltaTime) * ((Grounded && !_jumping) ? multiplier : _inAirMovementModifier) * _rb.mass);
+
+            if (_sprinting)
+            {
+                PlayerManager.Instance.Health.UseEnergy(0.25f);
+
+                if (PlayerManager.Instance.Health.GetEnergy() < 0.05)
+                {
+                    SetSprint(false);
+                }
+            }
         }
 
         private Vector3 GetMovementVector(Vector3 velocity, Vector3 dir, float speed)

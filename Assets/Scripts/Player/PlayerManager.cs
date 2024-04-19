@@ -18,6 +18,7 @@ namespace Characters.Player
         public PlayerMovement Movement;
         public PlayerCamera Camera;
         public AudioDistractionCue PlayerNoiseLevel;
+        public PlayerHealth Health;
 
         #endregion
 

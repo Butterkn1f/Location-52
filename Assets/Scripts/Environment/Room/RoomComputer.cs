@@ -27,7 +27,6 @@ namespace Environment.Room
 
         public void Hover(Vector3 CameraPosition, Vector3 hitPoint)
         {
-            Debug.Log("Hover on the computer");
         }
 
         public void Interact(Vector3 CameraPosition, Vector3 hitPoint)

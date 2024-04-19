@@ -33,6 +33,11 @@ namespace Environment.PhotoReview
 
         public void StartComputer()
         {
+            CurrentPhotoReviewState.SetValue(PhotoReviewState.MAIN_PAGE);
+        }
+
+        public void SelectPhotos()
+        {
             CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_SELECT);
         }
 
@@ -66,10 +71,11 @@ namespace Environment.PhotoReview
     public enum PhotoReviewState
     {
         DEFAULT,
-        PHOTO_SELECT = 1, 
-        PHOTO_UPLOAD_SEQUENCE = 2,
-        NEWS_SECTION = 3,
-        RESULTS_PAGE = 4
+        MAIN_PAGE = 1,
+        PHOTO_SELECT = 2, 
+        PHOTO_UPLOAD_SEQUENCE = 3,
+        NEWS_SECTION = 4,
+        RESULTS_PAGE = 5
     }
 
     /// <summary>

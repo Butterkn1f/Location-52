@@ -7,23 +7,15 @@ using UniRx;
 
 public class PhotoReviewComputerUI : MonoBehaviour
 {
-    [System.Serializable]
-    public class ComputerReviewScreens
-    {
-        public PhotoReviewState state;
-        public GameObject ComputerScreen;
-    }
-
-    public List<ComputerReviewScreens> ComputerScreensList;
+    [SerializeField] private GameObject _mainScreen;
+    [SerializeField] private GameObject _offScreen;
+    [SerializeField] private GameObject _photoUploadPage;
 
     private void Awake()
     {
-        // Deactivate all screens at the start.. it causes the animations to not work unfortunately
-        foreach (var item in ComputerScreensList)
-        {
-            // Deactivate all the screens in the computer first
-            item.ComputerScreen.SetActive(false);
-        }
+        _offScreen.SetActive(true);
+        _photoUploadPage.SetActive(false);
+        _mainScreen.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -33,7 +25,14 @@ public class PhotoReviewComputerUI : MonoBehaviour
         {
             switch (newState)
             {
-
+                case PhotoReviewState.MAIN_PAGE:
+                    _offScreen.SetActive(false);
+                    _mainScreen.SetActive(true);
+                    break;
+                case PhotoReviewState.PHOTO_SELECT:
+                    // TODO: animate
+                    _photoUploadPage.SetActive(true);
+                    break;
             }
         });
     }

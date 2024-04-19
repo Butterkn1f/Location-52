@@ -210,8 +210,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7380c741b2ed304aa0396c86069c404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Outline: {fileID: 2858081932227067141}
-  Photo: {fileID: 0}
+  Outline: {fileID: 1560813698793542252}
+  Photo: {fileID: 5242941143245536837}
 --- !u!1 &4408603343602159892
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 namespace Environment.PhotoReview
 {
@@ -12,6 +13,7 @@ namespace Environment.PhotoReview
     {
         [SerializeField] private GameObject _imageSpawnParent;
         [SerializeField] private GameObject _imagePrefab;
+        [SerializeField] private GameObject _noImagesFoundText;
         [SerializeField] private List<GameObject> _spawnedImages;
 
         private List<GameObject> _selectedImages;
@@ -23,23 +25,40 @@ namespace Environment.PhotoReview
         // Start is called before the first frame update
         void Start()
         {
+            List<Photo> photos = PhotoManager.Instance.Photos;
+
             // TODO: replace with actual photos in
-            int numPictures = 5;
+            int numPictures = photos.Count;
 
-            // Simulate loading photos in
-            for (int i = 0; i < numPictures; i++)
+            if (numPictures == 0)
             {
-                GameObject tempPhoto = Instantiate(_imagePrefab, _imageSpawnParent.transform);
-                tempPhoto.SetActive(false);
-                tempPhoto.GetComponent<Button>().onClick.RemoveAllListeners();
-                tempPhoto.GetComponent<Button>().onClick.AddListener(() => SelectPhoto(tempPhoto));
-                _spawnedImages.Add(tempPhoto);
+                _noImagesFoundText.SetActive(true);
             }
+            else
+            {
+                _noImagesFoundText.SetActive(false);
 
-            _selectedImages = new List<GameObject>();
-            _photoCounter.text = "Photos Selected: <b>" + _selectedImages.Count + "/10";
+                // Simulate loading photos in
+                for (int i = 0; i < numPictures; i++)
+                {
+                    GameObject tempPhoto = Instantiate(_imagePrefab, _imageSpawnParent.transform);
+                    tempPhoto.SetActive(false);
+                    tempPhoto.GetComponent<Button>().onClick.RemoveAllListeners();
+                    tempPhoto.GetComponent<Button>().onClick.AddListener(() => SelectPhoto(tempPhoto));
 
-            StartCoroutine(PhotoSpawn());
+                    Texture2D texture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false, true);
+                    byte[] bytes = File.ReadAllBytes(Application.dataPath + photos[i].TextureSaveName);
+                    texture.LoadImage(bytes);
+
+                    tempPhoto.GetComponent<ComputerPhotoButton>().SetImageSprite(texture);
+                    _spawnedImages.Add(tempPhoto);
+                }
+
+                _selectedImages = new List<GameObject>();
+                _photoCounter.text = "Photos Selected: <b>" + _selectedImages.Count + "/10";
+
+                StartCoroutine(PhotoSpawn());
+            }
         }
 
         public void SelectPhoto(GameObject selectedPhoto)

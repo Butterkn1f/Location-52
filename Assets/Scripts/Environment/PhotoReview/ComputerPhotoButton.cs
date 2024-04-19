@@ -12,6 +12,7 @@ namespace Environment.PhotoReview
     {
         public Image Outline;
         public Image Photo;
+        public Photo photoRef;
 
         // Start is called before the first frame update
         void Awake()

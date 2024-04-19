@@ -15,7 +15,11 @@ namespace Environment.PhotoReview
         [SerializeField] private GameObject CameraStartPos;
         [SerializeField] private GameObject CameraComPos;
 
+        [SerializeField] private PastPhotos _pastPhotos;
+
+
         public ReactiveProp<PhotoReviewState> CurrentPhotoReviewState = new ReactiveProp<PhotoReviewState>();
+        public List<GameObject> _selectedImages;
 
         public Grade PlayerResult;
 
@@ -39,6 +43,12 @@ namespace Environment.PhotoReview
         public void SelectPhotos()
         {
             CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_SELECT);
+        }
+
+        public void UploadPost()
+        {
+            PhotoReviewManager.Instance.CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_UPLOAD_SEQUENCE);
+            _pastPhotos.GenerateNewPost();
         }
 
         /// <summary>

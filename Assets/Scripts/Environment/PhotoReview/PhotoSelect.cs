@@ -16,7 +16,6 @@ namespace Environment.PhotoReview
         [SerializeField] private GameObject _noImagesFoundText;
         [SerializeField] private List<GameObject> _spawnedImages;
 
-        private List<GameObject> _selectedImages;
         private int _numPhotosSelected;
 
         [SerializeField] private TextMeshProUGUI _photoCounter;
@@ -51,11 +50,12 @@ namespace Environment.PhotoReview
                     texture.LoadImage(bytes);
 
                     tempPhoto.GetComponent<ComputerPhotoButton>().SetImageSprite(texture);
+                    tempPhoto.GetComponent<ComputerPhotoButton>().photoRef = photos[i];
                     _spawnedImages.Add(tempPhoto);
                 }
 
-                _selectedImages = new List<GameObject>();
-                _photoCounter.text = "Photos Selected: <b>" + _selectedImages.Count + "/10";
+                PhotoReviewManager.Instance._selectedImages = new List<GameObject>();
+                _photoCounter.text = "Photos Selected: <b>" + PhotoReviewManager.Instance._selectedImages.Count + "/10";
 
                 StartCoroutine(PhotoSpawn());
             }
@@ -63,21 +63,21 @@ namespace Environment.PhotoReview
 
         public void SelectPhoto(GameObject selectedPhoto)
         {
-            if (_selectedImages.Contains(selectedPhoto))
+            if (PhotoReviewManager.Instance._selectedImages.Contains(selectedPhoto))
             {
                 // Photo is currently selected
                 selectedPhoto.GetComponent<ComputerPhotoButton>().SelectPhoto(false);
-                _selectedImages.Remove(selectedPhoto);
-                _photoCounter.text = "Photos Selected: <b>" + _selectedImages.Count + "/10";
+                PhotoReviewManager.Instance._selectedImages.Remove(selectedPhoto);
+                _photoCounter.text = "Photos Selected: <b>" + PhotoReviewManager.Instance._selectedImages.Count + "/10";
             }
             else
             {
-                if (_selectedImages.Count < 10)
+                if (PhotoReviewManager.Instance._selectedImages.Count < 10)
                 {
                     // Photo is currently selected
                     selectedPhoto.GetComponent<ComputerPhotoButton>().SelectPhoto(true);
-                    _selectedImages.Add(selectedPhoto);
-                    _photoCounter.text = "Photos Selected: <b>" + _selectedImages.Count + "/10";
+                    PhotoReviewManager.Instance._selectedImages.Add(selectedPhoto);
+                    _photoCounter.text = "Photos Selected: <b>" + PhotoReviewManager.Instance._selectedImages.Count + "/10";
                 }
             }
         }
@@ -98,15 +98,12 @@ namespace Environment.PhotoReview
 
         public void UploadPhotos()
         {
-            // Calculate score
-
-            
-            if (_selectedImages.Count >= 1)
+            if (PhotoReviewManager.Instance._selectedImages.Count >= 1)
             {
                 // Calculate score
                 // Get the grade
-                PhotoReviewManager.Instance.PlayerResult = Grade.MEGA_VIRAL;
-                PhotoReviewManager.Instance.CurrentPhotoReviewState.SetValue(PhotoReviewState.PHOTO_UPLOAD_SEQUENCE);
+                PhotoReviewManager.Instance.UploadPost();
+                this.gameObject.SetActive(false);
             }
         }
     }

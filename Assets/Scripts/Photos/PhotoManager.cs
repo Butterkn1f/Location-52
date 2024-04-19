@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Environment.PhotoReview;
+using UnityEngine.UI;
 
 public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManager>
 {
@@ -12,16 +13,8 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     public const int MinPointsCapturedFull = 5;
     public List<Photo> Photos { get; private set; } = new();
 
-    [System.Serializable]
-    public class PastPhoto
-    {
-        public Photo photo;
-        public List<CommentPrefab> comments;
-        public int Likes;
-    }
-
     // fuck it
-    public List<PastPhoto> PastPhotoCollection = new();
+    public List<ExistingPostData> PastPhotoCollection = new();
 
     int currIndex = -1;
 
@@ -140,4 +133,13 @@ public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManag
     {
         return false; //TODO When monster is in
     }
+}
+
+[System.Serializable]
+public class ExistingPostData
+{
+    public Image photo;
+    public List<CommentPrefab> comments;
+    public string Likes;
+    public int CommentCount;
 }

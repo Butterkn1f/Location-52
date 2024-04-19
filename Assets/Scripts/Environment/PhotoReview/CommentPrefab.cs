@@ -10,6 +10,5 @@ namespace Environment.PhotoReview
     {
         public TextMeshProUGUI _userName;
         public TextMeshProUGUI _commentText;
-        public Image _profilePicture;
     }
 }

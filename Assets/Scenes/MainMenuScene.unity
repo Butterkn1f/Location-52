@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43374026, g: 0.47060555, b: 0.50695837, a: 1}
+  m_IndirectSpecularColor: {r: 0.43374056, g: 0.47060585, b: 0.50695884, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1073,55 +1073,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7714570758035664473, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
   m_PrefabInstance: {fileID: 2053543995}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &628676684
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 628676686}
-  - component: {fileID: 628676685}
-  m_Layer: 0
-  m_Name: Global Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &628676685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 628676684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: 9c5429a05f47e2148b79e385ce63836c, type: 2}
---- !u!4 &628676686
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 628676684}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.4471493, y: -0.045298543, z: -4.2899456}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &664969670 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3090179889153045083, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
@@ -2297,6 +2248,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: StartGame
       objectReference: {fileID: 0}
+    - target: {fileID: 6833681326679217851, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7078655760246479376, guid: d903faa629b73af4ab26e37f7aa3e38e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -2657,7 +2612,6 @@ SceneRoots:
   - {fileID: 2099045339}
   - {fileID: 2619480435646747774}
   - {fileID: 2053543995}
-  - {fileID: 628676686}
   - {fileID: 1528380916}
   - {fileID: 1102628491}
   - {fileID: 397386772}

@@ -70,10 +70,10 @@ public class PhotoCapture : MonoBehaviour
     {
         ToggleFlash(true);
         flashImage.color = Color.white;
+        StartCoroutine(CapturePhoto());
 
 
         yield return new WaitForSeconds(0.25f);
-        StartCoroutine(CapturePhoto());
 
         float alpha = 1;
         DOTween.To(() => alpha, x => alpha = x, 0, 0.25f)

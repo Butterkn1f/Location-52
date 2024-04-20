@@ -2,14 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class PhotoAnomalyChecker : MonoBehaviour
 {
 	const float maxDistance = 2000;
     List<Renderer> anomalyRenderers = new();
 
-    private void Awake()
+    private void Start()
     {
+        SceneManager.activeSceneChanged += OnSceneChanged;
+    }
+
+    private void OnSceneChanged(Scene current, Scene next)
+    {
+        anomalyRenderers.Clear();
+
         GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster");
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Object");
         // Merge arrays and sort by closest distance to camera => so it detects the most front anomaly first
@@ -19,6 +27,7 @@ public class PhotoAnomalyChecker : MonoBehaviour
             anomalyRenderers.InsertRange(anomalyRenderers.Count, anomaly.GetComponentsInChildren<Renderer>());
         }
     }
+
 
     /// <summary>
     /// Checks if anomaly is visible in camera's view

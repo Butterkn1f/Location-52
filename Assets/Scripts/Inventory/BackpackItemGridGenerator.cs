@@ -25,13 +25,13 @@ public class BackpackItemGridGenerator : MonoBehaviour
             updateDisposable.Dispose();
     }
 
-    void Update()
+/*    void Update()
     {
         if (Application.isEditor && !EditorApplication.isPlaying && backpackItem != null)
         {
             UpdateGridSize(backpackItem.Info.GridSize);
         }
-    }
+    }*/
 
     private void UpdateGridSize(Vector2Int size)
     {

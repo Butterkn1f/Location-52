@@ -77,8 +77,8 @@ public class InventoryManager : Common.DesignPatterns.Singleton<InventoryManager
 
         CurrentSlot.SetValue(BackpackSlot.Top);
 
-        // NOTE: Remove this later! This is just so that i dont have to go back to room scene
-        EquippedSlots[BackpackSlot.Front] = InventoryItemType.Camera;
+        // TODO NOTE: Remove this later! This is just so that i dont have to go back to room scene
+        //EquippedSlots[BackpackSlot.Front] = InventoryItemType.Camera;
     }
 
     private void AssignControls()

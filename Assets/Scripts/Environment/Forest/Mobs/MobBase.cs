@@ -130,6 +130,8 @@ namespace Mobs
                 // Take a little break
                 float pauseDuration = Random.Range(0, 20);
                 StartCoroutine(Break(pauseDuration));
+
+                ReachDestinationEvent();
             }
         }
 
@@ -186,6 +188,10 @@ namespace Mobs
         /// What to do when reacting to a suspicious audio
         /// </summary>
         public virtual void ReactToSuspiciousAudio(Vector3 position)
+        {
+        }
+
+        public virtual void ReachDestinationEvent()
         {
         }
 

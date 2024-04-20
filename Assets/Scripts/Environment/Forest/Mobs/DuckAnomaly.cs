@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using Characters.Player;
 
 namespace Environment.Forest
 {
@@ -56,6 +57,17 @@ namespace Environment.Forest
         {
             base.RemoveThreat(position);
             _navmeshAgent.speed /= 2;
+        }
+
+        public override void ReachDestinationEvent()
+        {
+            base.ReachDestinationEvent();
+
+            if (GetCurrentCharacterState() == MobState.ALERT)
+            {
+                // Rahhh
+                PlayerManager.Instance.Health.TakeDamage(20, Vector3.zero);
+            }
         }
     }
 

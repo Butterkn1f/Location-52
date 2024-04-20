@@ -10,8 +10,8 @@ using DG.Tweening;
 public class PhotoManager : Common.DesignPatterns.SingletonPersistent<PhotoManager>
 {
     public const float AngleTolerance = 30;
-    public const float DistTooClose = 3;
-    public const float DistTooFar = 10;
+    public const float DistTooClose = 5;
+    public const float DistTooFar = 30;
     public const int MinPointsCapturedFull = 5;
     public const int MaxPhotos = 20;
 

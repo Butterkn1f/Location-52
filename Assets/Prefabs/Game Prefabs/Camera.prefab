@@ -1451,7 +1451,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 20
+  m_Intensity: 120
   m_Range: 300
   m_SpotAngle: 179
   m_InnerSpotAngle: 162
@@ -1835,6 +1835,10 @@ MonoBehaviour:
   previewImage: {fileID: 614287400666378743}
   flashImage: {fileID: 3584299132160771860}
   flash: {fileID: 1155667741426246333}
+  flashIconHud: {fileID: 0}
+  flashOnSprite: {fileID: 0}
+  flashOffSprite: {fileID: 0}
+  IsPermanentFlash: 0
 --- !u!114 &8644253459320013125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,6 +1854,10 @@ MonoBehaviour:
   controlType: 1
   _cameraObject: {fileID: 5434130603316265999}
   zoomCameraPos: {x: -0.05, y: 0, z: 0.53}
+  batterySlider: {fileID: 0}
+  batteryText: {fileID: 0}
+  NoBatteryObject: {fileID: 0}
+  NoBatteryImage: {fileID: 0}
 --- !u!114 &2296421752815610479
 MonoBehaviour:
   m_ObjectHideFlags: 0

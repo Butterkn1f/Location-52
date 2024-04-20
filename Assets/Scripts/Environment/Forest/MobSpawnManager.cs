@@ -181,7 +181,7 @@ namespace Environment.Forest
                     // Generate a random point around the player between the given coordinates 
                     Vector3 randomPosition = new Vector3(Random.Range(SpawnArea.bounds.min.x, SpawnArea.bounds.max.x), 0, Random.Range(SpawnArea.bounds.min.z, SpawnArea.bounds.max.z));
 
-                    Debug.Log(randomPosition);
+                    //Debug.Log(randomPosition);
 
                     // Check if point is valid,, then check if point is between the given coordinates
                     float distanceFromPlayer = Vector3.Distance(new Vector3(PlayerManager.Instance.Movement.gameObject.transform.position.x, 0, PlayerManager.Instance.Movement.gameObject.transform.position.z), randomPosition);

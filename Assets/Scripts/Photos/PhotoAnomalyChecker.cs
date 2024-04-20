@@ -73,7 +73,7 @@ public class PhotoAnomalyChecker : MonoBehaviour
             {
                 if (Physics.Linecast(Camera.main.transform.position, corner, out var hit2)) {
                     Debug.DrawLine(Camera.main.transform.position, hit2.point, Color.red, 5);
-                    if (hit2.collider.gameObject == renderer.gameObject || hit2.collider.gameObject == renderer.transform.parent.gameObject)
+                    if (hit2.collider.gameObject == renderer.gameObject || (renderer.transform.parent != null && hit2.collider.gameObject == renderer.transform.parent.gameObject))
                         pointsDetected++;
                 }
             }
@@ -96,7 +96,12 @@ public class PhotoAnomalyChecker : MonoBehaviour
             if (pointsDetected > 0)
             {
 				Debug.Log(anomaly.name + " anomaly detected.");
-				return anomaly;
+
+                var anomalyObj = anomaly.GetComponent<AnomalyObject>();
+                if (anomalyObj != null)
+                    anomalyObj.OnPhotoTaken();
+
+                return anomaly;
             }
         }
 

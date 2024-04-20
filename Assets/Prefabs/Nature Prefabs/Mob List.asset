@@ -28,8 +28,8 @@ MonoBehaviour:
     MobPrefab: {fileID: 2552546831773664311, guid: 5a534ed75fa4dc241a1c1b7178976a73, type: 3}
     AnomalyDangerLevel: 2
     AnomalyDescription: 
-  - MobName: DEMO_hostile
-    MobPrefab: {fileID: 5760189549019016069, guid: 32e47afe1b933c64f821612f95d7a807, type: 3}
+  - MobName: Duck Man
+    MobPrefab: {fileID: 2477211735170181232, guid: f76efde74d0d32f40ad6b635c29788f7, type: 3}
     AnomalyDangerLevel: 3
     AnomalyDescription: 
   StaticAnomalies:

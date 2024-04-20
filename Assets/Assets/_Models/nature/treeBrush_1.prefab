@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7547499085823938744}
   - component: {fileID: 3613991846821744451}
   - component: {fileID: 8897877110810639023}
+  - component: {fileID: 8708489662142358880}
   m_Layer: 0
   m_Name: treeBrush_1
   m_TagString: Untagged
@@ -86,6 +87,22 @@ LODGroup:
     renderers:
     - renderer: {fileID: -3763656086944269078, guid: 146aa80ecbbd32646a8c15c24c8d1976, type: 3}
   m_Enabled: 1
+--- !u!208 &8708489662142358880
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395937371060985427}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1001 &53683485283677334
 PrefabInstance:
   m_ObjectHideFlags: 0

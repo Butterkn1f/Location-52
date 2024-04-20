@@ -31,6 +31,9 @@ namespace Mobs
         public override void NoticeThreat(Vector3 position)
         {
             // Idk
+            
+
+            
         }
 
         /// <summary>
@@ -42,6 +45,7 @@ namespace Mobs
 
         public override void ReactToSuspiciousAudio(Vector3 position)
         {
+            ChangePointOfInterest(position);
         }
 
         public override void RemoveThreat(Vector3 position)

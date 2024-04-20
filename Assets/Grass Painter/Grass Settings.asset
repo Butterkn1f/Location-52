@@ -24,15 +24,15 @@ MonoBehaviour:
   MinHeight: 0.01
   MaxWidth: 1
   MaxHeight: 1
-  windSpeed: 2
+  windSpeed: 1.18
   windStrength: 0.05
   allowedBladesPerVertex: 4
   allowedSegmentsPerBlade: 4
   affectStrength: 1
   topTint: {r: 0.5458793, g: 0.8207547, b: 0.58296317, a: 1}
   bottomTint: {r: 0.33708617, g: 0.7075472, b: 0.36306107, a: 1}
-  drawBounds: 0
-  minFadeDistance: 40
-  maxDrawDistance: 125
+  drawBounds: 1
+  minFadeDistance: 2.43
+  maxDrawDistance: 20
   cullingTreeDepth: 1
   castShadow: 0

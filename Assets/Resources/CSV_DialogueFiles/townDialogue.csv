@@ -1,0 +1,5 @@
+Developer Comments,ID,Order,Body,Body_alt
+,#NPC_DEFAULT,0,The weather is nice.. almost too nice..,NPC_EXAMPLE_A
+,#NPC_DEFAULT,1,"If I had a penny for every time people tell me that I look good, I would have two pennies.",NPC_EXAMPLE_A
+,#NPC_DEFAULT,2,I'm so bored!!! Can something happen already?,NPC_EXAMPLE_B
+,#NPC_DEFAULT,2,"I think if I walk enough, I could probably win a medal.",NPC_EXAMPLE_B

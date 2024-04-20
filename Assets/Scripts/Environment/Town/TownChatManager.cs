@@ -1,5 +1,6 @@
 using Characters.Player;
 using ChatSys;
+using Common.DesignPatterns;
 using MainGame;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Environment.Town
     /// <summary>
     /// This class manages the towns folk NPC lines
     /// </summary>
-    public class TownChatManager : MonoBehaviour
+    public class TownChatManager : Singleton<TownChatManager>
     {
         [SerializeField] private ChatList _NPCChatList;
 
@@ -28,6 +29,8 @@ namespace Environment.Town
         // Start is called before the first frame update
         void Start()
         {
+            CSVReader.Instance.ReadCSV(_NPCChatList);
+
             MainGameManager.Instance.RecentGameEvent = EventID.NOBODY_MOVED;
         }
 
@@ -36,17 +39,19 @@ namespace Environment.Town
             List<ChatNode> chats;
             System.Random rand = new System.Random();
 
-            // Get the dialogue lines based on the latest event
-            if (Random.Range(0, 5) > 2)
-            {
-                // Display event chat
-                chats = _NPCChatList.GetChatNodes(_eventChatDialogues.Where(x => x.EventType == MainGameManager.Instance.RecentGameEvent).First().ChatID);
-            }
-            else
-            {
-                // Get from random list of generic chats
-                chats = _NPCChatList.GetChatNodes(_defaultDialogueLines.OrderBy(_ => rand.Next()).ToList().First());
-            }
+            //// Get the dialogue lines based on the latest event
+            //if (Random.Range(0, 5) > 2)
+            //{
+            //    // Display event chat
+            //    chats = _NPCChatList.GetChatNodes(_eventChatDialogues.Where(x => x.EventType == MainGameManager.Instance.RecentGameEvent).First().ChatID);
+            //}
+            //else
+            //{
+            //    // Get from random list of generic chats
+            //}
+
+            chats = _NPCChatList.GetChatNodes(_defaultDialogueLines.OrderBy(_ => rand.Next()).ToList().First());
+
 
             // Filter based off NPC name
             string returnText = "";
